@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ARC X — AI Search</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f14;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid #202731;
+      background: #0b0f14;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #6ea8fe;
+    }
+
+    .menu {
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 55px 18px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span {
+      color: #6ea8fe;
+    }
+
+    .hero p {
+      color: #9ca6b3;
+      font-size: 16px;
+    }
+
+    .search-box {
+      background: #151b23;
+      border: 1px solid #2a3441;
+      border-radius: 18px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+    }
+
+    textarea {
+      flex: 1;
+      min-height: 55px;
+      max-height: 180px;
+      resize: none;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      padding: 15px;
+      font-family: inherit;
+    }
+
+    textarea::placeholder {
+      color: #7f8996;
+    }
+
+    #searchBtn {
+      border: none;
+      border-radius: 13px;
+      background: #ffffff;
+      color: #080b10;
+      font-weight: 700;
+      padding: 13px 17px;
+      cursor: pointer;
+      min-width: 82px;
+    }
+
+    #searchBtn:hover {
+      opacity: 0.9;
+    }
+
+    #searchBtn:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .quick {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .quick button {
+      background: #121820;
+      color: #b9c2ce;
+      border: 1px solid #28323e;
+      border-radius: 20px;
+      padding: 8px 13px;
+      cursor: pointer;
+    }
+
+    .quick button:hover {
+      color: white;
+      border-color: #526173;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+      margin: 35px 0;
+      color: #9ca6b3;
+    }
+
+    .spinner {
+      width: 25px;
+      height: 25px;
+      border: 3px solid #303945;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #result {
+      display: none;
+      margin-top: 35px;
+    }
+
+    .answer-card {
+      background: #11171f;
+      border: 1px solid #252f3b;
+      border-radius: 18px;
+      padding: 22px;
+      line-height: 1.7;
+    }
+
+    .answer-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    #answer {
+      color: #e7ebf0;
+      white-space: pre-wrap;
+      font-size: 16px;
+    }
+
+    .sources {
+      margin-top: 22px;
+    }
+
+    .sources h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .source {
+      display: block;
+      background: #11171f;
+      border: 1px solid #252f3b;
+      border-radius: 12px;
+      padding: 13px;
+      margin-bottom: 9px;
+      text-decoration:
