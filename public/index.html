@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>ARC X — AI Search</title>
 
   <style>
@@ -28,9 +27,6 @@
       padding: 0 18px;
       border-bottom: 1px solid #202731;
       background: #0b0f14;
-      position: sticky;
-      top: 0;
-      z-index: 10;
     }
 
     .logo {
@@ -45,13 +41,12 @@
 
     .menu {
       font-size: 25px;
-      cursor: pointer;
     }
 
     main {
       width: 100%;
       max-width: 900px;
-      margin: 0 auto;
+      margin: auto;
       padding: 55px 18px 40px;
     }
 
@@ -82,7 +77,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 35px #0004;
     }
 
     textarea {
@@ -90,10 +85,10 @@
       min-height: 55px;
       max-height: 180px;
       resize: none;
-      border: none;
-      outline: none;
+      border: 0;
+      outline: 0;
       background: transparent;
-      color: white;
+      color: #ffffff;
       font-size: 16px;
       padding: 15px;
       font-family: inherit;
@@ -104,7 +99,7 @@
     }
 
     #searchBtn {
-      border: none;
+      border: 0;
       border-radius: 13px;
       background: #ffffff;
       color: #080b10;
@@ -112,10 +107,6 @@
       padding: 13px 17px;
       cursor: pointer;
       min-width: 82px;
-    }
-
-    #searchBtn:hover {
-      opacity: 0.9;
     }
 
     #searchBtn:disabled {
@@ -138,11 +129,6 @@
       border-radius: 20px;
       padding: 8px 13px;
       cursor: pointer;
-    }
-
-    .quick button:hover {
-      color: white;
-      border-color: #526173;
     }
 
     #loading {
@@ -205,8 +191,382 @@
     .source {
       display: block;
       background: #11171f;
+      color: #dce3eb;
       border: 1px solid #252f3b;
       border-radius: 12px;
       padding: 13px;
       margin-bottom: 9px;
-      text-decoration:
+      text-decoration: none;
+    }
+
+    .source:hover {
+      border-color: #6ea8fe;
+    }
+
+    .source-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .source-url {
+      color: #7f8996;
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #error {
+      display: none;
+      margin-top: 25px;
+      padding: 15px;
+      border: 1px solid #6b3030;
+      background: #251416;
+      border-radius: 12px;
+      color: #ffb4b4;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding-top: 35px;
+      }
+
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .search-box {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #searchBtn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      ARC <span>X</span>
+    </div>
+
+    <div class="menu">
+      ☰
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <h1>
+        Ask <span>ARC X</span>
+      </h1>
+
+      <p>
+        AI answers powered by live web search and intelligent research.
+      </p>
+    </section>
+
+    <div class="search-box">
+
+      <textarea
+        id="question"
+        placeholder="Ask anything..."
+        rows="2"
+      ></textarea>
+
+      <button id="searchBtn">
+        Search
+      </button>
+
+    </div>
+
+    <div class="quick">
+
+      <button data-q="What are the latest AI developments?">
+        Latest AI
+      </button>
+
+      <button data-q="Explain quantum computing simply">
+        Explain something
+      </button>
+
+      <button data-q="What are today's biggest technology trends?">
+        Tech trends
+      </button>
+
+    </div>
+
+    <div id="loading">
+
+      <div class="spinner"></div>
+
+      <div>
+        ARC X is searching the web and thinking...
+      </div>
+
+    </div>
+
+    <div id="error"></div>
+
+    <section id="result">
+
+      <div class="answer-card">
+
+        <div class="answer-title">
+          ARC X Answer
+        </div>
+
+        <div id="answer"></div>
+
+      </div>
+
+      <div class="sources">
+
+        <h2>
+          Sources
+        </h2>
+
+        <div id="sourcesList"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const question =
+      document.getElementById("question");
+
+    const searchBtn =
+      document.getElementById("searchBtn");
+
+    const loading =
+      document.getElementById("loading");
+
+    const result =
+      document.getElementById("result");
+
+    const answer =
+      document.getElementById("answer");
+
+    const sourcesList =
+      document.getElementById("sourcesList");
+
+    const errorBox =
+      document.getElementById("error");
+
+
+    function escapeHtml(value) {
+
+      return String(value).replace(
+        /[&<>"']/g,
+        function (character) {
+
+          const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+          };
+
+          return entities[character];
+        }
+      );
+
+    }
+
+
+    function showError(message) {
+
+      errorBox.textContent = message;
+
+      errorBox.style.display = "block";
+
+    }
+
+
+    async function search() {
+
+      const q = question.value.trim();
+
+      if (!q) {
+        return;
+      }
+
+
+      searchBtn.disabled = true;
+
+      loading.style.display = "block";
+
+      result.style.display = "none";
+
+      errorBox.style.display = "none";
+
+      answer.textContent = "";
+
+      sourcesList.innerHTML = "";
+
+
+      try {
+
+        const response = await fetch(
+          "/api/search",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+              question: q
+            })
+          }
+        );
+
+
+        const data =
+          await response.json()
+          .catch(function () {
+            return {
+              error: "Invalid server response."
+            };
+          });
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "ARC X could not complete the search."
+          );
+
+        }
+
+
+        answer.textContent =
+          data.answer ||
+          "No answer returned.";
+
+
+        (data.sources || []).forEach(
+          function (src) {
+
+            const link =
+              document.createElement("a");
+
+            link.className = "source";
+
+            link.href =
+              src.url || "#";
+
+            link.target = "_blank";
+
+            link.rel =
+              "noopener noreferrer";
+
+
+            link.innerHTML =
+              '<div class="source-title">' +
+              "[" +
+              escapeHtml(src.id || "") +
+              "] " +
+              escapeHtml(
+                src.title || "Source"
+              ) +
+              "</div>" +
+
+              '<div class="source-url">' +
+              escapeHtml(
+                src.url || ""
+              ) +
+              "</div>";
+
+
+            sourcesList.appendChild(link);
+
+          }
+        );
+
+
+        result.style.display = "block";
+
+      }
+
+      catch (error) {
+
+        showError(
+          error.message ||
+          "Something went wrong."
+        );
+
+      }
+
+      finally {
+
+        loading.style.display = "none";
+
+        searchBtn.disabled = false;
+
+      }
+
+    }
+
+
+    searchBtn.addEventListener(
+      "click",
+      search
+    );
+
+
+    question.addEventListener(
+      "keydown",
+      function (event) {
+
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
+
+          event.preventDefault();
+
+          search();
+
+        }
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".quick button")
+      .forEach(
+        function (button) {
+
+          button.addEventListener(
+            "click",
+            function () {
+
+              question.value =
+                button.dataset.q;
+
+              search();
+
+            }
+          );
+
+        }
+      );
+
+  </script>
+
+</body>
+                             </html>
