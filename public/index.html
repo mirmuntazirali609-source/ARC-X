@@ -1,572 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARC X — AI Search</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08090d">
+<title>ARC-X — AI Intelligence Engine</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b0f14;
-      color: #ffffff;
-      min-height: 100vh;
-    }
+:root{
+  --bg:#08090d;
+  --panel:#11131a;
+  --panel2:#171923;
+  --text:#f5f7ff;
+  --muted:#8d93a6;
+  --line:#292d3a;
+  --accent:#8b5cf6;
+  --accent2:#06b6d4;
+  --danger:#ef4444;
+}
 
-    header {
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 18px;
-      border-bottom: 1px solid #202731;
-      background: #0b0f14;
-    }
+body{
+  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%,rgba(139,92,246,.18),transparent 30%),
+    radial-gradient(circle at 90% 10%,rgba(6,182,212,.12),transparent 28%),
+    var(--bg);
+  color:var(--text);
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
+button,
+textarea{
+  font:inherit;
+}
 
-    .logo span {
-      color: #6ea8fe;
-    }
+button{
+  cursor:pointer;
+}
 
-    .menu {
-      font-size: 25px;
-    }
+.app{
+  width:100%;
+  max-width:1250px;
+  margin:auto;
+  min-height:100vh;
+}
 
-    main {
-      width: 100%;
-      max-width: 900px;
-      margin: auto;
-      padding: 55px 18px 40px;
-    }
+/* HEADER */
 
-    .hero {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+header{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(20px);
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(8,9,13,.78);
+}
 
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 10px;
-    }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  font-size:22px;
+  letter-spacing:.8px;
+}
 
-    .hero h1 span {
-      color: #6ea8fe;
-    }
+.logoMark{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 28px rgba(139,92,246,.35);
+  font-weight:900;
+}
 
-    .hero p {
-      color: #9ca6b3;
-      font-size: 16px;
-    }
+.logo span{
+  background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9);
+  -webkit-background-clip:text;
+  color:transparent;
+}
 
-    .search-box {
-      background: #151b23;
-      border: 1px solid #2a3441;
-      border-radius: 18px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 35px #0004;
-    }
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#9ca3af;
+  font-size:12px;
+}
 
-    textarea {
-      flex: 1;
-      min-height: 55px;
-      max-height: 180px;
-      resize: none;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: #ffffff;
-      font-size: 16px;
-      padding: 15px;
-      font-family: inherit;
-    }
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 12px #22c55e;
+}
 
-    textarea::placeholder {
-      color: #7f8996;
-    }
+/* HERO */
 
-    #searchBtn {
-      border: 0;
-      border-radius: 13px;
-      background: #ffffff;
-      color: #080b10;
-      font-weight: 700;
-      padding: 13px 17px;
-      cursor: pointer;
-      min-width: 82px;
-    }
+.hero{
+  text-align:center;
+  padding:70px 20px 34px;
+}
 
-    #searchBtn:disabled {
-      opacity: 0.5;
-      cursor: wait;
-    }
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 13px;
+  border:1px solid rgba(139,92,246,.35);
+  border-radius:999px;
+  color:#c4b5fd;
+  background:rgba(139,92,246,.08);
+  font-size:12px;
+  margin-bottom:22px;
+}
 
-    .quick {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 16px;
-    }
+.hero h1{
+  font-size:clamp(42px,8vw,78px);
+  line-height:1;
+  letter-spacing:-3px;
+  background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9);
+  -webkit-background-clip:text;
+  color:transparent;
+}
 
-    .quick button {
-      background: #121820;
-      color: #b9c2ce;
-      border: 1px solid #28323e;
-      border-radius: 20px;
-      padding: 8px 13px;
-      cursor: pointer;
-    }
+.hero p{
+  color:var(--muted);
+  margin:18px auto 0;
+  max-width:650px;
+  font-size:16px;
+  line-height:1.6;
+}
 
-    #loading {
-      display: none;
-      text-align: center;
-      margin: 35px 0;
-      color: #9ca6b3;
-    }
+/* MODES */
 
-    .spinner {
-      width: 25px;
-      height: 25px;
-      border: 3px solid #303945;
-      border-top-color: #ffffff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 12px;
-    }
+.modes{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:10px 20px 28px;
+}
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+.mode{
+  border:1px solid var(--line);
+  background:rgba(17,19,26,.75);
+  color:#aeb4c5;
+  padding:10px 16px;
+  border-radius:12px;
+  transition:.2s;
+}
 
-    #result {
-      display: none;
-      margin-top: 35px;
-    }
+.mode:hover,
+.mode.active{
+  color:white;
+  border-color:rgba(139,92,246,.65);
+  background:rgba(139,92,246,.15);
+}
 
-    .answer-card {
-      background: #11171f;
-      border: 1px solid #252f3b;
-      border-radius: 18px;
-      padding: 22px;
-      line-height: 1.7;
-    }
+/* SEARCH */
 
-    .answer-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
+.searchBox{
+  margin:0 20px;
+  border:1px solid var(--line);
+  background:rgba(17,19,26,.82);
+  border-radius:22px;
+  padding:15px;
+  box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
 
-    #answer {
-      color: #e7ebf0;
-      white-space: pre-wrap;
-      font-size: 16px;
-    }
+textarea{
+  width:100%;
+  min-height:120px;
+  resize:vertical;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:white;
+  font-size:17px;
+  line-height:1.5;
+  padding:8px;
+}
 
-    .sources {
-      margin-top: 22px;
-    }
+textarea::placeholder{
+  color:#656b7b;
+}
 
-    .sources h2 {
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
+.searchBottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:10px;
+}
 
-    .source {
-      display: block;
-      background: #11171f;
-      color: #dce3eb;
-      border: 1px solid #252f3b;
-      border-radius: 12px;
-      padding: 13px;
-      margin-bottom: 9px;
-      text-decoration: none;
-    }
+.hint{
+  color:#686f80;
+  font-size:12px;
+}
 
-    .source:hover {
-      border-color: #6ea8fe;
-    }
+.searchBtn{
+  border:0;
+  border-radius:13px;
+  padding:13px 22px;
+  color:white;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--accent),#6d28d9);
+  box-shadow:0 8px 25px rgba(139,92,246,.25);
+}
 
-    .source-title {
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
+.searchBtn:hover{
+  transform:translateY(-1px);
+}
 
-    .source-url {
-      color: #7f8996;
-      font-size: 13px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+/* QUICK */
 
-    #error {
-      display: none;
-      margin-top: 25px;
-      padding: 15px;
-      border: 1px solid #6b3030;
-      background: #251416;
-      border-radius: 12px;
-      color: #ffb4b4;
-    }
+.quick{
+  padding:22px 20px;
+}
 
-    @media (max-width: 600px) {
-      main {
-        padding-top: 35px;
-      }
+.quickTitle{
+  color:#777e90;
+  font-size:12px;
+  margin-bottom:12px;
+}
 
-      .hero h1 {
-        font-size: 31px;
-      }
+.quickGrid{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
 
-      .search-box {
-        flex-direction: column;
-        align-items: stretch;
-      }
+.quick button{
+  border:1px solid var(--line);
+  background:#101219;
+  color:#aeb4c5;
+  border-radius:11px;
+  padding:9px 13px;
+}
 
-      #searchBtn {
-        width: 100%;
-      }
-    }
-  </style>
+.quick button:hover{
+  color:white;
+  border-color:#555b70;
+}
+
+/* RESULTS */
+
+#loading{
+  display:none;
+  margin:20px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  color:#aeb4c5;
+  text-align:center;
+}
+
+.spinner{
+  width:20px;
+  height:20px;
+  margin:0 auto 9px;
+  border:3px solid #303442;
+  border-top-color:#a78bfa;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.result{
+  display:none;
+  margin:10px 20px 50px;
+  border:1px solid var(--line);
+  background:#101219;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.resultHeader{
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  color:#a78bfa;
+  font-weight:700;
+}
+
+.answer{
+  padding:22px;
+  line-height:1.75;
+  white-space:pre-wrap;
+  color:#e7e9f0;
+}
+
+.sources{
+  padding:20px;
+  border-top:1px solid var(--line);
+}
+
+.sources h3{
+  font-size:14px;
+  margin-bottom:13px;
+}
+
+.source{
+  display:block;
+  padding:12px;
+  margin-top:8px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  color:#aeb4c5;
+  text-decoration:none;
+  overflow:hidden;
+}
+
+.source:hover{
+  border-color:#686f80;
+  color:white;
+}
+
+.error{
+  display:none;
+  margin:20px;
+  padding:15px;
+  border:1px solid rgba(239,68,68,.35);
+  border-radius:13px;
+  background:rgba(239,68,68,.08);
+  color:#fca5a5;
+}
+
+/* FUTURE MODES */
+
+.future{
+  margin:0 20px 60px;
+  padding:28px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(139,92,246,.07),rgba(6,182,212,.04));
+}
+
+.future h2{
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+.future p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.futureGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.futureCard{
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(0,0,0,.15);
+}
+
+.futureCard b{
+  display:block;
+  margin-bottom:7px;
+}
+
+.futureCard span{
+  color:#777e90;
+  font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  header{
+    height:66px;
+    padding:0 15px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .logoMark{
+    width:34px;
+    height:34px;
+  }
+
+  .hero{
+    padding:52px 18px 28px;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+
+  .searchBox{
+    margin:0 12px;
+    border-radius:17px;
+  }
+
+  .searchBottom{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .searchBtn{
+    width:100%;
+  }
+
+  .hint{
+    display:none;
+  }
+
+  .result{
+    margin:10px 12px 40px;
+  }
+
+  .quick{
+    padding:20px 12px;
+  }
+
+  .future{
+    margin:0 12px 40px;
+  }
+
+  .futureGrid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">
-      ARC <span>X</span>
+<div class="app">
+
+<header>
+  <div class="logo">
+    <div class="logoMark">X</div>
+    <span>ARC-X</span>
+  </div>
+
+  <div class="status">
+    <div class="dot"></div>
+    AI ONLINE
+  </div>
+</header>
+
+<section class="hero">
+  <div class="badge">⚡ NEXT-GENERATION AI ENGINE</div>
+
+  <h1>Ask ARC-X</h1>
+
+  <p>
+    Search the live web, research information and create intelligent answers
+    through one futuristic AI workspace.
+  </p>
+</section>
+
+<div class="modes">
+
+  <button class="mode active" onclick="selectMode(this)">
+    🔎 Search
+  </button>
+
+  <button class="mode" onclick="selectMode(this)">
+    ✨ Create
+  </button>
+
+  <button class="mode" onclick="selectMode(this)">
+    🎨 Design
+  </button>
+
+  <button class="mode" onclick="selectMode(this)">
+    💻 Code
+  </button>
+
+  <button class="mode" onclick="selectMode(this)">
+    🧠 Research
+  </button>
+
+</div>
+
+<section class="searchBox">
+
+  <textarea
+    id="question"
+    placeholder="Ask anything... Search the web or start an idea."
+  ></textarea>
+
+  <div class="searchBottom">
+    <div class="hint">
+      ARC-X • Live Web Search • AI Research
     </div>
 
-    <div class="menu">
-      ☰
+    <button class="searchBtn" onclick="searchARCX()">
+      Search ARC-X →
+    </button>
+  </div>
+
+</section>
+
+<section class="quick">
+
+  <div class="quickTitle">QUICK START</div>
+
+  <div class="quickGrid">
+
+    <button onclick="ask('Explain artificial intelligence simply')">
+      Explain something
+    </button>
+
+    <button onclick="ask('What are the latest AI trends?')">
+      Latest AI
+    </button>
+
+    <button onclick="ask('What are the latest technology trends?')">
+      Tech trends
+    </button>
+
+    <button onclick="ask('Search the latest news about space exploration')">
+      News
+    </button>
+
+  </div>
+
+</section>
+
+<div id="loading">
+  <div class="spinner"></div>
+  ARC-X is researching the web...
+</div>
+
+<div id="error" class="error"></div>
+
+<section id="result" class="result">
+
+  <div class="resultHeader">
+    <span>ARC-X ANSWER</span>
+    <span>✦</span>
+  </div>
+
+  <div id="answer" class="answer"></div>
+
+  <div class="sources">
+
+    <h3>🌐 Sources</h3>
+
+    <div id="sourcesList"></div>
+
+  </div>
+
+</section>
+
+<section class="future">
+
+  <h2>ARC-X Intelligence Workspace</h2>
+
+  <p>
+    Your AI workspace is being expanded with creative, design, coding,
+    research and multimodal capabilities.
+  </p>
+
+  <div class="futureGrid">
+
+    <div class="futureCard">
+      <b>🎨 Design Studio</b>
+      <span>AI graphics, posters, thumbnails and creative designs.</span>
     </div>
-  </header>
 
-  <main>
-
-    <section class="hero">
-      <h1>
-        Ask <span>ARC X</span>
-      </h1>
-
-      <p>
-        AI answers powered by live web search and intelligent research.
-      </p>
-    </section>
-
-    <div class="search-box">
-
-      <textarea
-        id="question"
-        placeholder="Ask anything..."
-        rows="2"
-      ></textarea>
-
-      <button id="searchBtn">
-        Search
-      </button>
-
+    <div class="futureCard">
+      <b>💻 Code Engine</b>
+      <span>Build, edit, debug and understand software.</span>
     </div>
 
-    <div class="quick">
-
-      <button data-q="What are the latest AI developments?">
-        Latest AI
-      </button>
-
-      <button data-q="Explain quantum computing simply">
-        Explain something
-      </button>
-
-      <button data-q="What are today's biggest technology trends?">
-        Tech trends
-      </button>
-
+    <div class="futureCard">
+      <b>🧠 Deep Research</b>
+      <span>Multi-source research with citations and verification.</span>
     </div>
 
-    <div id="loading">
+  </div>
 
-      <div class="spinner"></div>
+</section>
 
-      <div>
-        ARC X is searching the web and thinking...
-      </div>
+</div>
 
-    </div>
+<script>
 
-    <div id="error"></div>
+function selectMode(button){
 
-    <section id="result">
+  document.querySelectorAll(".mode").forEach(function(b){
+    b.classList.remove("active");
+  });
 
-      <div class="answer-card">
+  button.classList.add("active");
 
-        <div class="answer-title">
-          ARC X Answer
-        </div>
+  const mode = button.innerText.trim();
 
-        <div id="answer"></div>
+  if(mode.includes("Design")){
+    document.getElementById("question").placeholder =
+      "Describe the graphic you want ARC-X to design...";
+  }
 
-      </div>
+  else if(mode.includes("Code")){
+    document.getElementById("question").placeholder =
+      "Describe the application, website or code you want to build...";
+  }
 
-      <div class="sources">
+  else if(mode.includes("Create")){
+    document.getElementById("question").placeholder =
+      "What do you want ARC-X to create?";
+  }
 
-        <h2>
-          Sources
-        </h2>
+  else if(mode.includes("Research")){
+    document.getElementById("question").placeholder =
+      "What should ARC-X research deeply?";
+  }
 
-        <div id="sourcesList"></div>
+  else{
+    document.getElementById("question").placeholder =
+      "Ask anything... Search the web or start an idea.";
+  }
+}
 
-      </div>
+function ask(text){
+  document.getElementById("question").value = text;
+  searchARCX();
+}
 
-    </section>
+async function searchARCX(){
 
-  </main>
+  const question =
+    document.getElementById("question").value.trim();
 
-  <script>
+  const loading =
+    document.getElementById("loading");
 
-    const question =
-      document.getElementById("question");
+  const result =
+    document.getElementById("result");
 
-    const searchBtn =
-      document.getElementById("searchBtn");
+  const error =
+    document.getElementById("error");
 
-    const loading =
-      document.getElementById("loading");
+  const answer =
+    document.getElementById("answer");
 
-    const result =
-      document.getElementById("result");
+  const sourcesList =
+    document.getElementById("sourcesList");
 
-    const answer =
-      document.getElementById("answer");
+  if(!question){
+    error.style.display = "block";
+    error.textContent = "Please enter a question.";
+    return;
+  }
 
-    const sourcesList =
-      document.getElementById("sourcesList");
+  error.style.display = "none";
+  result.style.display = "none";
+  loading.style.display = "block";
 
-    const errorBox =
-      document.getElementById("error");
+  try{
 
+    const response = await fetch("/api/search",{
 
-    function escapeHtml(value) {
+      method:"POST",
 
-      return String(value).replace(
-        /[&<>"']/g,
-        function (character) {
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-          const entities = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#039;"
-          };
+      body:JSON.stringify({
+        question:question
+      })
 
-          return entities[character];
-        }
+    });
+
+    const data = await response.json();
+
+    loading.style.display = "none";
+
+    if(!response.ok){
+
+      throw new Error(
+        data.details ||
+        data.error ||
+        "ARC-X request failed."
       );
 
     }
 
+    answer.textContent =
+      data.answer || "No answer generated.";
 
-    function showError(message) {
+    sourcesList.innerHTML = "";
 
-      errorBox.textContent = message;
+    (data.sources || []).forEach(function(source){
 
-      errorBox.style.display = "block";
+      const link =
+        document.createElement("a");
 
-    }
+      link.className = "source";
 
+      link.href = source.url;
 
-    async function search() {
+      link.target = "_blank";
 
-      const q = question.value.trim();
+      link.rel = "noopener noreferrer";
 
-      if (!q) {
-        return;
-      }
+      link.textContent =
+        "[" + source.id + "] " +
+        (source.title || source.url);
 
+      sourcesList.appendChild(link);
 
-      searchBtn.disabled = true;
+    });
 
-      loading.style.display = "block";
+    result.style.display = "block";
 
-      result.style.display = "none";
+    result.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
 
-      errorBox.style.display = "none";
+  }
 
-      answer.textContent = "";
+  catch(err){
 
-      sourcesList.innerHTML = "";
+    loading.style.display = "none";
 
+    error.style.display = "block";
 
-      try {
+    error.textContent =
+      "ARC-X Error: " + err.message;
 
-        const response = await fetch(
-          "/api/search",
-          {
-            method: "POST",
+  }
 
-            headers: {
-              "Content-Type": "application/json"
-            },
+}
 
-            body: JSON.stringify({
-              question: q
-            })
-          }
-        );
+document.getElementById("question")
+.addEventListener("keydown",function(event){
 
+  if(event.key === "Enter" && !event.shiftKey){
 
-        const data =
-          await response.json()
-          .catch(function () {
-            return {
-              error: "Invalid server response."
-            };
-          });
+    event.preventDefault();
 
+    searchARCX();
 
-        if (!response.ok) {
+  }
 
-          throw new Error(
-            data.error ||
-            "ARC X could not complete the search."
-          );
+});
 
-        }
-
-
-        answer.textContent =
-          data.answer ||
-          "No answer returned.";
-
-
-        (data.sources || []).forEach(
-          function (src) {
-
-            const link =
-              document.createElement("a");
-
-            link.className = "source";
-
-            link.href =
-              src.url || "#";
-
-            link.target = "_blank";
-
-            link.rel =
-              "noopener noreferrer";
-
-
-            link.innerHTML =
-              '<div class="source-title">' +
-              "[" +
-              escapeHtml(src.id || "") +
-              "] " +
-              escapeHtml(
-                src.title || "Source"
-              ) +
-              "</div>" +
-
-              '<div class="source-url">' +
-              escapeHtml(
-                src.url || ""
-              ) +
-              "</div>";
-
-
-            sourcesList.appendChild(link);
-
-          }
-        );
-
-
-        result.style.display = "block";
-
-      }
-
-      catch (error) {
-
-        showError(
-          error.message ||
-          "Something went wrong."
-        );
-
-      }
-
-      finally {
-
-        loading.style.display = "none";
-
-        searchBtn.disabled = false;
-
-      }
-
-    }
-
-
-    searchBtn.addEventListener(
-      "click",
-      search
-    );
-
-
-    question.addEventListener(
-      "keydown",
-      function (event) {
-
-        if (
-          event.key === "Enter" &&
-          !event.shiftKey
-        ) {
-
-          event.preventDefault();
-
-          search();
-
-        }
-
-      }
-    );
-
-
-    document
-      .querySelectorAll(".quick button")
-      .forEach(
-        function (button) {
-
-          button.addEventListener(
-            "click",
-            function () {
-
-              question.value =
-                button.dataset.q;
-
-              search();
-
-            }
-          );
-
-        }
-      );
-
-  </script>
+</script>
 
 </body>
-                             </html>
+  </html>
