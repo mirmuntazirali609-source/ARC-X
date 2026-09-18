@@ -2,556 +2,638 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#0b0b0f">
-<title>ARC-X — AI Search & Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARC-X — AI Search & Research</title>
 
 <style>
-*{box-sizing:border-box}
-
-html,body{
-margin:0;
-padding:0;
-width:100%;
-height:100%;
-font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:#0b0b0f;
-color:#f5f5f5;
-}
-
-body{overflow:hidden}
-button,textarea,select{font:inherit}
-button{cursor:pointer}
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #ffffff;
+  --sidebar: #f7f7f8;
+  --text: #171717;
+  --muted: #737373;
+  --border: #e5e5e5;
+  --card: #fafafa;
+  --input: #ffffff;
+  --accent: #111111;
+  --user: #f1f1f1;
+  --blue: #19a7ff;
+  --purple: #713cff;
+}
+
+body.dark {
+  --bg: #171717;
+  --sidebar: #202020;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --border: #353535;
+  --card: #242424;
+  --input: #242424;
+  --accent: #ffffff;
+  --user: #2c2c2c;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+  overflow: hidden;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 270px;
+  min-width: 270px;
+  height: 100vh;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  z-index: 50;
+  transition: transform 0.25s ease;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 7px 18px;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #0b0b0d;
+  padding: 5px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(80, 70, 255, 0.16);
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
 
-.app{
-width:100%;
-height:100vh;
-display:flex;
-position:relative;
-overflow:hidden;
-}
-
-.sidebar{
-width:270px;
-height:100%;
-background:#111116;
-border-right:1px solid #24242c;
-padding:14px;
-display:flex;
-flex-direction:column;
-z-index:20;
-transition:transform .25s ease;
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:10px;
-padding:8px 8px 18px;
-}
-
-.brand-mark,.hero-logo{
-display:grid;
-place-items:center;
-background:linear-gradient(135deg,#fff,#777783);
-color:#08080b;
-font-weight:950;
-}
-
-.brand-mark{
-width:36px;
-height:36px;
-border-radius:11px;
-font-size:17px;
-}
-
-.brand-name{
-font-size:19px;
-font-weight:800;
-}
-
-.new-chat{
-width:100%;
-border:1px solid #303039;
-background:#1a1a21;
-color:white;
-border-radius:12px;
-padding:12px;
-text-align:left;
-font-weight:650;
-margin-bottom:16px;
-}
-
-.new-chat:hover{background:#23232c}
-
-.sidebar-label{
-color:#777783;
-font-size:12px;
-font-weight:700;
-padding:8px;
-text-transform:uppercase;
-letter-spacing:.7px;
-}
-
-.history{
-flex:1;
-overflow-y:auto;
-}
-
-.history-item{
-width:100%;
-border:0;
-background:transparent;
-color:#bdbdc6;
-text-align:left;
-padding:10px;
-border-radius:9px;
-overflow:hidden;
-white-space:nowrap;
-text-overflow:ellipsis;
+.new-chat {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 11px;
+  padding: 12px 13px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 650;
 }
 
-.history-item:hover{
-background:#1b1b22;
-color:white;
+.new-chat:hover {
+  background: var(--card);
 }
 
-.sidebar-bottom{
-border-top:1px solid #24242c;
-padding-top:12px;
+.sidebar-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+  margin: 24px 8px 9px;
 }
 
-.side-option{
-width:100%;
-background:transparent;
-border:0;
-color:#bdbdc6;
-padding:11px 8px;
-text-align:left;
-border-radius:9px;
+.history {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.side-option:hover{
-background:#1b1b22;
-color:white;
+.history-item {
+  padding: 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.main{
-flex:1;
-height:100%;
-min-width:0;
-display:flex;
-flex-direction:column;
-position:relative;
+.history-item:hover {
+  background: var(--card);
 }
 
-.topbar{
-height:62px;
-display:flex;
-align-items:center;
-padding:0 18px;
-border-bottom:1px solid #1e1e25;
-background:rgba(11,11,15,.86);
-backdrop-filter:blur(12px);
-z-index:10;
+.sidebar-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
 }
 
-.menu-btn{
-display:none;
-border:0;
-background:transparent;
-color:white;
-font-size:23px;
-margin-right:10px;
+.sidebar-btn {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 10px;
+  border-radius: 9px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
 }
 
-.mobile-brand{
-font-weight:800;
-font-size:17px;
+.sidebar-btn:hover {
+  background: var(--card);
 }
 
-.mode-area{
-margin-left:auto;
-display:flex;
-align-items:center;
-gap:8px;
+/* =========================
+   MAIN
+========================= */
+
+.main {
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.mode{
-background:#17171d;
-color:#dddde5;
-border:1px solid #292932;
-border-radius:9px;
-padding:8px 10px;
-outline:none;
+.topbar {
+  height: 58px;
+  min-height: 58px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
-.home{
-flex:1;
-overflow-y:auto;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-padding:35px 20px 140px;
+.mobile-menu {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
 }
 
-.hero{
-width:min(820px,100%);
-text-align:center;
-margin-bottom:25px;
+.top-mode {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
 }
 
-.hero-logo{
-width:62px;
-height:62px;
-margin:0 auto 20px;
-border-radius:19px;
-font-size:23px;
-box-shadow:0 15px 50px rgba(255,255,255,.08);
+.status {
+  font-size: 12px;
+  color: var(--muted);
 }
+
+/* =========================
+   HOME
+========================= */
 
-.hero h1{
-margin:0;
-font-size:clamp(31px,6vw,50px);
-letter-spacing:-2px;
-line-height:1.05;
+.home {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 8vh 20px 40px;
 }
 
-.hero p{
-color:#8e8e99;
-margin:12px 0 0;
-font-size:15px;
+.hero {
+  width: min(800px, 100%);
+  text-align: center;
 }
 
-.composer-wrap{
-width:min(820px,100%);
+.hero-logo {
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  background: #0b0b0d;
+  padding: 10px;
+  overflow: hidden;
+  margin: 0 auto 24px;
+  box-shadow:
+    0 12px 45px rgba(25, 167, 255, 0.16),
+    0 12px 45px rgba(113, 60, 255, 0.16);
 }
 
-.composer{
-background:#17171d;
-border:1px solid #303039;
-border-radius:19px;
-padding:12px;
-box-shadow:0 18px 70px rgba(0,0,0,.35);
+.hero-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-.composer:focus-within{
-border-color:#50505c;
+.hero h1 {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  font-weight: 750;
 }
 
-textarea{
-width:100%;
-min-height:65px;
-max-height:190px;
-resize:none;
-border:0;
-outline:0;
-background:transparent;
-color:white;
-padding:7px 7px 14px;
-font-size:16px;
-line-height:1.5;
+.hero-subtitle {
+  margin: 14px 0 32px;
+  color: var(--muted);
+  font-size: 15px;
 }
 
-textarea::placeholder{color:#777782}
+/* =========================
+   COMPOSER
+========================= */
 
-.composer-bottom{
-display:flex;
-align-items:center;
-gap:8px;
+.composer {
+  width: 100%;
+  background: var(--input);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  padding: 12px;
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.055);
+  text-align: left;
 }
 
-.tool-btn{
-border:1px solid #303039;
-background:#202027;
-color:#c8c8d0;
-border-radius:9px;
-padding:8px 10px;
-font-size:13px;
+.prompt {
+  width: 100%;
+  min-height: 74px;
+  max-height: 220px;
+  resize: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 5px;
 }
 
-.tool-btn:hover{
-background:#292930;
-color:white;
+.prompt::placeholder {
+  color: var(--muted);
 }
 
-.send{
-margin-left:auto;
-border:0;
-width:40px;
-height:40px;
-border-radius:11px;
-background:white;
-color:#08080b;
-font-size:17px;
-font-weight:900;
+.composer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.send:hover{opacity:.88}
-
-.send:disabled{
-opacity:.4;
-cursor:not-allowed;
+.tools {
+  display: flex;
+  gap: 7px;
+  align-items: center;
 }
 
-.quick-modes{
-width:min(820px,100%);
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-top:13px;
-justify-content:center;
+.tool {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 9px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.quick{
-border:1px solid #292932;
-background:#131319;
-color:#aaaab5;
-padding:9px 13px;
-border-radius:999px;
-font-size:13px;
+.tool:hover {
+  background: var(--card);
 }
 
-.quick:hover{
-color:white;
-border-color:#45454f;
-background:#1b1b22;
+.send {
+  width: 39px;
+  height: 39px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+  font-size: 19px;
+  font-weight: 700;
 }
 
-.suggestions{
-width:min(820px,100%);
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:25px;
+.send:hover {
+  opacity: 0.85;
 }
 
-.suggestion{
-border:1px solid #25252d;
-background:#111116;
-border-radius:13px;
-color:#c5c5ce;
-padding:14px;
-text-align:left;
-line-height:1.4;
+.send:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
-.suggestion strong{
-display:block;
-color:#eeeef2;
-margin-bottom:4px;
-}
+/* =========================
+   MODES
+========================= */
 
-.suggestion:hover{
-background:#17171d;
-border-color:#383842;
+.mode-bar {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 13px;
 }
 
-.results{
-display:none;
-flex:1;
-overflow-y:auto;
-padding:35px 20px 150px;
+.mode {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
-.result-inner{
-width:min(850px,100%);
-margin:auto;
+.mode:hover {
+  color: var(--text);
 }
 
-.question-bubble{
-background:#1b1b22;
-border:1px solid #282831;
-border-radius:15px;
-padding:14px 16px;
-margin-bottom:15px;
-line-height:1.5;
-color:#e9e9ee;
+.mode.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
 }
 
-.mode-badge{
-display:inline-block;
-margin-bottom:25px;
-padding:5px 9px;
-border-radius:999px;
-border:1px solid #303039;
-color:#aaaab5;
-font-size:11px;
-background:#111116;
-}
+/* =========================
+   SUGGESTIONS
+========================= */
 
-.answer-card{
-line-height:1.7;
-color:#e3e3e8;
-font-size:15.5px;
-overflow-wrap:anywhere;
+.suggestions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 28px;
+  text-align: left;
 }
 
-.answer-card h1,
-.answer-card h2,
-.answer-card h3{
-color:white;
+.suggestion {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 13px;
+  padding: 14px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: transform 0.15s ease;
 }
 
-.answer-card p{
-margin:0 0 15px;
+.suggestion:hover {
+  transform: translateY(-2px);
 }
 
-.answer-card ul,
-.answer-card ol{
-margin-top:5px;
-margin-bottom:15px;
-padding-left:25px;
-}
+/* =========================
+   CHAT
+========================= */
 
-.sources{
-margin-top:35px;
-border-top:1px solid #292932;
-padding-top:20px;
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  display: none;
+  padding: 30px 20px 140px;
 }
 
-.sources h3{
-margin:0 0 12px;
-font-size:15px;
+.chat-inner {
+  width: min(800px, 100%);
+  margin: 0 auto;
 }
 
-.source{
-display:block;
-text-decoration:none;
-color:#aaaab5;
-border:1px solid #25252d;
-background:#111116;
-border-radius:11px;
-padding:12px;
-margin-bottom:8px;
+.message {
+  margin-bottom: 28px;
 }
 
-.source:hover{
-border-color:#41414b;
-color:white;
+.message.user {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.source-number{
-color:white;
-font-weight:800;
-margin-right:6px;
+.user-bubble {
+  max-width: 76%;
+  background: var(--user);
+  border-radius: 17px;
+  padding: 11px 15px;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
-.loading{
-display:none;
-align-items:center;
-gap:10px;
-color:#92929d;
-margin:15px 0;
+.assistant {
+  font-size: 15px;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
 }
 
-.loader{
-width:17px;
-height:17px;
-border:2px solid #44444d;
-border-top-color:white;
-border-radius:50%;
-animation:spin .8s linear infinite;
+.assistant strong {
+  font-weight: 750;
 }
 
-@keyframes spin{
-to{transform:rotate(360deg)}
+.assistant pre {
+  background: #111111;
+  color: #eeeeee;
+  padding: 15px;
+  border-radius: 12px;
+  overflow-x: auto;
+  line-height: 1.5;
 }
 
-.error{
-display:none;
-margin-top:15px;
-padding:13px;
-border:1px solid #542d35;
-background:#25171b;
-color:#ffb9c1;
-border-radius:11px;
-white-space:pre-wrap;
-overflow-wrap:anywhere;
+.assistant code {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
 }
 
-.status{
-color:#777783;
-font-size:12px;
-margin-top:10px;
-text-align:center;
+.assistant:not(pre) code {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 2px 5px;
+  border-radius: 5px;
 }
 
-@media(max-width:760px){
+/* =========================
+   SOURCES
+========================= */
 
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-transform:translateX(-100%);
-box-shadow:20px 0 60px rgba(0,0,0,.45);
+.sources {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 
-.sidebar.open{
-transform:translateX(0);
+.sources-title {
+  font-size: 13px;
+  font-weight: 750;
+  margin-bottom: 7px;
 }
 
-.menu-btn{
-display:block;
+.source {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 12px;
+  padding: 7px 0;
+  opacity: 0.8;
 }
 
-.topbar{
-height:56px;
-padding:0 12px;
+.source:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
-.home{
-padding:25px 13px 125px;
-justify-content:center;
-}
+/* =========================
+   CHAT COMPOSER
+========================= */
 
-.hero-logo{
-width:55px;
-height:55px;
-border-radius:17px;
-font-size:20px;
+.chat-composer {
+  position: fixed;
+  display: none;
+  bottom: 0;
+  left: 270px;
+  right: 0;
+  padding: 25px 20px 18px;
+  background: linear-gradient(
+    transparent,
+    var(--bg) 30%
+  );
+  z-index: 10;
 }
 
-.hero h1{
-font-size:34px;
+.chat-composer-inner {
+  width: min(800px, 100%);
+  margin: auto;
 }
 
-.hero p{
-font-size:13px;
-}
+/* =========================
+   LOADING
+========================= */
 
-.composer{
-border-radius:16px;
+.loading {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 25px;
 }
 
-.quick-modes{
-justify-content:flex-start;
-overflow-x:auto;
-flex-wrap:nowrap;
-padding-bottom:3px;
+.dots span {
+  animation: blink 1.2s infinite;
 }
 
-.quick{
-flex-shrink:0;
+.dots span:nth-child(2) {
+  animation-delay: 0.2s;
 }
 
-.suggestions{
-grid-template-columns:1fr;
+.dots span:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
-.results{
-padding:22px 13px 130px;
-}
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+  }
 
-.mode{
-font-size:12px;
-padding:7px;
+  40% {
+    opacity: 1;
+  }
 }
 
-.tool-btn{
-padding:8px;
-}
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 750px) {
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .topbar {
+    padding: 0 13px;
+  }
+
+  .home {
+    padding: 7vh 14px 30px;
+  }
+
+  .hero-logo {
+    width: 66px;
+    height: 66px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    letter-spacing: -1.4px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .suggestions {
+    grid-template-columns: 1fr;
+  }
+
+  .chat {
+    padding: 24px 14px 130px;
+  }
+
+  .chat-composer {
+    left: 0;
+    padding: 12px;
+  }
+
+  .user-bubble {
+    max-width: 88%;
+  }
+
+  .tool:nth-child(n + 3) {
+    display: none;
+  }
 }
 </style>
 </head>
@@ -560,776 +642,584 @@ padding:8px;
 
 <div class="app">
 
-<aside class="sidebar" id="sidebar">
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
 
-<div class="brand">
-<div class="brand-mark">A</div>
-<div class="brand-name">ARC-X</div>
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="logo">
+
+        <svg viewBox="0 0 100 100">
+
+          <defs>
+            <linearGradient
+              id="arcLogoGradient"
+              x1="0"
+              y1="0"
+              x2="1"
+              y2="1"
+            >
+              <stop
+                offset="0%"
+                stop-color="#19a7ff"
+              />
+
+              <stop
+                offset="100%"
+                stop-color="#713cff"
+              />
+            </linearGradient>
+          </defs>
+
+          <path
+            d="M25 20 L50 45 L75 20 L82 28 L57 53 L82 78 L75 85 L50 60 L25 85 L18 78 L43 53 L18 28 Z"
+            fill="url(#arcLogoGradient)"
+          />
+
+          <ellipse
+            cx="50"
+            cy="53"
+            rx="39"
+            ry="14"
+            fill="none"
+            stroke="#d9e4ff"
+            stroke-width="5"
+            transform="rotate(-15 50 53)"
+          />
+
+        </svg>
+
+      </div>
+
+      <div class="brand-name">
+        ARC-X
+      </div>
+
+    </div>
+
+    <button
+      class="new-chat"
+      onclick="newChat()"
+    >
+      ＋ New chat
+    </button>
+
+    <div class="sidebar-title">
+      Recent
+    </div>
+
+    <div
+      class="history"
+      id="history"
+    ></div>
+
+    <div class="sidebar-bottom">
+
+      <button
+        class="sidebar-btn"
+        onclick="toggleTheme()"
+      >
+        ◐ Appearance
+      </button>
+
+      <button
+        class="sidebar-btn"
+        onclick="showAbout()"
+      >
+        ◉ About ARC-X
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:12px;
+        "
+      >
+
+        <button
+          class="mobile-menu"
+          onclick="toggleSidebar()"
+        >
+          ☰
+        </button>
+
+        <div
+          class="top-mode"
+          id="topMode"
+        >
+          ARC-X
+        </div>
+
+      </div>
+
+      <div
+        class="status"
+        id="status"
+      >
+        Ready
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
+    <section
+      class="home"
+      id="home"
+    >
+
+      <div class="hero">
+
+        <div class="hero-logo">
+
+          <svg viewBox="0 0 100 100">
+
+            <defs>
+              <linearGradient
+                id="heroLogoGradient"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stop-color="#19a7ff"
+                />
+
+                <stop
+                  offset="100%"
+                  stop-color="#713cff"
+                />
+              </linearGradient>
+            </defs>
+
+            <path
+              d="M25 20 L50 45 L75 20 L82 28 L57 53 L82 78 L75 85 L50 60 L25 85 L18 78 L43 53 L18 28 Z"
+              fill="url(#heroLogoGradient)"
+            />
+
+            <ellipse
+              cx="50"
+              cy="53"
+              rx="39"
+              ry="14"
+              fill="none"
+              stroke="#d9e4ff"
+              stroke-width="5"
+              transform="rotate(-15 50 53)"
+            />
+
+          </svg>
+
+        </div>
+
+        <h1>
+          What can ARC-X help you with?
+        </h1>
+
+        <div class="hero-subtitle">
+          Search. Think. Research. Create.
+        </div>
+
+
+        <!-- MAIN COMPOSER -->
+
+        <div class="composer">
+
+          <textarea
+            id="prompt"
+            class="prompt"
+            placeholder="Ask anything..."
+            oninput="resizePrompt(this)"
+            onkeydown="handleKey(event)"
+          ></textarea>
+
+          <div class="composer-bottom">
+
+            <div class="tools">
+
+              <button
+                class="tool"
+                title="Attachments"
+              >
+                ＋
+              </button>
+
+              <button
+                class="tool"
+                onclick="selectMode('search')"
+              >
+                Search
+              </button>
+
+              <button
+                class="tool"
+                onclick="selectMode('research')"
+              >
+                Research
+              </button>
+
+            </div>
+
+            <button
+              class="send"
+              id="homeSend"
+              onclick="askARCX(false)"
+            >
+              ↑
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- MODES -->
+
+        <div class="mode-bar">
+
+          <button
+            class="mode active"
+            data-mode="auto"
+            onclick="selectMode('auto')"
+          >
+            Auto
+          </button>
+
+          <button
+            class="mode"
+            data-mode="search"
+            onclick="selectMode('search')"
+          >
+            Search
+          </button>
+
+          <button
+            class="mode"
+            data-mode="think"
+            onclick="selectMode('think')"
+          >
+            Think
+          </button>
+
+          <button
+            class="mode"
+            data-mode="research"
+            onclick="selectMode('research')"
+          >
+            Deep Research
+          </button>
+
+          <button
+            class="mode"
+            data-mode="code"
+            onclick="selectMode('code')"
+          >
+            Code
+          </button>
+
+          <button
+            class="mode"
+            data-mode="create"
+            onclick="selectMode('create')"
+          >
+            Create
+          </button>
+
+        </div>
+
+
+        <!-- SUGGESTIONS -->
+
+        <div class="suggestions">
+
+          <button
+            class="suggestion"
+            onclick="useSuggestion(
+              'Explain quantum computing simply'
+            )"
+          >
+            ✦ Explain something
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="useSuggestion(
+              'What are the latest AI developments?'
+            )"
+          >
+            ◈ Latest AI developments
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="useSuggestion(
+              'Research the future of AI search engines'
+            )"
+          >
+            ◉ Research a topic
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="useSuggestion(
+              'Help me build a modern web application'
+            )"
+          >
+            ◆ Build something
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CHAT
+    ========================== -->
+
+    <section
+      class="chat"
+      id="chat"
+    >
+
+      <div
+        class="chat-inner"
+        id="chatInner"
+      ></div>
+
+    </section>
+
+
+    <!-- =========================
+         CHAT COMPOSER
+    ========================== -->
+
+    <div
+      class="chat-composer"
+      id="chatComposer"
+    >
+
+      <div class="chat-composer-inner">
+
+        <div class="composer">
+
+          <textarea
+            id="chatPrompt"
+            class="prompt"
+            placeholder="Message ARC-X..."
+            oninput="resizePrompt(this)"
+            onkeydown="handleChatKey(event)"
+          ></textarea>
+
+          <div class="composer-bottom">
+
+            <div class="tools">
+
+              <button
+                class="tool"
+                title="Attachments"
+              >
+                ＋
+              </button>
+
+              <button
+                class="tool"
+                onclick="selectMode('search')"
+              >
+                Search
+              </button>
+
+              <button
+                class="tool"
+                onclick="selectMode('research')"
+              >
+                Research
+              </button>
+
+            </div>
+
+            <button
+              class="send"
+              onclick="askARCX(true)"
+            >
+              ↑
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
 </div>
 
-<button class="new-chat" onclick="newChat()">
-＋ New chat
-</button>
-
-<div class="sidebar-label">Recent</div>
-
-<div class="history" id="history">
-<div id="emptyHistory"
-style="padding:10px;color:#666673;font-size:13px;">
-Your conversations will appear here.
-</div>
-</div>
-
-<div class="sidebar-bottom">
-
-<button class="side-option" onclick="showComingSoon()">
-⚙ Settings
-</button>
-
-<button class="side-option" onclick="showMemoryStatus()">
-🧠 ARC-X Memory
-</button>
-
-</div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-
-<button class="menu-btn" onclick="toggleSidebar()">
-☰
-</button>
-
-<div class="mobile-brand">ARC-X</div>
-
-<div class="mode-area">
-
-<select class="mode" id="mode">
-
-<option value="auto">ARC Auto</option>
-<option value="search">Web Search</option>
-<option value="think">Deep Think</option>
-<option value="research">Deep Research</option>
-<option value="create">Create</option>
-<option value="code">Code</option>
-
-</select>
-
-</div>
-</header>
-
-<section class="home" id="home">
-
-<div class="hero">
-
-<div class="hero-logo">A</div>
-
-<h1>What can I help you with?</h1>
-
-<p>ARC-X — Search, Think, Create and Research.</p>
-
-</div>
-
-<div class="composer-wrap">
-
-<div class="composer">
-
-<textarea
-id="question"
-placeholder="Ask anything..."
-rows="1"></textarea>
-
-<div class="composer-bottom">
-
-<button class="tool-btn" onclick="showComingSoon()">
-＋
-</button>
-
-<button class="tool-btn" onclick="showComingSoon()">
-📎 Attach
-</button>
-
-<button class="tool-btn" onclick="setMode('search')">
-🌐 Search
-</button>
-
-<button class="send" id="sendBtn" onclick="askARCX()">
-↑
-</button>
-
-</div>
-</div>
-
-<div class="quick-modes">
-
-<button class="quick"
-onclick="setPrompt('Search the web and explain the latest AI developments')">
-🌐 Search
-</button>
-
-<button class="quick"
-onclick="setPrompt('Think deeply about this problem and give me a well-reasoned answer')">
-🧠 Think
-</button>
-
-<button class="quick"
-onclick="setPrompt('Create a professional design concept for ')">
-🎨 Create
-</button>
-
-<button class="quick"
-onclick="setPrompt('Help me write and debug this code: ')">
-💻 Code
-</button>
-
-</div>
-
-<div class="suggestions">
-
-<button class="suggestion"
-onclick="setPrompt('Research a topic and give me a detailed report with sources')">
-
-<strong>🔎 Deep Research</strong>
-
-Research a topic and create a sourced report.
-
-</button>
-
-<button class="suggestion"
-onclick="setPrompt('Help me build a modern website from scratch')">
-
-<strong>💻 Build something</strong>
-
-Plan and build a modern website.
-
-</button>
-
-<button class="suggestion"
-onclick="setPrompt('Explain a difficult concept to me simply')">
-
-<strong>📚 Learn</strong>
-
-Understand something difficult step by step.
-
-</button>
-
-<button class="suggestion"
-onclick="setPrompt('Create a professional graphic design concept for ')">
-
-<strong>🎨 Design</strong>
-
-Create a professional visual concept.
-
-</button>
-
-</div>
-
-<div class="status">
-ARC-X online • AI + Web Research + Memory
-</div>
-
-</div>
-</section>
-
-<section class="results" id="results">
-
-<div class="result-inner">
-
-<div class="question-bubble" id="questionDisplay"></div>
-
-<div class="mode-badge" id="modeBadge"></div>
-
-<div class="loading" id="loading">
-
-<div class="loader"></div>
-
-<span>ARC-X is thinking and researching...</span>
-
-</div>
-
-<div class="error" id="error"></div>
-
-<div class="answer-card" id="answer"></div>
-
-<div class="sources" id="sources">
-
-<h3>Sources</h3>
-
-<div id="sourceList"></div>
-
-</div>
-
-</div>
-</section>
-
-</main>
-</div>
 
 <script>
 
-/* =========================
-   ARC-X STATE
-========================= */
-
-const questionInput =
-document.getElementById("question");
-
-const sendBtn =
-document.getElementById("sendBtn");
-
-const home =
-document.getElementById("home");
-
-const results =
-document.getElementById("results");
-
-const answer =
-document.getElementById("answer");
-
-const loading =
-document.getElementById("loading");
-
-const errorBox =
-document.getElementById("error");
-
-const sourcesBox =
-document.getElementById("sources");
-
-const sourceList =
-document.getElementById("sourceList");
-
-const questionDisplay =
-document.getElementById("questionDisplay");
-
-const modeBadge =
-document.getElementById("modeBadge");
+/* =====================================================
+   ARC-X
+   FRONTEND ENGINE
+===================================================== */
 
 let conversationId =
-localStorage.getItem("arcx_conversation_id") || null;
+  localStorage.getItem(
+    "arcx_conversation_id"
+  ) || "";
 
-let conversations = [];
+let selectedMode = "auto";
 
-try{
+let history = [];
 
-conversations =
-JSON.parse(
-localStorage.getItem("arcx_history") || "[]"
-);
-
-}catch(e){
-
-conversations=[];
-
+try {
+  history = JSON.parse(
+    localStorage.getItem(
+      "arcx_history"
+    ) || "[]"
+  );
+} catch {
+  history = [];
 }
 
-/* =========================
-   SIDEBAR
-========================= */
 
-function toggleSidebar(){
+/* =====================================================
+   MODE SELECTOR
+===================================================== */
 
-document
-.getElementById("sidebar")
-.classList.toggle("open");
+function selectMode(mode) {
 
+  selectedMode = mode;
+
+  document
+    .querySelectorAll(".mode")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.mode === mode
+      );
+
+    });
+
+  const title =
+    mode === "auto"
+      ? "ARC-X"
+      : "ARC-X · " +
+        mode.charAt(0).toUpperCase() +
+        mode.slice(1);
+
+  document.getElementById(
+    "topMode"
+  ).textContent = title;
 }
 
-/* =========================
-   MODE
-========================= */
 
-function setMode(mode){
+/* =====================================================
+   SUGGESTION
+===================================================== */
 
-document
-.getElementById("mode")
-.value=mode;
+function useSuggestion(text) {
 
+  const prompt =
+    document.getElementById(
+      "prompt"
+    );
+
+  prompt.value = text;
+
+  resizePrompt(prompt);
+
+  prompt.focus();
 }
 
-/* =========================
-   PROMPT
-========================= */
 
-function setPrompt(text){
+/* =====================================================
+   KEYBOARD
+===================================================== */
 
-questionInput.value=text;
+function handleKey(event) {
 
-questionInput.focus();
+  if (
+    event.key === "Enter" &&
+    !event.shiftKey
+  ) {
 
-autoResize();
+    event.preventDefault();
 
+    askARCX(false);
+  }
 }
 
-/* =========================
-   COMING SOON
-========================= */
 
-function showComingSoon(){
+function handleChatKey(event) {
 
-alert(
-"ARC-X advanced attachments and multimodal tools are coming in the next upgrade."
-);
+  if (
+    event.key === "Enter" &&
+    !event.shiftKey
+  ) {
 
+    event.preventDefault();
+
+    askARCX(true);
+  }
 }
 
-/* =========================
-   MEMORY
-========================= */
 
-function showMemoryStatus(){
+/* =====================================================
+   TEXTAREA SIZE
+===================================================== */
 
-if(conversationId){
+function resizePrompt(element) {
 
-alert(
-"🧠 ARC-X Memory is active for this conversation."
-);
+  element.style.height = "auto";
 
-}else{
-
-alert(
-"🧠 ARC-X will create memory when you start a conversation."
-);
-
+  element.style.height =
+    Math.min(
+      element.scrollHeight,
+      220
+    ) + "px";
 }
 
-}
 
-/* =========================
-   NEW CHAT
-========================= */
-
-function newChat(){
-
-conversationId=null;
-
-localStorage.removeItem(
-"arcx_conversation_id"
-);
-
-home.style.display="flex";
-
-results.style.display="none";
-
-questionInput.value="";
-
-answer.innerHTML="";
-
-errorBox.style.display="none";
-
-sourcesBox.style.display="none";
-
-modeBadge.textContent="";
-
-document
-.getElementById("sidebar")
-.classList.remove("open");
-
-questionInput.focus();
-
-}
-
-/* =========================
-   RESIZE
-========================= */
-
-function autoResize(){
-
-questionInput.style.height="auto";
-
-questionInput.style.height=
-Math.min(questionInput.scrollHeight,190)+"px";
-
-}
-
-questionInput.addEventListener(
-"input",
-autoResize
-);
-
-/* =========================
-   ENTER SEND
-========================= */
-
-questionInput.addEventListener(
-"keydown",
-function(event){
-
-if(event.key==="Enter" && !event.shiftKey){
-
-event.preventDefault();
-
-askARCX();
-
-}
-
-}
-);
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(text){
-
-const div=document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
-
-}
-
-/* =========================
-   ANSWER RENDERER
-========================= */
-
-function renderAnswer(text){
-
-let html=escapeHTML(String(text || ""));
-
-/* headings */
-
-html=html.replace(
-/^### (.*)$/gm,
-"<h3>$1</h3>"
-);
-
-html=html.replace(
-/^## (.*)$/gm,
-"<h2>$1</h2>"
-);
-
-html=html.replace(
-/^# (.*)$/gm,
-"<h1>$1</h1>"
-);
-
-/* bold */
-
-html=html.replace(
-/\*\*(.*?)\*\*/g,
-"<strong>$1</strong>"
-);
-
-/* italic */
-
-html=html.replace(
-/\*(.*?)\*/g,
-"<em>$1</em>"
-);
-
-/* bullet lists */
-
-html=html.replace(
-/^(?:-|\u2022) (.*)$/gm,
-"<li>$1</li>"
-);
-
-html=html.replace(
-/(<li>.*<\/li>)/gs,
-"<ul>$1</ul>"
-);
-
-/* numbered lists */
-
-html=html.replace(
-/^\d+\.\s+(.*)$/gm,
-"<li>$1</li>"
-);
-
-/* line breaks */
-
-html=html.replace(
-/\n{2,}/g,
-"</p><p>"
-);
-
-html=html.replace(
-/\n/g,
-"<br>"
-);
-
-return "<p>"+html+"</p>";
-
-}
-
-/* =========================
-   HISTORY
-========================= */
-
-function saveHistory(question){
-
-const item={
-question:question,
-conversationId:conversationId,
-time:Date.now()
-};
-
-conversations.unshift(item);
-
-conversations=
-conversations.slice(0,20);
-
-localStorage.setItem(
-"arcx_history",
-JSON.stringify(conversations)
-);
-
-renderHistory();
-
-}
-
-function renderHistory(){
-
-const history=
-document.getElementById("history");
-
-history.innerHTML="";
-
-if(!conversations.length){
-
-history.innerHTML=
-'<div style="padding:10px;color:#666673;font-size:13px;">Your conversations will appear here.</div>';
-
-return;
-
-}
-
-conversations.forEach(function(item){
-
-const button=
-document.createElement("button");
-
-button.className="history-item";
-
-button.textContent=item.question;
-
-button.onclick=function(){
-
-if(item.conversationId){
-
-conversationId=item.conversationId;
-
-localStorage.setItem(
-"arcx_conversation_id",
-conversationId
-);
-
-}
-
-alert(
-"Conversation memory restored. Continue typing below."
-);
-
-};
-
-history.appendChild(button);
-
-});
-
-}
-
-/* =========================
+/* =====================================================
    MAIN ARC-X REQUEST
-========================= */
-
-async function askARCX(){
-
-const question=
-questionInput.value.trim();
-
-if(!question){
-
-questionInput.focus();
-
-return;
-
-}
-
-/* UI */
-
-home.style.display="none";
-
-results.style.display="block";
-
-questionDisplay.textContent=question;
-
-answer.innerHTML="";
-
-errorBox.style.display="none";
-
-sourcesBox.style.display="none";
-
-sourceList.innerHTML="";
-
-loading.style.display="flex";
-
-sendBtn.disabled=true;
-
-/* selected mode */
-
-const mode=
-document.getElementById("mode").value;
-
-/* request */
-
-try{
-
-const response=
-await fetch("/api/search",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-question:question,
-
-mode:mode,
-
-conversationId:conversationId
-
-})
-
-});
-
-/* Read response safely */
-
-const rawText=
-await response.text();
-
-let data;
-
-try{
-
-data=JSON.parse(rawText);
-
-}catch(parseError){
-
-throw new Error(
-"ARC-X returned an invalid server response: "+rawText
-);
-
-}
-
-/* HTTP error */
-
-if(!response.ok){
-
-throw new Error(
-data.error ||
-data.details ||
-"ARC-X server request failed."
-);
-
-}
-
-/* Save conversation ID */
-
-if(data.conversationId){
-
-conversationId=data.conversationId;
-
-localStorage.setItem(
-"arcx_conversation_id",
-conversationId
-);
-
-}
-
-/* Show mode */
-
-modeBadge.textContent=
-"ARC-X Mode: "+(data.mode || mode);
-
-/* Show answer */
-
-answer.innerHTML=
-renderAnswer(data.answer || "ARC-X returned no answer.");
-
-/* Sources */
-
-if(
-Array.isArray(data.sources) &&
-data.sources.length
-){
-
-sourcesBox.style.display="block";
-
-data.sources.forEach(function(source){
-
-const link=
-document.createElement("a");
-
-link.className="source";
-
-link.href=source.url || "#";
-
-link.target="_blank";
-
-link.rel="noopener noreferrer";
-
-link.innerHTML=
-'<span class="source-number">['+
-source.id+
-']</span>'+
-escapeHTML(source.title || "Source");
-
-sourceList.appendChild(link);
-
-});
-
-}else{
-
-sourcesBox.style.display="none";
-
-}
-
-/* Save history */
-
-saveHistory(question);
-
-/* clear composer */
-
-questionInput.value="";
-
-autoResize();
-
-}catch(error){
-
-console.error(
-"ARC-X frontend error:",
-error
-);
-
-errorBox.textContent=
-"ARC-X Error:\n"+error.message;
-
-errorBox.style.display="block";
-
-}finally{
-
-loading.style.display="none";
-
-sendBtn.disabled=false;
-
-}
-
-}
-
-/* =========================
-   INITIALIZE
-========================= */
-
-renderHistory();
-
-autoResize();
-
-</script>
-
-</body>
-  </html>
+===================================================== */
+
+async function askARCX(fromChat = false) {
+
+  const input =
+    document.getElementById(
+      fromChat
+        ? "chatPrompt"
+        : "prompt"
+    );
+
+  const question =
+    input.value.tri
