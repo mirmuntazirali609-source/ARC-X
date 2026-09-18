@@ -1,781 +1,978 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#08090d">
-<title>ARC-X — AI Intelligence Engine</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#08090d;
-  --panel:#11131a;
-  --panel2:#171923;
-  --text:#f5f7ff;
-  --muted:#8d93a6;
-  --line:#292d3a;
-  --accent:#8b5cf6;
-  --accent2:#06b6d4;
-  --danger:#ef4444;
-}
-
-body{
-  min-height:100vh;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 20% 0%,rgba(139,92,246,.18),transparent 30%),
-    radial-gradient(circle at 90% 10%,rgba(6,182,212,.12),transparent 28%),
-    var(--bg);
-  color:var(--text);
-}
-
-button,
-textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:1250px;
-  margin:auto;
-  min-height:100vh;
-}
-
-/* HEADER */
-
-header{
-  height:76px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 22px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(20px);
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:rgba(8,9,13,.78);
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:800;
-  font-size:22px;
-  letter-spacing:.8px;
-}
-
-.logoMark{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:0 0 28px rgba(139,92,246,.35);
-  font-weight:900;
-}
-
-.logo span{
-  background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:#9ca3af;
-  font-size:12px;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#22c55e;
-  box-shadow:0 0 12px #22c55e;
-}
-
-/* HERO */
-
-.hero{
-  text-align:center;
-  padding:70px 20px 34px;
-}
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:8px 13px;
-  border:1px solid rgba(139,92,246,.35);
-  border-radius:999px;
-  color:#c4b5fd;
-  background:rgba(139,92,246,.08);
-  font-size:12px;
-  margin-bottom:22px;
-}
-
-.hero h1{
-  font-size:clamp(42px,8vw,78px);
-  line-height:1;
-  letter-spacing:-3px;
-  background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  color:var(--muted);
-  margin:18px auto 0;
-  max-width:650px;
-  font-size:16px;
-  line-height:1.6;
-}
-
-/* MODES */
-
-.modes{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
-  padding:10px 20px 28px;
-}
-
-.mode{
-  border:1px solid var(--line);
-  background:rgba(17,19,26,.75);
-  color:#aeb4c5;
-  padding:10px 16px;
-  border-radius:12px;
-  transition:.2s;
-}
-
-.mode:hover,
-.mode.active{
-  color:white;
-  border-color:rgba(139,92,246,.65);
-  background:rgba(139,92,246,.15);
-}
-
-/* SEARCH */
-
-.searchBox{
-  margin:0 20px;
-  border:1px solid var(--line);
-  background:rgba(17,19,26,.82);
-  border-radius:22px;
-  padding:15px;
-  box-shadow:0 25px 70px rgba(0,0,0,.3);
-}
-
-textarea{
-  width:100%;
-  min-height:120px;
-  resize:vertical;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:white;
-  font-size:17px;
-  line-height:1.5;
-  padding:8px;
-}
-
-textarea::placeholder{
-  color:#656b7b;
-}
-
-.searchBottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-top:10px;
-}
-
-.hint{
-  color:#686f80;
-  font-size:12px;
-}
-
-.searchBtn{
-  border:0;
-  border-radius:13px;
-  padding:13px 22px;
-  color:white;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--accent),#6d28d9);
-  box-shadow:0 8px 25px rgba(139,92,246,.25);
-}
-
-.searchBtn:hover{
-  transform:translateY(-1px);
-}
-
-/* QUICK */
-
-.quick{
-  padding:22px 20px;
-}
-
-.quickTitle{
-  color:#777e90;
-  font-size:12px;
-  margin-bottom:12px;
-}
-
-.quickGrid{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-}
-
-.quick button{
-  border:1px solid var(--line);
-  background:#101219;
-  color:#aeb4c5;
-  border-radius:11px;
-  padding:9px 13px;
-}
-
-.quick button:hover{
-  color:white;
-  border-color:#555b70;
-}
-
-/* RESULTS */
-
-#loading{
-  display:none;
-  margin:20px;
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  color:#aeb4c5;
-  text-align:center;
-}
-
-.spinner{
-  width:20px;
-  height:20px;
-  margin:0 auto 9px;
-  border:3px solid #303442;
-  border-top-color:#a78bfa;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-.result{
-  display:none;
-  margin:10px 20px 50px;
-  border:1px solid var(--line);
-  background:#101219;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.resultHeader{
-  padding:16px 18px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  color:#a78bfa;
-  font-weight:700;
-}
-
-.answer{
-  padding:22px;
-  line-height:1.75;
-  white-space:pre-wrap;
-  color:#e7e9f0;
-}
-
-.sources{
-  padding:20px;
-  border-top:1px solid var(--line);
-}
-
-.sources h3{
-  font-size:14px;
-  margin-bottom:13px;
-}
-
-.source{
-  display:block;
-  padding:12px;
-  margin-top:8px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  color:#aeb4c5;
-  text-decoration:none;
-  overflow:hidden;
-}
-
-.source:hover{
-  border-color:#686f80;
-  color:white;
-}
-
-.error{
-  display:none;
-  margin:20px;
-  padding:15px;
-  border:1px solid rgba(239,68,68,.35);
-  border-radius:13px;
-  background:rgba(239,68,68,.08);
-  color:#fca5a5;
-}
-
-/* FUTURE MODES */
-
-.future{
-  margin:0 20px 60px;
-  padding:28px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:linear-gradient(135deg,rgba(139,92,246,.07),rgba(6,182,212,.04));
-}
-
-.future h2{
-  font-size:20px;
-  margin-bottom:8px;
-}
-
-.future p{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.6;
-}
-
-.futureGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:20px;
-}
-
-.futureCard{
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:rgba(0,0,0,.15);
-}
-
-.futureCard b{
-  display:block;
-  margin-bottom:7px;
-}
-
-.futureCard span{
-  color:#777e90;
-  font-size:12px;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-  header{
-    height:66px;
-    padding:0 15px;
-  }
-
-  .logo{
-    font-size:18px;
-  }
-
-  .logoMark{
-    width:34px;
-    height:34px;
-  }
-
-  .hero{
-    padding:52px 18px 28px;
-  }
-
-  .hero h1{
-    letter-spacing:-2px;
-  }
-
-  .hero p{
-    font-size:14px;
-  }
-
-  .searchBox{
-    margin:0 12px;
-    border-radius:17px;
-  }
-
-  .searchBottom{
-    align-items:stretch;
-    flex-direction:column;
-  }
-
-  .searchBtn{
-    width:100%;
-  }
-
-  .hint{
-    display:none;
-  }
-
-  .result{
-    margin:10px 12px 40px;
-  }
-
-  .quick{
-    padding:20px 12px;
-  }
-
-  .future{
-    margin:0 12px 40px;
-  }
-
-  .futureGrid{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>ARC-X — AI Search & Intelligence</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: #0b0b0f;
+      color: #f5f5f5;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    .app {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 270px;
+      height: 100%;
+      background: #111116;
+      border-right: 1px solid #24242c;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px 18px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ffffff, #8d8d99);
+      color: #09090c;
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .new-chat {
+      width: 100%;
+      border: 1px solid #303039;
+      background: #1a1a21;
+      color: white;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: left;
+      font-weight: 650;
+      margin-bottom: 16px;
+    }
+
+    .new-chat:hover {
+      background: #23232c;
+    }
+
+    .sidebar-label {
+      color: #777783;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .history {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #bdbdc6;
+      text-align: left;
+      padding: 10px;
+      border-radius: 9px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .history-item:hover {
+      background: #1b1b22;
+      color: white;
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid #24242c;
+      padding-top: 12px;
+    }
+
+    .side-option {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: #bdbdc6;
+      padding: 11px 8px;
+      text-align: left;
+      border-radius: 9px;
+    }
+
+    .side-option:hover {
+      background: #1b1b22;
+      color: white;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      flex: 1;
+      height: 100%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .topbar {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      border-bottom: 1px solid #1e1e25;
+      background: rgba(11, 11, 15, 0.86);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 23px;
+      margin-right: 10px;
+    }
+
+    .mobile-brand {
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .mode-area {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode {
+      background: #17171d;
+      color: #dddde5;
+      border: 1px solid #292932;
+      border-radius: 9px;
+      padding: 8px 10px;
+      outline: none;
+    }
+
+    /* =========================
+       HOME
+    ========================= */
+
+    .home {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 20px 140px;
+    }
+
+    .hero {
+      width: min(820px, 100%);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .hero-logo {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 20px;
+      border-radius: 19px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ffffff, #777783);
+      color: #08080b;
+      font-weight: 950;
+      font-size: 23px;
+      box-shadow: 0 15px 50px rgba(255,255,255,0.08);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(31px, 6vw, 50px);
+      letter-spacing: -2px;
+      line-height: 1.05;
+    }
+
+    .hero p {
+      color: #8e8e99;
+      margin: 12px 0 0;
+      font-size: 15px;
+    }
+
+    /* =========================
+       COMPOSER
+    ========================= */
+
+    .composer-wrap {
+      width: min(820px, 100%);
+    }
+
+    .composer {
+      background: #17171d;
+      border: 1px solid #303039;
+      border-radius: 19px;
+      padding: 12px;
+      box-shadow: 0 18px 70px rgba(0,0,0,0.35);
+    }
+
+    .composer:focus-within {
+      border-color: #50505c;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 65px;
+      max-height: 190px;
+      resize: none;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: white;
+      padding: 7px 7px 14px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    textarea::placeholder {
+      color: #777782;
+    }
+
+    .composer-bottom {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-btn {
+      border: 1px solid #303039;
+      background: #202027;
+      color: #c8c8d0;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .tool-btn:hover {
+      background: #292930;
+      color: white;
+    }
+
+    .send {
+      margin-left: auto;
+      border: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: white;
+      color: #08080b;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .send:hover {
+      opacity: 0.88;
+    }
+
+    .send:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       QUICK MODES
+    ========================= */
+
+    .quick-modes {
+      width: min(820px, 100%);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 13px;
+      justify-content: center;
+    }
+
+    .quick {
+      border: 1px solid #292932;
+      background: #131319;
+      color: #aaaab5;
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    .quick:hover {
+      color: white;
+      border-color: #45454f;
+      background: #1b1b22;
+    }
+
+    /* =========================
+       SUGGESTIONS
+    ========================= */
+
+    .suggestions {
+      width: min(820px, 100%);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .suggestion {
+      border: 1px solid #25252d;
+      background: #111116;
+      border-radius: 13px;
+      color: #c5c5ce;
+      padding: 14px;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .suggestion strong {
+      display: block;
+      color: #eeeef2;
+      margin-bottom: 4px;
+    }
+
+    .suggestion:hover {
+      background: #17171d;
+      border-color: #383842;
+    }
+
+    /* =========================
+       RESULTS
+    ========================= */
+
+    .results {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 35px 20px 150px;
+    }
+
+    .result-inner {
+      width: min(850px, 100%);
+      margin: auto;
+    }
+
+    .question-bubble {
+      background: #1b1b22;
+      border: 1px solid #282831;
+      border-radius: 15px;
+      padding: 14px 16px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      color: #e9e9ee;
+    }
+
+    .answer-card {
+      line-height: 1.7;
+      color: #e3e3e8;
+      font-size: 15.5px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .answer-card h1,
+    .answer-card h2,
+    .answer-card h3 {
+      color: white;
+    }
+
+    .sources {
+      margin-top: 35px;
+      border-top: 1px solid #292932;
+      padding-top: 20px;
+    }
+
+    .sources h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+    }
+
+    .source {
+      display: block;
+      text-decoration: none;
+      color: #aaaab5;
+      border: 1px solid #25252d;
+      background: #111116;
+      border-radius: 11px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .source:hover {
+      border-color: #41414b;
+      color: white;
+    }
+
+    .source-number {
+      color: white;
+      font-weight: 800;
+      margin-right: 6px;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      color: #92929d;
+      margin: 15px 0;
+    }
+
+    .loader {
+      width: 17px;
+      height: 17px;
+      border: 2px solid #44444d;
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error {
+      display: none;
+      margin-top: 15px;
+      padding: 13px;
+      border: 1px solid #542d35;
+      background: #25171b;
+      color: #ffb9c1;
+      border-radius: 11px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 760px) {
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        box-shadow: 20px 0 60px rgba(0,0,0,0.45);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .topbar {
+        height: 56px;
+        padding: 0 12px;
+      }
+
+      .home {
+        padding: 25px 13px 125px;
+        justify-content: center;
+      }
+
+      .hero-logo {
+        width: 55px;
+        height: 55px;
+        border-radius: 17px;
+        font-size: 20px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 13px;
+      }
+
+      .composer {
+        border-radius: 16px;
+      }
+
+      .quick-modes {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 3px;
+      }
+
+      .quick {
+        flex-shrink: 0;
+      }
+
+      .suggestions {
+        grid-template-columns: 1fr;
+      }
+
+      .results {
+        padding: 22px 13px 130px;
+      }
+
+      .mode {
+        font-size: 12px;
+        padding: 7px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-<header>
-  <div class="logo">
-    <div class="logoMark">X</div>
-    <span>ARC-X</span>
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
 
-  <div class="status">
-    <div class="dot"></div>
-    AI ONLINE
-  </div>
-</header>
-
-<section class="hero">
-  <div class="badge">⚡ NEXT-GENERATION AI ENGINE</div>
-
-  <h1>Ask ARC-X</h1>
-
-  <p>
-    Search the live web, research information and create intelligent answers
-    through one futuristic AI workspace.
-  </p>
-</section>
-
-<div class="modes">
-
-  <button class="mode active" onclick="selectMode(this)">
-    🔎 Search
-  </button>
-
-  <button class="mode" onclick="selectMode(this)">
-    ✨ Create
-  </button>
-
-  <button class="mode" onclick="selectMode(this)">
-    🎨 Design
-  </button>
-
-  <button class="mode" onclick="selectMode(this)">
-    💻 Code
-  </button>
-
-  <button class="mode" onclick="selectMode(this)">
-    🧠 Research
-  </button>
-
-</div>
-
-<section class="searchBox">
-
-  <textarea
-    id="question"
-    placeholder="Ask anything... Search the web or start an idea."
-  ></textarea>
-
-  <div class="searchBottom">
-    <div class="hint">
-      ARC-X • Live Web Search • AI Research
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div class="brand-name">ARC-X</div>
     </div>
 
-    <button class="searchBtn" onclick="searchARCX()">
-      Search ARC-X →
-    </button>
-  </div>
-
-</section>
-
-<section class="quick">
-
-  <div class="quickTitle">QUICK START</div>
-
-  <div class="quickGrid">
-
-    <button onclick="ask('Explain artificial intelligence simply')">
-      Explain something
+    <button class="new-chat" onclick="newChat()">
+      ＋ New chat
     </button>
 
-    <button onclick="ask('What are the latest AI trends?')">
-      Latest AI
-    </button>
+    <div class="sidebar-label">Recent</div>
 
-    <button onclick="ask('What are the latest technology trends?')">
-      Tech trends
-    </button>
-
-    <button onclick="ask('Search the latest news about space exploration')">
-      News
-    </button>
-
-  </div>
-
-</section>
-
-<div id="loading">
-  <div class="spinner"></div>
-  ARC-X is researching the web...
-</div>
-
-<div id="error" class="error"></div>
-
-<section id="result" class="result">
-
-  <div class="resultHeader">
-    <span>ARC-X ANSWER</span>
-    <span>✦</span>
-  </div>
-
-  <div id="answer" class="answer"></div>
-
-  <div class="sources">
-
-    <h3>🌐 Sources</h3>
-
-    <div id="sourcesList"></div>
-
-  </div>
-
-</section>
-
-<section class="future">
-
-  <h2>ARC-X Intelligence Workspace</h2>
-
-  <p>
-    Your AI workspace is being expanded with creative, design, coding,
-    research and multimodal capabilities.
-  </p>
-
-  <div class="futureGrid">
-
-    <div class="futureCard">
-      <b>🎨 Design Studio</b>
-      <span>AI graphics, posters, thumbnails and creative designs.</span>
+    <div class="history" id="history">
+      <div style="padding:10px;color:#666673;font-size:13px;">
+        Your conversations will appear here.
+      </div>
     </div>
 
-    <div class="futureCard">
-      <b>💻 Code Engine</b>
-      <span>Build, edit, debug and understand software.</span>
+    <div class="sidebar-bottom">
+      <button class="side-option">⚙ Settings</button>
+      <button class="side-option">◎ ARC-X Intelligence</button>
     </div>
 
-    <div class="futureCard">
-      <b>🧠 Deep Research</b>
-      <span>Multi-source research with citations and verification.</span>
-    </div>
+  </aside>
 
-  </div>
+  <!-- MAIN -->
+  <main class="main">
 
-</section>
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="mobile-brand">ARC-X</div>
+
+      <div class="mode-area">
+        <select class="mode" id="mode">
+          <option value="auto">ARC Auto</option>
+          <option value="search">Web Search</option>
+          <option value="think">Deep Think</option>
+          <option value="create">Create</option>
+          <option value="code">Code</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- HOME -->
+    <section class="home" id="home">
+
+      <div class="hero">
+        <div class="hero-logo">A</div>
+        <h1>What can I help you with?</h1>
+        <p>
+          ARC-X — Search, Think, Create and Research.
+        </p>
+      </div>
+
+      <div class="composer-wrap">
+
+        <div class="composer">
+
+          <textarea
+            id="question"
+            placeholder="Ask anything..."
+            rows="1"
+          ></textarea>
+
+          <div class="composer-bottom">
+
+            <button class="tool-btn" onclick="showComingSoon()">
+              ＋
+            </button>
+
+            <button class="tool-btn" onclick="showComingSoon()">
+              📎 Attach
+            </button>
+
+            <button class="tool-btn" onclick="setMode('search')">
+              🌐 Search
+            </button>
+
+            <button
+              class="send"
+              id="sendBtn"
+              onclick="askARCX()"
+            >
+              ↑
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="quick-modes">
+
+          <button class="quick" onclick="setPrompt('Search the web and explain the latest AI developments')">
+            🌐 Search
+          </button>
+
+          <button class="quick" onclick="setPrompt('Think deeply about this problem and give me a well-reasoned answer')">
+            🧠 Think
+          </button>
+
+          <button class="quick" onclick="setPrompt('Create a professional design concept for ')">
+            🎨 Create
+          </button>
+
+          <button class="quick" onclick="setPrompt('Help me write and debug this code: ')">
+            💻 Code
+          </button>
+
+        </div>
+
+        <div class="suggestions">
+
+          <button
+            class="suggestion"
+            onclick="setPrompt('Research a topic and give me a detailed report with sources')"
+          >
+            <strong>🔎 Deep Research</strong>
+            Research a topic and create a sourced report.
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="setPrompt('Help me build a modern website from scratch')"
+          >
+            <strong>💻 Build something</strong>
+            Plan and build a modern website.
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="setPrompt('Explain a difficult concept to me simply')"
+          >
+            <strong>📚 Learn</strong>
+            Understand something difficult step by step.
+          </button>
+
+          <button
+            class="suggestion"
+            onclick="setPrompt('Create a professional graphic design concept for ')"
+          >
+            <strong>🎨 Design</strong>
+            Create a professional visual concept.
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results" id="results">
+
+      <div class="result-inner">
+
+        <div class="question-bubble" id="questionDisplay"></div>
+
+        <div class="loading" id="loading">
+          <div class="loader"></div>
+          <span>ARC-X is thinking and researching...</span>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="answer-card" id="answer"></div>
+
+        <div class="sources" id="sources">
+          <h3>Sources</h3>
+          <div id="sourceList"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
 
 </div>
 
 <script>
 
-function selectMode(button){
+  const questionInput = document.getElementById("question");
+  const sendBtn = document.getElementById("sendBtn");
+  const home = document.getElementById("home");
+  const results = document.getElementById("results");
+  const answer = document.getElementById("answer");
+  const loading = document.getElementById("loading");
+  const errorBox = document.getElementById("error");
+  const sourcesBox = document.getElementById("sources");
+  const sourceList = document.getElementById("sourceList");
+  const questionDisplay = document.getElementById("questionDisplay");
 
-  document.querySelectorAll(".mode").forEach(function(b){
-    b.classList.remove("active");
+  let conversations = [];
+
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+  }
+
+  function setMode(mode) {
+    document.getElementById("mode").value = mode;
+  }
+
+  function setPrompt(text) {
+    questionInput.value = text;
+    questionInput.focus();
+    autoResize();
+  }
+
+  function showComingSoon() {
+    alert("ARC-X attachment and multimodal tools are coming in the next upgrade.");
+  }
+
+  function newChat() {
+    home.style.display = "flex";
+    results.style.display = "none";
+
+    questionInput.value = "";
+    answer.textContent = "";
+    errorBox.style.display = "none";
+    sourcesBox.style.display = "none";
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    questionInput.focus();
+  }
+
+  function autoResize() {
+    questionInput.style.height = "auto";
+    questionInput.style.height =
+      Math.min(questionInput.scrollHeight, 190) + "px";
+  }
+
+  questionInput.addEventListener("input", autoResize);
+
+  questionInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      askARCX();
+    }
   });
 
-  button.classList.add("active");
-
-  const mode = button.innerText.trim();
-
-  if(mode.includes("Design")){
-    document.getElementById("question").placeholder =
-      "Describe the graphic you want ARC-X to design...";
+  function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 
-  else if(mode.includes("Code")){
-    document.getElementById("question").placeholder =
-      "Describe the application, website or code you want to build...";
+  function renderAnswer(text) {
+    let html = escapeHTML(text);
+
+    html = html.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
+
+    html = html.replace(
+      /^### (.*)$/gm,
+      "<h3>$1</h3>"
+    );
+
+    html = html.replace(
+      /^## (.*)$/gm,
+      "<h2>$1</h2>"
+    );
+
+    html = html.replace(
+      /^# (.*)$/gm,
+      "<h1>$1</h1>"
+    );
+
+    return html;
   }
 
-  else if(mode.includes("Create")){
-    document.getElementById("question").placeholder =
-      "What do you want ARC-X to create?";
-  }
+  function addHistory(question) {
 
-  else if(mode.includes("Research")){
-    document.getElementById("question").placeholder =
-      "What should ARC-X research deeply?";
-  }
+    conversations.unshift(question);
 
-  else{
-    document.getElementById("question").placeholder =
-      "Ask anything... Search the web or start an idea.";
-  }
-}
+    const history = document.getElementById("history");
 
-function ask(text){
-  document.getElementById("question").value = text;
-  searchARCX();
-}
+    history.innerHTML = "";
 
-async function searchARCX(){
+    conversations.slice(0, 15).forEach(function(item) {
 
-  const question =
-    document.getElementById("question").value.trim();
+      const button = document.createElement("button");
 
-  const loading =
-    document.getElementById("loading");
+      button.className = "history-item";
+      button.textContent = item;
 
-  const result =
-    document.getElementById("result");
+      button.onclick = function() {
+        setPrompt(item);
+      };
 
-  const error =
-    document.getElementById("error");
-
-  const answer =
-    document.getElementById("answer");
-
-  const sourcesList =
-    document.getElementById("sourcesList");
-
-  if(!question){
-    error.style.display = "block";
-    error.textContent = "Please enter a question.";
-    return;
-  }
-
-  error.style.display = "none";
-  result.style.display = "none";
-  loading.style.display = "block";
-
-  try{
-
-    const response = await fetch("/api/search",{
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-        question:question
-      })
+      history.appendChild(button);
 
     });
+  }
 
-    const data = await response.json();
+  async function askARCX() {
 
-    loading.style.display = "none";
+    const question = questionInput.value.trim();
 
-    if(!response.ok){
-
-      throw new Error(
-        data.details ||
-        data.error ||
-        "ARC-X request failed."
-      );
-
+    if (!question) {
+      questionInput.focus();
+      return;
     }
 
-    answer.textContent =
-      data.answer || "No answer generated.";
+    home.style.display = "none";
+    results.style.display = "block";
 
-    sourcesList.innerHTML = "";
+    questionDisplay.textContent = question;
 
-    (data.sources || []).forEach(function(source){
+    answer.innerHTML = "";
+    errorBox.style.display = "none";
+    sourcesBox.style.display = "none";
+    loading.style.display = "flex";
 
-      const link =
-        document.createElement("a");
+    sendBtn.disabled = true;
 
-      link.className = "source";
+    addHistory(question);
 
-      link.href = source.url;
+    try {
 
-      link.target = "_blank";
+      const response = await fetch("/api/search", {
 
-      link.rel = "noopener noreferrer";
+        method: "POST",
 
-      link.textContent =
-        "[" + source.id + "] " +
-        (source.title || source.url);
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-      sourcesList.appendChild(link);
+        body: JSON.stringify({
+          question: question,
+          mode: document.getElementById("mode").value
+        })
 
-    });
+      });
 
-    result.style.display = "block";
+      const data = await response.json();
 
-    result.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+      if (!response.ok) {
+        throw new Error(
+          data.details
+            ? `${data.error}\n\n${data.details}`
+            : (data.error || "ARC-X request failed.")
+        );
+      }
 
-  }
+      loading.style.display = "none";
 
-  catch(err){
+      answer.innerHTML = renderAnswer(
+        data.answer || "ARC-X could not generate an answer."
+      );
 
-    loading.style.display = "none";
+      if (data.sources && data.sources.length) {
 
-    error.style.display = "block";
+        sourcesBox.style.display = "block";
+        sourceList.innerHTML = "";
 
-    error.textContent =
-      "ARC-X Error: " + err.message;
+        data.sources.forEach(function(source) {
 
-  }
+          const link = document.createElement("a");
 
-}
+          link.className = "source";
+          link.href = source.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
 
-document.getElementById("question")
-.addEventListener("keydown",function(event){
+          link.innerHTML =
+            `<span class="source-number">[${source.id}]</span>` +
+            escapeHTML(source.title || source.url);
 
-  if(event.key === "Enter" && !event.shiftKey){
+          sourceList.appendChild(link);
 
-    event.preventDefault();
+        });
 
-    searchARCX();
+      }
 
-  }
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
 
-});
-
-</script>
-
-</body>
-  </html>
+    } catch (er
