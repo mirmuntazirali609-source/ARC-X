@@ -13,11 +13,6 @@ const PORT = process.env.PORT || 10000;
 const GROQ_KEY = process.env.GROQ_API_KEY;
 const TAVILY_KEY = process.env.TAVILY_API_KEY;
 
-
-/* =====================================================
-   ARC-X MEMORY ENGINE
-===================================================== */
-
 const conversations = new Map();
 
 const MAX_MESSAGES = 30;
@@ -64,8 +59,6 @@ function createConversation(firstQuestion = "") {
 
   conversations.set(id, conversation);
 
-  /* Keep server memory controlled */
-
   if (conversations.size > MAX_CONVERSATIONS) {
     const oldest = [...conversations.values()]
       .sort((a, b) => a.updatedAt - b.updatedAt)[0];
@@ -98,18 +91,13 @@ function saveMessage(conversationId, role, content) {
 
   conversation.updatedAt = Date.now();
 
-  /* First user message becomes title */
+  const userMessages = conversation.messages.filter(
+    message => message.role === "user"
+  );
 
-  if (
-    role === "user" &&
-    conversation.messages.filter(
-      message => message.role === "user"
-    ).length === 1
-  ) {
+  if (role === "user" && userMessages.length === 1) {
     conversation.title = createTitle(content);
   }
-
-  /* Keep memory controlled */
 
   if (conversation.messages.length > MAX_MESSAGES) {
     conversation.messages.splice(
@@ -125,21 +113,19 @@ function saveMessage(conversationId, role, content) {
 ===================================================== */
 
 app.get("/", (req, res) => {
-  res.sendFile(
-    __dirname + "/public/index.html"
-  );
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 
 /* =====================================================
-   HEALTH
+   HEALTH CHECK
 ===================================================== */
 
 app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
     name: "ARC-X",
-    phase: "2C-2 - Advanced Memory",
+    phase: "2C - Advanced AI Search",
     groqConfigured: !!GROQ_KEY,
     tavilyConfigured: !!TAVILY_KEY,
     activeConversations: conversations.size
@@ -154,8 +140,7 @@ app.get("/api/health", (req, res) => {
 app.post("/api/conversation", (req, res) => {
   const conversationId = createConversation();
 
-  const conversation =
-    conversations.get(conversationId);
+  const conversation = conversations.get(conversationId);
 
   res.json({
     ok: true,
@@ -171,9 +156,7 @@ app.post("/api/conversation", (req, res) => {
 
 app.get("/api/conversations", (req, res) => {
   const list = [...conversations.values()]
-    .sort(
-      (a, b) => b.updatedAt - a.updatedAt
-    )
+    .sort((a, b) => b.updatedAt - a.updatedAt)
     .map(conversation => ({
       id: conversation.id,
       title: conversation.title,
@@ -190,15 +173,15 @@ app.get("/api/conversations", (req, res) => {
 
 
 /* =====================================================
-   GET ONE CONVERSATION
+   GET CONVERSATION
 ===================================================== */
 
 app.get("/api/conversation/:id", (req, res) => {
-  const conversation =
-    conversations.get(req.params.id);
+  const conversation = conversations.get(req.params.id);
 
   if (!conversation) {
     return res.status(404).json({
+      ok: false,
       error: "Conversation not found."
     });
   }
@@ -215,8 +198,7 @@ app.get("/api/conversation/:id", (req, res) => {
 ===================================================== */
 
 app.delete("/api/conversation/:id", (req, res) => {
-  const deleted =
-    conversations.delete(req.params.id);
+  const deleted = conversations.delete(req.params.id);
 
   res.json({
     ok: deleted,
@@ -228,22 +210,15 @@ app.delete("/api/conversation/:id", (req, res) => {
 
 
 /* =====================================================
-   MODEL ROUTER
+   MODEL / MODE ROUTER
 ===================================================== */
 
 function chooseMode(question, requestedMode) {
-  const q = question.toLowerCase();
+  const q = String(question || "").toLowerCase();
 
-  /* Manual mode */
-
-  if (
-    requestedMode &&
-    requestedMode !== "auto"
-  ) {
+  if (requestedMode && requestedMode !== "auto") {
     return requestedMode;
   }
-
-  /* Web search */
 
   const webWords = [
     "latest",
@@ -258,16 +233,13 @@ function chooseMode(question, requestedMode) {
     "what happened",
     "search",
     "look up",
-    "internet"
+    "internet",
+    "online"
   ];
 
-  if (
-    webWords.some(word => q.includes(word))
-  ) {
+  if (webWords.some(word => q.includes(word))) {
     return "search";
   }
-
-  /* Research */
 
   const researchWords = [
     "research",
@@ -281,13 +253,9 @@ function chooseMode(question, requestedMode) {
     "comprehensive"
   ];
 
-  if (
-    researchWords.some(word => q.includes(word))
-  ) {
+  if (researchWords.some(word => q.includes(word))) {
     return "research";
   }
-
-  /* Coding */
 
   const codeWords = [
     "code",
@@ -304,16 +272,15 @@ function chooseMode(question, requestedMode) {
     "error",
     "api",
     "function",
-    "github"
+    "github",
+    "server",
+    "website",
+    "app"
   ];
 
-  if (
-    codeWords.some(word => q.includes(word))
-  ) {
+  if (codeWords.some(word => q.includes(word))) {
     return "code";
   }
-
-  /* Creative */
 
   const createWords = [
     "write a story",
@@ -330,13 +297,9 @@ function chooseMode(question, requestedMode) {
     "advertisement"
   ];
 
-  if (
-    createWords.some(word => q.includes(word))
-  ) {
+  if (createWords.some(word => q.includes(word))) {
     return "create";
   }
-
-  /* Reasoning */
 
   const thinkWords = [
     "solve",
@@ -354,9 +317,7 @@ function chooseMode(question, requestedMode) {
     "step by step"
   ];
 
-  if (
-    thinkWords.some(word => q.includes(word))
-  ) {
+  if (thinkWords.some(word => q.includes(word))) {
     return "think";
   }
 
@@ -368,13 +329,10 @@ function chooseMode(question, requestedMode) {
    TAVILY WEB SEARCH
 ===================================================== */
 
-async function webSearch(
-  question,
-  deepResearch = false
-) {
+async function webSearch(question, deepResearch = false) {
   if (!TAVILY_KEY) {
     throw new Error(
-      "TAVILY_API_KEY is not configured."
+      "TAVILY_API_KEY is not configured on the server."
     );
   }
 
@@ -391,17 +349,15 @@ async function webSearch(
       body: JSON.stringify({
         query: question,
 
-        search_depth:
-          deepResearch
-            ? "advanced"
-            : "basic",
+        search_depth: deepResearch
+          ? "advanced"
+          : "basic",
 
         topic: "general",
 
-        max_results:
-          deepResearch
-            ? 10
-            : 6,
+        max_results: deepResearch
+          ? 10
+          : 6,
 
         include_answer: false,
 
@@ -411,40 +367,35 @@ async function webSearch(
   );
 
   if (!response.ok) {
-    const errorText =
-      await response.text();
+    const errorText = await response.text();
 
-    console.error(
-      "Tavily error:",
-      errorText
-    );
+    console.error("Tavily error:", errorText);
 
     throw new Error(
-      "ARC-X web research failed."
+      "ARC-X web search failed."
     );
   }
 
-  const data =
-    await response.json();
+  const data = await response.json();
 
-  return (data.results || []).map(
-    (item, index) => ({
-      id: index + 1,
+  return (data.results || []).map((item, index) => ({
+    id: index + 1,
 
-      title:
-        item.title ||
-        "Untitled source",
+    title:
+      item.title ||
+      "Untitled source",
 
-      url:
-        item.url || "",
+    url:
+      item.url ||
+      "",
 
-      content:
-        item.content || "",
+    content:
+      item.content ||
+      "",
 
-      score:
-        item.score || 0
-    })
-  );
+    score:
+      Number(item.score) || 0
+  }));
 }
 
 
@@ -460,14 +411,13 @@ async function askGroq(
 ) {
   if (!GROQ_KEY) {
     throw new Error(
-      "GROQ_API_KEY is not configured."
+      "GROQ_API_KEY is not configured on the server."
     );
   }
 
-  const sourceText =
-    sources.length > 0
-      ? sources
-          .map(source => `
+  const sourceText = sources.length > 0
+    ? sources
+        .map(source => `
 [SOURCE ${source.id}]
 
 Title:
@@ -479,18 +429,20 @@ ${source.url}
 Content:
 ${source.content}
 `)
-          .join("\n")
-      : "No web sources were required.";
+        .join("\n")
+    : "No live web sources were required.";
 
-  const memoryMessages =
-    memory
-      .slice(-14)
-      .map(message => ({
-        role: message.role,
-        content: message.content
-      }));
+
+  const memoryMessages = memory
+    .slice(-14)
+    .map(message => ({
+      role: message.role,
+      content: message.content
+    }));
+
 
   let modeInstruction = "";
+
 
   if (mode === "fast") {
     modeInstruction = `
@@ -499,20 +451,25 @@ Do not unnecessarily over-explain.
 `;
   }
 
+
   if (mode === "think") {
     modeInstruction = `
 Use careful reasoning.
 Check calculations and assumptions.
 Give useful step-by-step explanations.
+Do not reveal private chain-of-thought.
 `;
   }
+
 
   if (mode === "search") {
     modeInstruction = `
 Use the supplied live web sources.
 Cite factual claims using [1], [2], [3], etc.
+Do not invent citations.
 `;
   }
+
 
   if (mode === "research") {
     modeInstruction = `
@@ -520,17 +477,20 @@ Perform a research-style synthesis.
 Compare sources where useful.
 Organize the answer clearly.
 Cite factual claims using [1], [2], [3], etc.
+Do not invent citations.
 `;
   }
+
 
   if (mode === "code") {
     modeInstruction = `
 Act as an expert programming assistant.
-Provide practical code.
+Provide practical and complete code when requested.
 Explain important implementation details.
 Look for bugs and edge cases.
 `;
   }
+
 
   if (mode === "create") {
     modeInstruction = `
@@ -539,10 +499,6 @@ Produce polished, original and practical work.
 `;
   }
 
-
-  /* ===================================================
-     ARC-X SYSTEM PROMPT
-  =================================================== */
 
   const systemPrompt = `
 You are ARC-X.
@@ -556,21 +512,11 @@ FOUNDER
 
 ARC-X was founded by Muntazir Ali.
 
-Public founder information:
-
-Name:
-Muntazir Ali
-
-Location:
-Budgam, Kashmir, India
-
-If asked who founded ARC-X,
-answer:
+If asked who founded ARC-X, answer:
 
 "Muntazir Ali is the founder of ARC-X."
 
-If asked where the founder is from,
-answer:
+If asked where the founder is from, answer:
 
 "Muntazir Ali is from Budgam, Kashmir, India."
 
@@ -782,10 +728,6 @@ supported by ARC-X's actual capabilities.
   ];
 
 
-  /* ===================================================
-     GROQ REQUEST
-  =================================================== */
-
   const response = await fetch(
     "https://api.groq.com/openai/v1/chat/completions",
     {
@@ -822,8 +764,7 @@ supported by ARC-X's actual capabilities.
 
 
   if (!response.ok) {
-    const errorText =
-      await response.text();
+    const errorText = await response.text();
 
     console.error(
       "Groq error:",
@@ -836,12 +777,11 @@ supported by ARC-X's actual capabilities.
   }
 
 
-  const data =
-    await response.json();
+  const data = await response.json();
+
 
   const answer =
-    data.choices?.[0]
-      ?.message?.content;
+    data.choices?.[0]?.message?.content;
 
 
   if (!answer) {
@@ -864,225 +804,255 @@ supported by ARC-X's actual capabilities.
    MAIN ARC-X SEARCH API
 ===================================================== */
 
-app.post(
-  "/api/search",
-  async (req, res) => {
+app.post("/api/search", async (req, res) => {
 
-    try {
+  try {
 
-      console.log(
-        "ARC-X /api/search request received"
-      );
+    console.log(
+      "ARC-X /api/search request received"
+    );
 
 
-      /* ==========================================
-         QUESTION
-      ========================================== */
+    const question =
+      String(req.body.question || "").trim();
 
-      const question =
-        String(
-          req.body.question || ""
-        ).trim();
 
+    const requestedMode =
+      String(req.body.mode || "auto")
+        .toLowerCase();
 
-      const requestedMode =
-        String(
-          req.body.mode || "auto"
-        ).toLowerCase();
 
-
-      if (!question) {
-
-        return res.status(400).json({
-          ok: false,
-          error:
-            "Please enter a question."
-        });
-
-      }
-
-
-      /* ==========================================
-         API KEY CHECK
-      ========================================== */
-
-      if (!GROQ_KEY) {
-
-        return res.status(500).json({
-          ok: false,
-          error:
-            "GROQ_API_KEY is not configured on the server."
-        });
-
-      }
-
-
-      /* ==========================================
-         MODE
-      ========================================== */
-
-      const mode =
-        chooseMode(
-          question,
-          requestedMode
-        );
-
-
-      console.log(
-        "ARC-X selected mode:",
-        mode
-      );
-
-
-      /* ==========================================
-         CONVERSATION
-      ========================================== */
-
-      let conversationId =
-        String(
-          req.body.conversationId || ""
-        ).trim();
-
-
-      let conversation;
-
-
-      if (
-        conversationId &&
-        conversations.has(conversationId)
-      ) {
-
-        conversation =
-          conversations.get(
-            conversationId
-          );
-
-      } else {
-
-        conversationId =
-          createConversation(
-            question
-          );
-
-        conversation =
-          conversations.get(
-            conversationId
-          );
-
-      }
-
-
-      /* ==========================================
-         MEMORY BEFORE NEW MESSAGE
-      ========================================== */
-
-      const memory =
-        conversation.messages.slice(-14);
-
-
-      /* ==========================================
-         SAVE USER MESSAGE
-      ========================================== */
-
-      saveMessage(
-        conversationId,
-        "user",
-        question
-      );
-
-
-      /* ==========================================
-         WEB SEARCH
-      ========================================== */
-
-      let sources = [];
-
-      const needsWeb =
-        mode === "search" ||
-        mode === "research";
-
-
-      if (needsWeb) {
-
-        console.log(
-          "ARC-X starting Tavily search..."
-        );
-
-        sources =
-          await webSearch(
-            question,
-            mode === "research"
-          );
-
-        console.log(
-          "ARC-X sources:",
-          sources.length
-        );
-
-      }
-
-
-      /* ==========================================
-         AI
-      ========================================== */
-
-      console.log(
-        "ARC-X starting Groq..."
-      );
-
-
-      const answer =
-        await askGroq(
-          question,
-          mode,
-          sources,
-          memory
-        );
-
-
-      /* ==========================================
-         SAVE ASSISTANT MESSAGE
-      ========================================== */
-
-      saveMessage(
-        conversationId,
-        "assistant",
-        answer
-      );
-
-
-      /* ==========================================
-         RESPONSE
-      ========================================== */
-
-      return res.json({
-
-        ok: true,
-
-        conversationId,
-
-        title:
-          conversation.title,
-
-        mode,
-
-        answer,
-
-        sources:
-          sources.map(source => ({
-            id: source.id,
-            title: source.title,
-            url: source.url,
-            score: source.score
-          })),
-
-        memoryMessages:
-          conversation.messages.length
-
+    if (!question) {
+      return res.status(400).json({
+        ok: false,
+        error: "Please enter a question."
       });
+    }
 
 
-    } catch (error) {
+    if (!GROQ_KEY) {
+      return res.status(500).json({
+        ok: false,
+        error:
+          "GROQ_API_KEY is not configured on the server."
+      });
+    }
 
-      console.error(
- 
+
+    const mode =
+      chooseMode(
+        question,
+        requestedMode
+      );
+
+
+    console.log(
+      "ARC-X selected mode:",
+      mode
+    );
+
+
+    let conversationId =
+      String(
+        req.body.conversationId || ""
+      ).trim();
+
+
+    let conversation;
+
+
+    if (
+      conversationId &&
+      conversations.has(conversationId)
+    ) {
+
+      conversation =
+        conversations.get(
+          conversationId
+        );
+
+    } else {
+
+      conversationId =
+        createConversation(question);
+
+      conversation =
+        conversations.get(
+          conversationId
+        );
+    }
+
+
+    const memory =
+      conversation.messages.slice(-14);
+
+
+    saveMessage(
+      conversationId,
+      "user",
+      question
+    );
+
+
+    let sources = [];
+
+
+    const needsWeb =
+      mode === "search" ||
+      mode === "research";
+
+
+    if (needsWeb) {
+
+      console.log(
+        "ARC-X starting Tavily search..."
+      );
+
+      sources =
+        await webSearch(
+          question,
+          mode === "research"
+        );
+
+      console.log(
+        "ARC-X sources:",
+        sources.length
+      );
+    }
+
+
+    console.log(
+      "ARC-X starting Groq..."
+    );
+
+
+    const answer =
+      await askGroq(
+        question,
+        mode,
+        sources,
+        memory
+      );
+
+
+    saveMessage(
+      conversationId,
+      "assistant",
+      answer
+    );
+
+
+    return res.json({
+
+      ok: true,
+
+      conversationId,
+
+      title:
+        conversation.title,
+
+      mode,
+
+      answer,
+
+      sources:
+        sources.map(source => ({
+          id: source.id,
+          title: source.title,
+          url: source.url,
+          score: source.score
+        })),
+
+      memoryMessages:
+        conversation.messages.length
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "ARC-X API error:",
+      error
+    );
+
+
+    return res.status(500).json({
+
+      ok: false,
+
+      error:
+        error.message ||
+        "ARC-X encountered an unexpected error."
+    });
+  }
+});
+
+
+/* =====================================================
+   404 API HANDLER
+===================================================== */
+
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    ok: false,
+    error: "ARC-X API endpoint not found."
+  });
+});
+
+
+/* =====================================================
+   GENERAL ERROR HANDLER
+===================================================== */
+
+app.use((error, req, res, next) => {
+  console.error(
+    "ARC-X server error:",
+    error
+  );
+
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  res.status(500).json({
+    ok: false,
+    error:
+      "ARC-X server encountered an unexpected error."
+  });
+});
+
+
+/* =====================================================
+   START SERVER
+===================================================== */
+
+app.listen(PORT, "0.0.0.0", () => {
+
+  console.log(
+    "========================================"
+  );
+
+  console.log(
+    "        ARC-X SERVER ONLINE"
+  );
+
+  console.log(
+    "========================================"
+  );
+
+  console.log(
+    `Port: ${PORT}`
+  );
+
+  console.log(
+    `Groq configured: ${!!GROQ_KEY}`
+  );
+
+  console.log(
+    `Tavily configured: ${!!TAVILY_KEY}`
+  );
+
+  console.log(
+    "========================================"
+  );
+});
