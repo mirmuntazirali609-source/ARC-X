@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>ARC-X — AI Search</title>
 
   <style>
@@ -52,8 +51,6 @@
     button {
       cursor: pointer;
     }
-
-    /* APP */
 
     .app {
       display: flex;
@@ -141,7 +138,8 @@
       cursor: pointer;
     }
 
-    .history-item:hover {
+    .history-item:hover,
+    .history-item.active {
       background: var(--card2);
       color: var(--text);
     }
@@ -263,7 +261,7 @@
       background: var(--card);
       border-radius: 18px;
       padding: 13px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.15);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
     }
 
     textarea {
@@ -400,14 +398,12 @@
     .assistant-content {
       line-height: 1.7;
       font-size: 15px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .assistant-content strong {
       font-weight: 800;
-    }
-
-    .assistant-content p {
-      margin-bottom: 12px;
     }
 
     .sources {
@@ -461,6 +457,13 @@
       display: flex;
       gap: 5px;
       padding: 8px 0;
+      align-items: center;
+    }
+
+    .loading-text {
+      color: var(--muted);
+      font-size: 13px;
+      margin-left: 7px;
     }
 
     .dot {
@@ -493,6 +496,12 @@
       line-height: 1.6;
     }
 
+    .empty-history {
+      color: var(--muted);
+      font-size: 12px;
+      padding: 5px;
+    }
+
     /* MOBILE */
 
     .menu-button {
@@ -500,7 +509,6 @@
     }
 
     @media (max-width: 760px) {
-
       body {
         overflow: hidden;
       }
@@ -512,7 +520,7 @@
         top: 0;
         bottom: 0;
         transition: left .2s ease;
-        box-shadow: 10px 0 40px rgba(0,0,0,.3);
+        box-shadow: 10px 0 40px rgba(0, 0, 0, .3);
       }
 
       .sidebar.open {
@@ -583,17 +591,104 @@
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <!-- SIDEBAR -->
+  <!-- SIDEBAR -->
 
-    <aside class="sidebar" id="sidebar">
+  <aside class="sidebar" id="sidebar">
 
-      <div class="brand">
+    <div class="brand">
+
+      <svg class="logo" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4da3ff"/>
+            <stop offset="100%" stop-color="#7c5cff"/>
+          </linearGradient>
+        </defs>
+
+        <circle
+          cx="50"
+          cy="50"
+          r="39"
+          fill="none"
+          stroke="url(#g1)"
+          stroke-width="4"
+        />
+
+        <path
+          d="M25 25 L75 75 M75 25 L25 75"
+          stroke="url(#g1)"
+          stroke-width="10"
+          stroke-linecap="round"
+        />
+
+        <circle
+          cx="78"
+          cy="22"
+          r="4"
+          fill="#ffffff"
+        />
+      </svg>
+
+      <div>
+        <div class="brand-name">ARC-X</div>
+        <div class="brand-sub">AI SEARCH • RESEARCH</div>
+      </div>
+
+    </div>
+
+    <button
+      class="new-chat"
+      id="newChat"
+      type="button"
+    >
+      ＋ New Chat
+    </button>
+
+    <div class="side-title">
+      Recent
+    </div>
+
+    <div
+      class="history"
+      id="history"
+    ></div>
+
+    <div class="sidebar-bottom">
+
+      <button
+        class="side-button"
+        id="themeButton"
+        type="button"
+      >
+        ◐ Toggle theme
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        type="button"
+      >
+        ☰
+      </button>
+
+      <div class="mobile-brand">
 
         <svg class="logo" viewBox="0 0 100 100">
           <defs>
-            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#4da3ff"/>
               <stop offset="100%" stop-color="#7c5cff"/>
             </linearGradient>
@@ -604,170 +699,246 @@
             cy="50"
             r="39"
             fill="none"
-            stroke="url(#g1)"
+            stroke="url(#g2)"
             stroke-width="4"
-            opacity=".8"
           />
 
           <path
             d="M25 25 L75 75 M75 25 L25 75"
-            stroke="url(#g1)"
+            stroke="url(#g2)"
             stroke-width="10"
             stroke-linecap="round"
           />
-
-          <circle
-            cx="78"
-            cy="22"
-            r="4"
-            fill="#ffffff"
-          />
         </svg>
 
-        <div>
-          <div class="brand-name">ARC-X</div>
-          <div class="brand-sub">AI SEARCH • RESEARCH</div>
-        </div>
+        ARC-X
 
       </div>
 
-      <button class="new-chat" id="newChat">
-        ＋ New Chat
-      </button>
-
-      <div class="side-title">
-        Recent
+      <div
+        class="mode-label"
+        id="topMode"
+      >
+        Auto mode
       </div>
 
-      <div class="history" id="history"></div>
-
-      <div class="sidebar-bottom">
-        <button class="side-button" id="themeButton">
-          ◐ Toggle theme
-        </button>
-      </div>
-
-    </aside>
-
-
-    <!-- MAIN -->
-
-    <main class="main">
-
-      <header class="topbar">
+      <div class="top-actions">
 
         <button
-          class="menu-button"
-          id="menuButton"
+          class="icon-button"
+          id="topTheme"
           type="button"
+          title="Toggle theme"
         >
-          ☰
+          ◐
         </button>
 
-        <div class="mobile-brand">
+      </div>
 
-          <svg class="logo" viewBox="0 0 100 100">
-            <defs>
-              <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#4da3ff"/>
-                <stop offset="100%" stop-color="#7c5cff"/>
-              </linearGradient>
-            </defs>
+    </header>
 
-            <circle
-              cx="50"
-              cy="50"
-              r="39"
-              fill="none"
-              stroke="url(#g2)"
-              stroke-width="4"
-            />
 
-            <path
-              d="M25 25 L75 75 M75 25 L25 75"
-              stroke="url(#g2)"
-              stroke-width="10"
-              stroke-linecap="round"
-            />
-          </svg>
+    <!-- HOME -->
 
-          ARC-X
+    <section
+      class="home"
+      id="home"
+    >
 
-        </div>
+      <svg
+        class="hero-logo"
+        viewBox="0 0 100 100"
+      >
 
-        <div class="mode-label" id="topMode">
-          Auto mode
-        </div>
-
-        <div class="top-actions">
-          <button
-            class="icon-button"
-            id="topTheme"
-            type="button"
-            title="Toggle theme"
+        <defs>
+          <linearGradient
+            id="heroGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
           >
-            ◐
-          </button>
+            <stop offset="0%" stop-color="#4da3ff"/>
+            <stop offset="100%" stop-color="#7c5cff"/>
+          </linearGradient>
+        </defs>
+
+        <circle
+          cx="50"
+          cy="50"
+          r="39"
+          fill="none"
+          stroke="url(#heroGradient)"
+          stroke-width="4"
+        />
+
+        <path
+          d="M25 25 L75 75 M75 25 L25 75"
+          stroke="url(#heroGradient)"
+          stroke-width="10"
+          stroke-linecap="round"
+        />
+
+        <circle
+          cx="78"
+          cy="22"
+          r="4"
+          fill="white"
+        />
+
+      </svg>
+
+      <h1 class="hero-title">
+        What can ARC-X do for you?
+      </h1>
+
+      <p class="hero-text">
+        Search the web, research complex topics, explain ideas,
+        write content, analyze information and code — all in one place.
+      </p>
+
+
+      <div class="composer-wrap">
+
+        <div class="composer">
+
+          <textarea
+            id="homeInput"
+            placeholder="Ask ARC-X anything..."
+            rows="2"
+          ></textarea>
+
+          <div class="composer-bottom">
+
+            <div class="modes">
+
+              <button
+                class="mode active"
+                data-mode="auto"
+                type="button"
+              >
+                Auto
+              </button>
+
+              <button
+                class="mode"
+                data-mode="search"
+                type="button"
+              >
+                Search
+              </button>
+
+              <button
+                class="mode"
+                data-mode="think"
+                type="button"
+              >
+                Think
+              </button>
+
+              <button
+                class="mode"
+                data-mode="research"
+                type="button"
+              >
+                Research
+              </button>
+
+              <button
+                class="mode"
+                data-mode="code"
+                type="button"
+              >
+                Code
+              </button>
+
+              <button
+                class="mode"
+                data-mode="create"
+                type="button"
+              >
+                Create
+              </button>
+
+            </div>
+
+            <button
+              class="send"
+              id="homeSend"
+              type="button"
+              title="Send"
+            >
+              ↑
+            </button>
+
+          </div>
+
         </div>
 
-      </header>
+      </div>
 
 
-      <!-- HOME -->
+      <div class="suggestions">
 
-      <section class="home" id="home">
+        <button
+          class="suggestion"
+          type="button"
+          data-question="Explain artificial intelligence in simple words"
+        >
+          ✦ Explain something
+        </button>
 
-        <svg class="hero-logo" viewBox="0 0 100 100">
+        <button
+          class="suggestion"
+          type="button"
+          data-question="What are the latest AI trends?"
+        >
+          ◉ Latest AI trends
+        </button>
 
-          <defs>
-            <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4da3ff"/>
-              <stop offset="100%" stop-color="#7c5cff"/>
-            </linearGradient>
-          </defs>
+        <button
+          class="suggestion"
+          type="button"
+          data-question="Search the web for the latest technology news"
+        >
+          ◎ Search the web
+        </button>
 
-          <circle
-            cx="50"
-            cy="50"
-            r="39"
-            fill="none"
-            stroke="url(#heroGradient)"
-            stroke-width="4"
-          />
+        <button
+          class="suggestion"
+          type="button"
+          data-question="Help me write a professional article"
+        >
+          ✎ Create content
+        </button>
 
-          <path
-            d="M25 25 L75 75 M75 25 L25 75"
-            stroke="url(#heroGradient)"
-            stroke-width="10"
-            stroke-linecap="round"
-          />
+      </div>
 
-          <circle
-            cx="78"
-            cy="22"
-            r="4"
-            fill="white"
-          />
-
-        </svg>
-
-        <h1 class="hero-title">
-          What can ARC-X do for you?
-        </h1>
-
-        <p class="hero-text">
-          Search the web, research complex topics, explain ideas,
-          write content, analyze information and code — all in one place.
-        </p>
+    </section>
 
 
-        <div class="composer-wrap">
+    <!-- CHAT -->
+
+    <section
+      class="chat"
+      id="chat"
+    >
+
+      <div
+        class="messages"
+        id="messages"
+      ></div>
+
+
+      <div class="chat-composer">
+
+        <div class="chat-composer-inner">
 
           <div class="composer">
 
             <textarea
-              id="homeInput"
-              placeholder="Ask ARC-X anything..."
+              id="chatInput"
+              placeholder="Ask ARC-X a follow-up..."
               rows="2"
             ></textarea>
 
@@ -827,9 +998,8 @@
 
               <button
                 class="send"
-                id="homeSend"
+                id="chatSend"
                 type="button"
-                title="Send"
               >
                 ↑
               </button>
@@ -840,186 +1010,78 @@
 
         </div>
 
+      </div>
 
-        <div class="suggestions">
+    </section>
 
-          <button
-            class="suggestion"
-            type="button"
-            data-question="Explain artificial intelligence in simple words"
-          >
-            ✦ Explain something
-          </button>
+  </main>
 
-          <button
-            class="suggestion"
-            type="button"
-            data-question="What are the latest AI trends?"
-          >
-            ◉ Latest AI trends
-          </button>
-
-          <button
-            class="suggestion"
-            type="button"
-            data-question="Search the web for the latest technology news"
-          >
-            ◎ Search the web
-          </button>
-
-          <button
-            class="suggestion"
-            type="button"
-            data-question="Help me write a professional article"
-          >
-            ✎ Create content
-          </button>
-
-        </div>
-
-      </section>
+</div>
 
 
-      <!-- CHAT -->
+<script>
 
-      <section class="chat" id="chat">
+  /* =====================================================
+     ARC-X FRONTEND ENGINE
+  ===================================================== */
 
-        <div class="messages" id="messages"></div>
-
-
-        <div class="chat-composer">
-
-          <div class="chat-composer-inner">
-
-            <div class="composer">
-
-              <textarea
-                id="chatInput"
-                placeholder="Ask ARC-X a follow-up..."
-                rows="2"
-              ></textarea>
-
-              <div class="composer-bottom">
-
-                <div class="modes">
-
-                  <button
-                    class="mode active"
-                    data-mode="auto"
-                    type="button"
-                  >
-                    Auto
-                  </button>
-
-                  <button
-                    class="mode"
-                    data-mode="search"
-                    type="button"
-                  >
-                    Search
-                  </button>
-
-                  <button
-                    class="mode"
-                    data-mode="think"
-                    type="button"
-                  >
-                    Think
-                  </button>
-
-                  <button
-                    class="mode"
-                    data-mode="research"
-                    type="button"
-                  >
-                    Research
-                  </button>
-
-                  <button
-                    class="mode"
-                    data-mode="code"
-                    type="button"
-                  >
-                    Code
-                  </button>
-
-                </div>
-
-                <button
-                  class="send"
-                  id="chatSend"
-                  type="button"
-                >
-                  ↑
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-  </div>
+  let selectedMode = "auto";
+  let conversationId = null;
+  let isSending = false;
 
 
-  <script>
+  /* =====================================================
+     ELEMENTS
+  ===================================================== */
 
-    /* =========================================
-       ARC-X FRONTEND
-       ========================================= */
+  const home = document.getElementById("home");
+  const chat = document.getElementById("chat");
 
-    let selectedMode = "auto";
-    let conversationId = null;
-    let isSending = false;
+  const homeInput =
+    document.getElementById("homeInput");
 
-    const home = document.getElementById("home");
-    const chat = document.getElementById("chat");
+  const chatInput =
+    document.getElementById("chatInput");
 
-    const homeInput = document.getElementById("homeInput");
-    const chatInput = document.getElementById("chatInput");
+  const homeSend =
+    document.getElementById("homeSend");
 
-    const homeSend = document.getElementById("homeSend");
-    const chatSend = document.getElementById("chatSend");
+  const chatSend =
+    document.getElementById("chatSend");
 
-    const messages = document.getElementById("messages");
-    const history = document.getElementById("history");
+  const messages =
+    document.getElementById("messages");
 
-    const newChat = document.getElementById("newChat");
-    const themeButton = document.getElementById("themeButton");
-    const topTheme = document.getElementById("topTheme");
+  const history =
+    document.getElementById("history");
 
-    const menuButton = document.getElementById("menuButton");
-    const sidebar = document.getElementById("sidebar");
+  const newChat =
+    document.getElementById("newChat");
 
-    const topMode = document.getElementById("topMode");
+  const themeButton =
+    document.getElementById("themeButton");
+
+  const topTheme =
+    document.getElementById("topTheme");
+
+  const menuButton =
+    document.getElementById("menuButton");
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const topMode =
+    document.getElementById("topMode");
 
 
-    /* =========================================
-       MODE
-       ========================================= */
+  /* =====================================================
+     MODE
+  ===================================================== */
 
-    function setMode(mode) {
+  function setMode(mode) {
 
-      selectedMode = mode;
+    selectedMode = mode;
 
-      document
-        .querySelectorAll(".mode")
-        .forEach(function(button) {
-
-          if (button.dataset.mode === mode) {
-            button.classList.add("active");
-          } else {
-            button.classList.remove("active");
-          }
-
-        });
-
-      topMode.textContent =
-        mode.charAt(0).toUpperCase() +
- 
+    document
+      .querySelectorAll(".mode")
+      
