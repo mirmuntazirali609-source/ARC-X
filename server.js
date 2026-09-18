@@ -1184,9 +1184,175 @@ app.post(
             conversationId
           );
 
-      } else {
+             } else {
 
         conversationId =
           createConversation(
             question
+          );
+
+        conversation =
+          conversations.get(
+            conversationId
+          );
+
+      }
+
+      /* ==========================================
+         ROUTER
+      ========================================== */
+
+      const selectedMode =
+        chooseMode(
+          question,
+          requestedMode
+        );
+
+      console.log(
+        `ARC-X Router: ${requestedMode} → ${selectedMode}`
+      );
+
+      /* ==========================================
+         MEMORY BEFORE CURRENT MESSAGE
+      ========================================== */
+
+      const memory =
+        conversation.messages;
+
+      /* ==========================================
+         WEB SEARCH
+      ========================================== */
+
+      let sources = [];
+
+      const needsWeb =
+        selectedMode === "search" ||
+        selectedMode === "research";
+
+      if (needsWeb) {
+
+        if (!TAVILY_KEY) {
+
+          return res.status(500).json({
+            error:
+              "TAVILY_API_KEY is not configured."
+          });
+
+        }
+
+        sources =
+          await webSearch(
+            question,
+            selectedMode === "research"
+          );
+
+      }
+
+      /* ==========================================
+         AI
+      ========================================== */
+
+      const answer =
+        await askGroq(
+          question,
+          selectedMode,
+          sources,
+          memory
+        );
+
+      /* ==========================================
+         SAVE MEMORY
+      ========================================== */
+
+      saveMessage(
+        conversationId,
+        "user",
+        question
+      );
+
+      saveMessage(
+        conversationId,
+        "assistant",
+        answer
+      );
+
+      /* ==========================================
+         RESPONSE
+      ========================================== */
+
+      res.json({
+
+        ok: true,
+
+        answer,
+
+        mode:
+          selectedMode,
+
+        conversationId,
+
+        title:
+          conversation.title,
+
+        memoryMessages:
+          conversation.messages.length,
+
+        sources:
+          sources.map(
+            source => ({
+
+              id:
+                source.id,
+
+              title:
+                source.title,
+
+              url:
+                source.url
+
+            })
+          )
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "ARC-X server error:",
+        error
+      );
+
+      res.status(500).json({
+
+        error:
+          "Something went wrong inside ARC-X.",
+
+        details:
+          error.message
+
+      });
+
+    }
+
+  }
+);
+
+/* =====================================================
+   START SERVER
+===================================================== */
+
+app.listen(
+  PORT,
+  "0.0.0.0",
+  () => {
+
+    console.log(
+      `ARC-X running on port ${PORT}`
+    );
+
+  }
+);
+
+      
+            
   
