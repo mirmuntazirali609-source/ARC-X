@@ -26,18 +26,13 @@
       overflow: hidden;
     }
 
-    button,
-    textarea {
+    button, textarea, select {
       font: inherit;
     }
 
     button {
       cursor: pointer;
     }
-
-    /* =========================
-       APP
-    ========================= */
 
     .app {
       width: 100%;
@@ -47,9 +42,7 @@
       overflow: hidden;
     }
 
-    /* =========================
-       SIDEBAR
-    ========================= */
+    /* SIDEBAR */
 
     .sidebar {
       width: 270px;
@@ -70,15 +63,19 @@
       padding: 8px 8px 18px;
     }
 
+    .brand-mark,
+    .hero-logo {
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ffffff, #777783);
+      color: #08080b;
+      font-weight: 950;
+    }
+
     .brand-mark {
       width: 36px;
       height: 36px;
       border-radius: 11px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #ffffff, #8d8d99);
-      color: #09090c;
-      font-weight: 900;
       font-size: 17px;
     }
 
@@ -156,9 +153,7 @@
       color: white;
     }
 
-    /* =========================
-       MAIN
-    ========================= */
+    /* MAIN */
 
     .main {
       flex: 1;
@@ -210,9 +205,7 @@
       outline: none;
     }
 
-    /* =========================
-       HOME
-    ========================= */
+    /* HOME */
 
     .home {
       flex: 1;
@@ -235,11 +228,6 @@
       height: 62px;
       margin: 0 auto 20px;
       border-radius: 19px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #ffffff, #777783);
-      color: #08080b;
-      font-weight: 950;
       font-size: 23px;
       box-shadow: 0 15px 50px rgba(255,255,255,0.08);
     }
@@ -257,9 +245,7 @@
       font-size: 15px;
     }
 
-    /* =========================
-       COMPOSER
-    ========================= */
+    /* COMPOSER */
 
     .composer-wrap {
       width: min(820px, 100%);
@@ -336,9 +322,7 @@
       cursor: not-allowed;
     }
 
-    /* =========================
-       QUICK MODES
-    ========================= */
+    /* QUICK MODES */
 
     .quick-modes {
       width: min(820px, 100%);
@@ -364,9 +348,7 @@
       background: #1b1b22;
     }
 
-    /* =========================
-       SUGGESTIONS
-    ========================= */
+    /* SUGGESTIONS */
 
     .suggestions {
       width: min(820px, 100%);
@@ -397,9 +379,7 @@
       border-color: #383842;
     }
 
-    /* =========================
-       RESULTS
-    ========================= */
+    /* RESULTS */
 
     .results {
       display: none;
@@ -423,11 +403,21 @@
       color: #e9e9ee;
     }
 
+    .mode-badge {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid #303039;
+      color: #aaaab5;
+      font-size: 11px;
+      background: #111116;
+    }
+
     .answer-card {
       line-height: 1.7;
       color: #e3e3e8;
       font-size: 15.5px;
-      white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
 
@@ -436,6 +426,12 @@
     .answer-card h3 {
       color: white;
     }
+
+    .answer-card p {
+      margin: 0 0 15px;
+    }
+
+    /* SOURCES */
 
     .sources {
       margin-top: 35px;
@@ -470,9 +466,7 @@
       margin-right: 6px;
     }
 
-    /* =========================
-       LOADING
-    ========================= */
+    /* LOADING */
 
     .loading {
       display: none;
@@ -497,6 +491,8 @@
       }
     }
 
+    /* ERROR */
+
     .error {
       display: none;
       margin-top: 15px;
@@ -509,9 +505,7 @@
       overflow-wrap: anywhere;
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    /* MOBILE */
 
     @media (max-width: 760px) {
 
@@ -583,6 +577,10 @@
         font-size: 12px;
         padding: 7px;
       }
+
+      .tool-btn {
+        padding: 8px;
+      }
     }
   </style>
 </head>
@@ -591,7 +589,6 @@
 
 <div class="app">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
@@ -603,48 +600,107 @@
       ＋ New chat
     </button>
 
-    <div class="sidebar-label">Recent</div>
+    <div class="sidebar-label">
+      Recent
+    </div>
 
     <div class="history" id="history">
-      <div style="padding:10px;color:#666673;font-size:13px;">
+
+      <div id="emptyHistory"
+        style="padding:10px;color:#666673;font-size:13px;">
         Your conversations will appear here.
       </div>
+
     </div>
 
     <div class="sidebar-bottom">
-      <button class="side-option">⚙ Settings</button>
-      <button class="side-option">◎ ARC-X Intelligence</button>
+
+      <button
+        class="side-option"
+        onclick="showComingSoon()">
+        ⚙ Settings
+      </button>
+
+      <button
+        class="side-option"
+        onclick="showMemoryStatus()">
+        🧠 ARC-X Memory
+      </button>
+
     </div>
 
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
 
     <header class="topbar">
-      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-      <div class="mobile-brand">ARC-X</div>
+
+      <button
+        class="menu-btn"
+        onclick="toggleSidebar()">
+        ☰
+      </button>
+
+      <div class="mobile-brand">
+        ARC-X
+      </div>
 
       <div class="mode-area">
-        <select class="mode" id="mode">
-          <option value="auto">ARC Auto</option>
-          <option value="search">Web Search</option>
-          <option value="think">Deep Think</option>
-          <option value="create">Create</option>
-          <option value="code">Code</option>
+
+        <select
+          class="mode"
+          id="mode">
+
+          <option value="auto">
+            ARC Auto
+          </option>
+
+          <option value="search">
+            Web Search
+          </option>
+
+          <option value="think">
+            Deep Think
+          </option>
+
+          <option value="research">
+            Deep Research
+          </option>
+
+          <option value="create">
+            Create
+          </option>
+
+          <option value="code">
+            Code
+          </option>
+
         </select>
+
       </div>
+
     </header>
 
     <!-- HOME -->
-    <section class="home" id="home">
+
+    <section
+      class="home"
+      id="home">
 
       <div class="hero">
-        <div class="hero-logo">A</div>
-        <h1>What can I help you with?</h1>
+
+        <div class="hero-logo">
+          A
+        </div>
+
+        <h1>
+          What can I help you with?
+        </h1>
+
         <p>
           ARC-X — Search, Think, Create and Research.
         </p>
+
       </div>
 
       <div class="composer-wrap">
@@ -654,28 +710,32 @@
           <textarea
             id="question"
             placeholder="Ask anything..."
-            rows="1"
-          ></textarea>
+            rows="1"></textarea>
 
           <div class="composer-bottom">
 
-            <button class="tool-btn" onclick="showComingSoon()">
+            <button
+              class="tool-btn"
+              onclick="showComingSoon()">
               ＋
             </button>
 
-            <button class="tool-btn" onclick="showComingSoon()">
+            <button
+              class="tool-btn"
+              onclick="showComingSoon()">
               📎 Attach
             </button>
 
-            <button class="tool-btn" onclick="setMode('search')">
+            <button
+              class="tool-btn"
+              onclick="setMode('search')">
               🌐 Search
             </button>
 
             <button
               class="send"
               id="sendBtn"
-              onclick="askARCX()"
-            >
+              onclick="askARCX()">
               ↑
             </button>
 
@@ -685,19 +745,27 @@
 
         <div class="quick-modes">
 
-          <button class="quick" onclick="setPrompt('Search the web and explain the latest AI developments')">
+          <button
+            class="quick"
+            onclick="setPrompt('Search the web and explain the latest AI developments')">
             🌐 Search
           </button>
 
-          <button class="quick" onclick="setPrompt('Think deeply about this problem and give me a well-reasoned answer')">
+          <button
+            class="quick"
+            onclick="setPrompt('Think deeply about this problem and give me a well-reasoned answer')">
             🧠 Think
           </button>
 
-          <button class="quick" onclick="setPrompt('Create a professional design concept for ')">
+          <button
+            class="quick"
+            onclick="setPrompt('Create a professional design concept for ')">
             🎨 Create
           </button>
 
-          <button class="quick" onclick="setPrompt('Help me write and debug this code: ')">
+          <button
+            class="quick"
+            onclick="setPrompt('Help me write and debug this code: ')">
             💻 Code
           </button>
 
@@ -707,34 +775,50 @@
 
           <button
             class="suggestion"
-            onclick="setPrompt('Research a topic and give me a detailed report with sources')"
-          >
-            <strong>🔎 Deep Research</strong>
+            onclick="setPrompt('Research a topic and give me a detailed report with sources')">
+
+            <strong>
+              🔎 Deep Research
+            </strong>
+
             Research a topic and create a sourced report.
+
           </button>
 
           <button
             class="suggestion"
-            onclick="setPrompt('Help me build a modern website from scratch')"
-          >
-            <strong>💻 Build something</strong>
+            onclick="setPrompt('Help me build a modern website from scratch')">
+
+            <strong>
+              💻 Build something
+            </strong>
+
             Plan and build a modern website.
+
           </button>
 
           <button
             class="suggestion"
-            onclick="setPrompt('Explain a difficult concept to me simply')"
-          >
-            <strong>📚 Learn</strong>
+            onclick="setPrompt('Explain a difficult concept to me simply')">
+
+            <strong>
+              📚 Learn
+            </strong>
+
             Understand something difficult step by step.
+
           </button>
 
           <button
             class="suggestion"
-            onclick="setPrompt('Create a professional graphic design concept for ')"
-          >
-            <strong>🎨 Design</strong>
+            onclick="setPrompt('Create a professional graphic design concept for ')">
+
+            <strong>
+              🎨 Design
+            </strong>
+
             Create a professional visual concept.
+
           </button>
 
         </div>
@@ -744,24 +828,55 @@
     </section>
 
     <!-- RESULTS -->
-    <section class="results" id="results">
+
+    <section
+      class="results"
+      id="results">
 
       <div class="result-inner">
 
-        <div class="question-bubble" id="questionDisplay"></div>
-
-        <div class="loading" id="loading">
-          <div class="loader"></div>
-          <span>ARC-X is thinking and researching...</span>
+        <div
+          class="question-bubble"
+          id="questionDisplay">
         </div>
 
-        <div class="error" id="error"></div>
+        <div
+          class="mode-badge"
+          id="modeBadge">
+        </div>
 
-        <div class="answer-card" id="answer"></div>
+        <div
+          class="loading"
+          id="loading">
 
-        <div class="sources" id="sources">
-          <h3>Sources</h3>
+          <div class="loader"></div>
+
+          <span>
+            ARC-X is thinking and researching...
+          </span>
+
+        </div>
+
+        <div
+          class="error"
+          id="error">
+        </div>
+
+        <div
+          class="answer-card"
+          id="answer">
+        </div>
+
+        <div
+          class="sources"
+          id="sources">
+
+          <h3>
+            Sources
+          </h3>
+
           <div id="sourceList"></div>
+
         </div>
 
       </div>
@@ -774,205 +889,247 @@
 
 <script>
 
-  const questionInput = document.getElementById("question");
-  const sendBtn = document.getElementById("sendBtn");
-  const home = document.getElementById("home");
-  const results = document.getElementById("results");
-  const answer = document.getElementById("answer");
-  const loading = document.getElementById("loading");
-  const errorBox = document.getElementById("error");
-  const sourcesBox = document.getElementById("sources");
-  const sourceList = document.getElementById("sourceList");
-  const questionDisplay = document.getElementById("questionDisplay");
+  /* =========================
+     ARC-X STATE
+  ========================= */
 
-  let conversations = [];
+  const questionInput =
+    document.getElementById("question");
+
+  const sendBtn =
+    document.getElementById("sendBtn");
+
+  const home =
+    document.getElementById("home");
+
+  const results =
+    document.getElementById("results");
+
+  const answer =
+    document.getElementById("answer");
+
+  const loading =
+    document.getElementById("loading");
+
+  const errorBox =
+    document.getElementById("error");
+
+  const sourcesBox =
+    document.getElementById("sources");
+
+  const sourceList =
+    document.getElementById("sourceList");
+
+  const questionDisplay =
+    document.getElementById("questionDisplay");
+
+  const modeBadge =
+    document.getElementById("modeBadge");
+
+  let conversationId =
+    localStorage.getItem("arcx_conversation_id") || null;
+
+  let conversations =
+    JSON.parse(
+      localStorage.getItem(
+        "arcx_history"
+      ) || "[]"
+    );
+
+  /* =========================
+     SIDEBAR
+  ========================= */
 
   function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("open");
+
+    document
+      .getElementById("sidebar")
+      .classList.toggle("open");
+
   }
+
+  /* =========================
+     MODE
+  ========================= */
 
   function setMode(mode) {
-    document.getElementById("mode").value = mode;
+
+    document
+      .getElementById("mode")
+      .value = mode;
+
   }
+
+  /* =========================
+     PROMPTS
+  ========================= */
 
   function setPrompt(text) {
+
     questionInput.value = text;
+
     questionInput.focus();
+
     autoResize();
+
   }
+
+  /* =========================
+     COMING SOON
+  ========================= */
 
   function showComingSoon() {
-    alert("ARC-X attachment and multimodal tools are coming in the next upgrade.");
+
+    alert(
+      "ARC-X advanced attachments and multimodal tools are coming in the next upgrade."
+    );
+
   }
 
-  function newChat() {
+  /* =========================
+     MEMORY STATUS
+  ========================= */
+
+  function showMemoryStatus() {
+
+    if (conversationId) {
+
+      alert(
+        "🧠 ARC-X Memory is active for this conversation."
+      );
+
+    } else {
+
+      alert(
+        "🧠 ARC-X will create memory when you start a conversation."
+      );
+
+    }
+
+  }
+
+  /* =========================
+     NEW CHAT
+  ========================= */
+
+  async function newChat() {
+
+    conversationId = null;
+
+    localStorage.removeItem(
+      "arcx_conversation_id"
+    );
+
     home.style.display = "flex";
+
     results.style.display = "none";
 
     questionInput.value = "";
-    answer.textContent = "";
-    errorBox.style.display = "none";
-    sourcesBox.style.display = "none";
-
-    document.getElementById("sidebar").classList.remove("open");
-
-    questionInput.focus();
-  }
-
-  function autoResize() {
-    questionInput.style.height = "auto";
-    questionInput.style.height =
-      Math.min(questionInput.scrollHeight, 190) + "px";
-  }
-
-  questionInput.addEventListener("input", autoResize);
-
-  questionInput.addEventListener("keydown", function(event) {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      askARCX();
-    }
-  });
-
-  function escapeHTML(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function renderAnswer(text) {
-    let html = escapeHTML(text);
-
-    html = html.replace(
-      /\*\*(.*?)\*\*/g,
-      "<strong>$1</strong>"
-    );
-
-    html = html.replace(
-      /^### (.*)$/gm,
-      "<h3>$1</h3>"
-    );
-
-    html = html.replace(
-      /^## (.*)$/gm,
-      "<h2>$1</h2>"
-    );
-
-    html = html.replace(
-      /^# (.*)$/gm,
-      "<h1>$1</h1>"
-    );
-
-    return html;
-  }
-
-  function addHistory(question) {
-
-    conversations.unshift(question);
-
-    const history = document.getElementById("history");
-
-    history.innerHTML = "";
-
-    conversations.slice(0, 15).forEach(function(item) {
-
-      const button = document.createElement("button");
-
-      button.className = "history-item";
-      button.textContent = item;
-
-      button.onclick = function() {
-        setPrompt(item);
-      };
-
-      history.appendChild(button);
-
-    });
-  }
-
-  async function askARCX() {
-
-    const question = questionInput.value.trim();
-
-    if (!question) {
-      questionInput.focus();
-      return;
-    }
-
-    home.style.display = "none";
-    results.style.display = "block";
-
-    questionDisplay.textContent = question;
 
     answer.innerHTML = "";
+
     errorBox.style.display = "none";
+
     sourcesBox.style.display = "none";
-    loading.style.display = "flex";
 
-    sendBtn.disabled = true;
+    modeBadge.textContent = "";
 
-    addHistory(question);
+    document
+      .getElementById("sidebar")
+      .classList.remove("open");
 
-    try {
+    questionInput.focus();
 
-      const response = await fetch("/api/search", {
+  }
 
-        method: "POST",
+  /* =========================
+     RESIZE
+  ========================= */
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+  function autoResize() {
 
-        body: JSON.stringify({
-          question: question,
-          mode: document.getElementById("mode").value
-        })
+    questionInput.style.height =
+      "auto";
 
-      });
+    questionInput.style.height =
+      Math.min(
+        questionInput.scrollHeight,
+        190
+      ) + "px";
 
-      const data = await response.json();
+  }
 
-      if (!response.ok) {
-        throw new Error(
-          data.details
-            ? `${data.error}\n\n${data.details}`
-            : (data.error || "ARC-X request failed.")
-        );
+  questionInput.addEventListener(
+    "input",
+    autoResize
+  );
+
+  /* =========================
+     ENTER TO SEND
+  ========================= */
+
+  questionInput.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
+
+        event.preventDefault();
+
+        askARCX();
+
       }
 
-      loading.style.display = "none";
+    }
+  );
 
-      answer.innerHTML = renderAnswer(
-        data.answer || "ARC-X could not generate an answer."
+  /* =========================
+     SAFE HTML
+  ========================= */
+
+  function escapeHTML(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+  }
+
+  /* =========================
+     ANSWER RENDERER
+  ========================= */
+
+  function renderAnswer(text) {
+
+    let html =
+      escapeHTML(text);
+
+    html =
+      html.replace(
+        /^### (.*)$/gm,
+        "<h3>$1</h3>"
       );
 
-      if (data.sources && data.sources.length) {
+    html =
+      html.replace(
+        /^## (.*)$/gm,
+        "<h2>$1</h2>"
+      );
 
-        sourcesBox.style.display = "block";
-        sourceList.innerHTML = "";
+    html =
+      html.replace(
+        /^# (.*)$/gm,
+        "<h1>$1</h1>"
+      );
 
-        data.sources.forEach(function(source) {
-
-          const link = document.createElement("a");
-
-          link.className = "source";
-          link.href = source.url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-
-          link.innerHTML =
-            `<span class="source-number">[${source.id}]</span>` +
-            escapeHTML(source.title || source.url);
-
-          sourceList.appendChild(link);
-
-        });
-
-      }
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    } catch (er
+    html =
+      html.replace(
+        /\*\*(.*?)\*\*/g,
+        "<strong>$1</strong>"
+ 
