@@ -1,1054 +1,1231 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0b0f">
-  <title>ARC-X — AI Search</title>  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0b0b0f;
-      --sidebar: #111116;
-      --card: #17171e;
-      --card2: #1d1d25;
-      --border: #2a2a35;
-      --text: #f5f5f7;
-      --muted: #9999a6;
-      --accent: #7c5cff;
-      --accent2: #4da3ff;
-      --danger: #ff6b6b;
-    }
-
-    body.light {
-      --bg: #f7f7f9;
-      --sidebar: #ffffff;
-      --card: #ffffff;
-      --card2: #f0f0f4;
-      --border: #dedee6;
-      --text: #16161b;
-      --muted: #666672;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      overflow: hidden;
-    }
-
-    button,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-    }
-
-    .app {
-      display: flex;
-      height: 100vh;
-      width: 100%;
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================= */
-
-    .sidebar {
-      width: 270px;
-      background: var(--sidebar);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 18px;
-      flex-shrink: 0;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      margin-bottom: 24px;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      flex-shrink: 0;
-    }
-
-    .brand-name {
-      font-size: 21px;
-      font-weight: 800;
-      letter-spacing: .5px;
-    }
-
-    .brand-sub {
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 2px;
-      letter-spacing: 1px;
-    }
-
-    .new-chat {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 12px;
-      font-weight: 700;
-      text-align: left;
-      margin-bottom: 18px;
-    }
-
-    .new-chat:hover {
-      background: var(--card2);
-    }
-
-    .side-title {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      margin: 6px 4px 10px;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-    }
-
-    .history {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .history-item {
-      padding: 10px 11px;
-      border-radius: 9px;
-      margin-bottom: 4px;
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
-
-    .history-item:hover,
-    .history-item.active {
-      background: var(--card2);
-      color: var(--text);
-    }
-
-    .empty-history {
-      color: var(--muted);
-      font-size: 12px;
-      padding: 5px;
-    }
-
-    .sidebar-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
-      margin-top: 10px;
-    }
-
-    .side-button {
-      width: 100%;
-      background: transparent;
-      border: 0;
-      color: var(--muted);
-      text-align: left;
-      padding: 10px 5px;
-      border-radius: 8px;
-    }
-
-    .side-button:hover {
-      color: var(--text);
-      background: var(--card2);
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    .main {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .topbar {
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .mobile-brand {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      font-weight: 800;
-    }
-
-    .mobile-brand .logo {
-      width: 32px;
-      height: 32px;
-    }
-
-    .mode-label {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .icon-button,
-    .menu-button {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      border-radius: 9px;
-      width: 38px;
-      height: 38px;
-    }
-
-    .menu-button {
-      display: none;
-    }
-
-    /* =========================
-       HOME
-    ========================= */
-
-    .home {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 65px 20px 120px;
-    }
-
-    .hero-logo {
-      width: 78px;
-      height: 78px;
-      margin-bottom: 20px;
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 5vw, 50px);
-      font-weight: 800;
-      text-align: center;
-      letter-spacing: -1.5px;
-    }
-
-    .hero-text {
-      color: var(--muted);
-      text-align: center;
-      margin-top: 12px;
-      max-width: 620px;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-
-    /* =========================
-       COMPOSER
-    ========================= */
-
-    .composer-wrap {
-      width: min(820px, 100%);
-      margin-top: 32px;
-    }
-
-    .composer {
-      border: 1px solid var(--border);
-      background: var(--card);
-      border-radius: 18px;
-      padding: 13px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 72px;
-      max-height: 180px;
-      resize: none;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--text);
-      padding: 7px;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-
-    textarea::placeholder {
-      color: var(--muted);
-    }
-
-    .composer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 5px;
-    }
-
-    .modes {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .mode {
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      border-radius: 8px;
-      padding: 7px 10px;
-      font-size: 12px;
-    }
-
-    .mode:hover {
-      color: var(--text);
-      background: var(--card2);
-    }
-
-    .mode.active {
-      color: white;
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .send {
-      border: 0;
-      background: var(--text);
-      color: var(--bg);
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      font-size: 18px;
-      flex-shrink: 0;
-      font-weight: 800;
-    }
-
-    .send:hover {
-      opacity: .85;
-    }
-
-    .send:disabled {
-      opacity: .45;
-    }
-
-    /* =========================
-       SUGGESTIONS
-    ========================= */
-
-    .suggestions {
-      width: min(820px, 100%);
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .suggestion {
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 14px;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    .suggestion:hover {
-      background: var(--card2);
-    }
-
-    /* =========================
-       CHAT
-    ========================= */
-
-    .chat {
-      flex: 1;
-      display: none;
-      flex-direction: column;
-      min-height: 0;
-    }
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 30px 20px 150px;
-    }
-
-    .message {
-      width: min(820px, 100%);
-      margin: 0 auto 26px;
-    }
-
-    .message.user {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .user-bubble {
-      max-width: 75%;
-      background: var(--card2);
-      border: 1px solid var(--border);
-      padding: 12px 15px;
-      border-radius: 15px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-
-    .assistant-content {
-      line-height: 1.7;
-      font-size: 15px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-
-    .sources {
-      margin-top: 18px;
-      border-top: 1px solid var(--border);
-      padding-top: 13px;
-    }
-
-    .sources-title {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .source {
-      display: block;
-      color: var(--accent2);
-      font-size: 12px;
-      text-decoration: none;
-      padding: 6px 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .source:hover {
-      text-decoration: underline;
-    }
-
-    .chat-composer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 15px 20px 20px;
-      background: linear-gradient(
-        transparent,
-        var(--bg) 25%
-      );
-    }
-
-    .chat-composer-inner {
-      width: min(820px, 100%);
-      margin: auto;
-    }
-
-    /* =========================
-       LOADING / ERROR
-    ========================= */
-
-    .loading {
-      display: flex;
-      gap: 5px;
-      padding: 8px 0;
-      align-items: center;
-    }
-
-    .loading-text {
-      color: var(--muted);
-      font-size: 13px;
-      margin-left: 7px;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--muted);
-      animation: pulse 1s infinite alternate;
-    }
-
-    .dot:nth-child(2) {
-      animation-delay: .2s;
-    }
-
-    .dot:nth-child(3) {
-      animation-delay: .4s;
-    }
-
-    @keyframes pulse {
-      from {
-        opacity: .25;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    .error {
-      color: var(--danger);
-      line-height: 1.6;
-    }
-
-    .status {
-      margin-top: 12px;
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 760px) {
-      body {
-        overflow: hidden;
-      }
-
-      .sidebar {
-        position: fixed;
-        z-index: 20;
-        left: -290px;
-        top: 0;
-        bottom: 0;
-        transition: left .2s ease;
-        box-shadow: 10px 0 40px rgba(0, 0, 0, .3);
-      }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .menu-button {
-        display: block;
-      }
-
-      .mobile-brand {
-        display: flex;
-      }
-
-      .topbar {
-        padding: 0 12px;
-      }
-
-      .mode-label {
-        display: none;
-      }
-
-      .home {
-        padding-top: 45px;
-      }
-
-      .hero-logo {
-        width: 65px;
-        height: 65px;
-      }
-
-      .suggestions {
-        grid-template-columns: 1fr;
-      }
-
-      .composer-bottom {
-        align-items: flex-end;
-      }
-
-      .modes {
-        max-width: calc(100% - 50px);
-      }
-
-      .mode {
-        padding: 6px 8px;
-      }
-
-      .user-bubble {
-        max-width: 88%;
-      }
-
-      .chat-composer {
-        padding: 10px;
-      }
-
-      .messages {
-        padding: 20px 12px 150px;
-      }
-    }
-  </style></head><body><div class="app">  <!-- SIDEBAR -->  <aside class="sidebar" id="sidebar"><div class="brand">
-
-  <svg class="logo" viewBox="0 0 100 100" aria-label="ARC-X logo">
-    <defs>
-      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#4da3ff"/>
-        <stop offset="100%" stop-color="#7c5cff"/>
-      </linearGradient>
-    </defs>
-
-    <circle
-      cx="50"
-      cy="50"
-      r="39"
-      fill="none"
-      stroke="url(#g1)"
-      stroke-width="4"
-    />
-
-    <path
-      d="M25 25 L75 75 M75 25 L25 75"
-      stroke="url(#g1)"
-      stroke-width="10"
-      stroke-linecap="round"
-    />
-
-    <circle
-      cx="78"
-      cy="22"
-      r="4"
-      fill="#ffffff"
-    />
-  </svg>
-
-  <div>
-    <div class="brand-name">ARC-X</div>
-    <div class="brand-sub">AI SEARCH • RESEARCH</div>
-  </div>
-
-</div>
-
-<button class="new-chat" id="newChat" type="button">
-  ＋ New Chat
-</button>
-
-<div class="side-title">
-  Recent
-</div>
-
-<div class="history" id="history"></div>
-
-<div class="sidebar-bottom">
-
-  <button class="side-button" id="themeButton" type="button">
-    ◐ Toggle theme
-  </button>
-
-</div>
-
-  </aside>  <!-- MAIN -->  <main class="main"><header class="topbar">
-
-  <button
-    class="menu-button"
-    id="menuButton"
-    type="button"
-    aria-label="Open menu"
-  >
-    ☰
-  </button>
-
-  <div class="mobile-brand">
-
-    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
-      <defs>
-        <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#4da3ff"/>
-          <stop offset="100%" stop-color="#7c5cff"/>
-        </linearGradient>
-      </defs>
-
-      <circle
-        cx="50"
-        cy="50"
-        r="39"
-        fill="none"
-        stroke="url(#g2)"
-        stroke-width="4"
-      />
-
-      <path
-        d="M25 25 L75 75 M75 25 L25 75"
-        stroke="url(#g2)"
-        stroke-width="10"
-        stroke-linecap="round"
-      />
-    </svg>
-
-    ARC-X
-
-  </div>
-
-  <div class="mode-label" id="topMode">
-    Auto mode
-  </div>
-
-  <div class="top-actions">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0f">
+<title>ARC X — AI Super App</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#0b0b0f;
+  --sidebar:#101014;
+  --panel:#15151b;
+  --panel2:#1c1c23;
+  --border:#292932;
+  --text:#f7f7f8;
+  --muted:#9999a6;
+  --accent:#8b5cf6;
+  --accent2:#4f9cff;
+  --danger:#ff6868;
+  --success:#50d890;
+}
+
+body.light{
+  --bg:#f7f7f8;
+  --sidebar:#ffffff;
+  --panel:#ffffff;
+  --panel2:#f0f0f3;
+  --border:#dedee5;
+  --text:#17171c;
+  --muted:#666672;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+  overflow:hidden;
+}
+
+button,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  height:100vh;
+  display:flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  width:270px;
+  height:100%;
+  flex-shrink:0;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  padding:16px;
+  z-index:20;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:22px;
+}
+
+.logo{
+  width:42px;
+  height:42px;
+  flex-shrink:0;
+}
+
+.brand-title{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:-.4px;
+}
+
+.brand-subtitle{
+  font-size:9px;
+  color:var(--muted);
+  letter-spacing:1.5px;
+  margin-top:2px;
+}
+
+.new-chat{
+  width:100%;
+  height:44px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--panel);
+  color:var(--text);
+  text-align:left;
+  padding:0 14px;
+  font-weight:650;
+  transition:.15s;
+}
+
+.new-chat:hover{
+  background:var(--panel2);
+  transform:translateY(-1px);
+}
+
+.sidebar-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin:23px 5px 9px;
+}
+
+.history{
+  flex:1;
+  overflow-y:auto;
+}
+
+.history::-webkit-scrollbar,
+.main::-webkit-scrollbar,
+.messages::-webkit-scrollbar{
+  width:5px;
+}
+
+.history::-webkit-scrollbar-thumb,
+.main::-webkit-scrollbar-thumb,
+.messages::-webkit-scrollbar-thumb{
+  background:var(--border);
+  border-radius:10px;
+}
+
+.history-item{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  text-align:left;
+  padding:10px 11px;
+  border-radius:9px;
+  margin-bottom:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-size:13px;
+}
+
+.history-item:hover,
+.history-item.active{
+  background:var(--panel2);
+  color:var(--text);
+}
+
+.empty-history{
+  color:var(--muted);
+  font-size:12px;
+  padding:10px 5px;
+}
+
+.sidebar-bottom{
+  border-top:1px solid var(--border);
+  margin-top:10px;
+  padding-top:10px;
+}
+
+.sidebar-button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  text-align:left;
+  padding:10px;
+  border-radius:9px;
+}
+
+.sidebar-button:hover{
+  background:var(--panel2);
+  color:var(--text);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  flex:1;
+  min-width:0;
+  height:100%;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+  height:62px;
+  flex-shrink:0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.mobile-logo{
+  display:none;
+  align-items:center;
+  gap:8px;
+  font-weight:800;
+}
+
+.mobile-logo svg{
+  width:30px;
+  height:30px;
+}
+
+.menu{
+  display:none;
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--text);
+}
+
+.model-pill{
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:12px;
+}
+
+.top-actions{
+  display:flex;
+  gap:7px;
+}
+
+.icon-button{
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--text);
+}
+
+.icon-button:hover{
+  background:var(--panel2);
+}
+
+/* =========================
+   HOME
+========================= */
+
+.home{
+  flex:1;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:70px 20px 100px;
+}
+
+.hero{
+  width:min(900px,100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.hero-logo{
+  width:72px;
+  height:72px;
+  margin-bottom:23px;
+  filter:drop-shadow(0 0 25px rgba(124,92,255,.25));
+}
+
+.hero-title{
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.05;
+  letter-spacing:-2px;
+  font-weight:800;
+  text-align:center;
+}
+
+.hero-gradient{
+  background:linear-gradient(
+    90deg,
+    #ffffff,
+    #a8baff,
+    #9d7cff
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+body.light .hero-gradient{
+  background:linear-gradient(
+    90deg,
+    #17171c,
+    #6356c9
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-description{
+  color:var(--muted);
+  max-width:650px;
+  text-align:center;
+  line-height:1.6;
+  margin-top:15px;
+  font-size:15px;
+}
+
+/* =========================
+   COMPOSER
+========================= */
+
+.composer-container{
+  width:min(820px,100%);
+  margin-top:34px;
+}
+
+.composer{
+  width:100%;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:13px;
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.02);
+  transition:border .2s, box-shadow .2s;
+}
+
+.composer:focus-within{
+  border-color:rgba(139,92,246,.55);
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.2),
+    0 0 0 3px rgba(139,92,246,.08);
+}
+
+textarea{
+  width:100%;
+  min-height:72px;
+  max-height:190px;
+  border:0;
+  outline:0;
+  resize:none;
+  background:transparent;
+  color:var(--text);
+  padding:7px;
+  font-size:16px;
+  line-height:1.5;
+}
+
+textarea::placeholder{
+  color:var(--muted);
+}
+
+.composer-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.modes{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.mode{
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:12px;
+  transition:.15s;
+}
+
+.mode:hover{
+  color:var(--text);
+  background:var(--panel2);
+}
+
+.mode.active{
+  color:#fff;
+  background:linear-gradient(
+    135deg,
+    #7655f5,
+    #4f9cff
+  );
+  border-color:transparent;
+}
+
+.send{
+  width:43px;
+  height:43px;
+  flex-shrink:0;
+  border:0;
+  border-radius:12px;
+  background:var(--text);
+  color:var(--bg);
+  font-size:20px;
+  font-weight:800;
+  transition:.15s;
+}
+
+.send:hover{
+  transform:translateY(-1px);
+  opacity:.9;
+}
+
+.send:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-title{
+  width:min(820px,100%);
+  margin-top:28px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.quick-grid{
+  width:min(820px,100%);
+  margin-top:9px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.quick-card{
+  min-height:78px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel);
+  color:var(--text);
+  padding:13px;
+  text-align:left;
+  transition:.15s;
+}
+
+.quick-card:hover{
+  background:var(--panel2);
+  transform:translateY(-2px);
+}
+
+.quick-icon{
+  font-size:18px;
+  margin-bottom:7px;
+}
+
+.quick-name{
+  font-size:12px;
+  font-weight:650;
+}
+
+.quick-description{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat{
+  flex:1;
+  min-height:0;
+  display:none;
+  flex-direction:column;
+}
+
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:32px 20px 170px;
+}
+
+.message{
+  width:min(820px,100%);
+  margin:0 auto 30px;
+}
+
+.user-row{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.user-bubble{
+  max-width:76%;
+  padding:12px 15px;
+  border-radius:16px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  white-space:pre-wrap;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.assistant-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:9px;
+  letter-spacing:.4px;
+}
+
+.assistant-content{
+  font-size:15px;
+  line-height:1.75;
+  overflow-wrap:anywhere;
+  white-space:pre-wrap;
+}
+
+.assistant-content strong{
+  font-weight:800;
+}
+
+.sources{
+  margin-top:20px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+
+.sources-heading{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.source-card{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 10px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:9px;
+  margin-bottom:6px;
+  text-decoration:none;
+  color:var(--text);
+}
+
+.source-card:hover{
+  background:var(--panel2);
+}
+
+.source-number{
+  width:23px;
+  height:23px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--panel2);
+  color:var(--muted);
+  font-size:10px;
+  flex-shrink:0;
+}
+
+.source-info{
+  min-width:0;
+}
+
+.source-title{
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.source-url{
+  color:var(--muted);
+  font-size:10px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-top:2px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading-box{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--muted);
+  animation:pulse 1s infinite alternate;
+}
+
+.dot:nth-child(2){
+  animation-delay:.18s;
+}
+
+.dot:nth-child(3){
+  animation-delay:.36s;
+}
+
+@keyframes pulse{
+  from{opacity:.25}
+  to{opacity:1}
+}
+
+.error{
+  color:var(--danger);
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* =========================
+   CHAT COMPOSER
+========================= */
+
+.chat-composer{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:15px 20px 20px;
+  background:linear-gradient(
+    transparent,
+    var(--bg) 28%
+  );
+}
+
+.chat-composer-inner{
+  width:min(820px,100%);
+  margin:auto;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    position:fixed;
+    left:-290px;
+    top:0;
+    bottom:0;
+    transition:left .2s ease;
+    box-shadow:15px 0 45px rgba(0,0,0,.35);
+  }
+
+  .sidebar.open{
+    left:0;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .mobile-logo{
+    display:flex;
+  }
+
+  .model-pill{
+    display:none;
+  }
+
+  .topbar{
+    height:58px;
+    padding:0 12px;
+  }
+
+  .top-actions{
+    gap:5px;
+  }
+
+  .home{
+    padding:48px 12px 100px;
+  }
+
+  .hero-logo{
+    width:62px;
+    height:62px;
+    margin-bottom:18px;
+  }
+
+  .hero-title{
+    font-size:35px;
+    letter-spacing:-1.4px;
+  }
+
+  .hero-description{
+    font-size:14px;
+    max-width:430px;
+  }
+
+  .composer-container{
+    margin-top:25px;
+  }
+
+  .composer{
+    border-radius:17px;
+  }
+
+  .composer-bottom{
+    align-items:flex-end;
+  }
+
+  .modes{
+    max-width:calc(100% - 52px);
+  }
+
+  .mode{
+    padding:6px 8px;
+  }
+
+  .quick-title{
+    margin-top:22px;
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .quick-card{
+    min-height:72px;
+  }
+
+  .messages{
+    padding:20px 12px 155px;
+  }
+
+  .user-bubble{
+    max-width:88%;
+  }
+
+  .chat-composer{
+    padding:10px;
+  }
+
+}
+
+@media(max-width:450px){
+
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  .quick-card{
+    padding:10px;
+  }
+
+  .quick-description{
+    display:none;
+  }
+
+  .hero-title{
+    font-size:31px;
+  }
+
+  textarea{
+    font-size:15px;
+  }
+
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay{
+  display:none;
+}
+
+@media(max-width:760px){
+
+  .overlay.show{
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:15;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <svg class="logo" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="logoGradient1"
+            x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4f9cff"/>
+            <stop offset="100%" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+
+        <circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="none"
+          stroke="url(#logoGradient1)"
+          stroke-width="5"
+        />
+
+        <path
+          d="M25 25 L75 75 M75 25 L25 75"
+          fill="none"
+          stroke="url(#logoGradient1)"
+          stroke-width="9"
+          stroke-linecap="round"
+        />
+
+        <circle
+          cx="78"
+          cy="22"
+          r="5"
+          fill="#fff"
+        />
+      </svg>
+
+      <div>
+        <div class="brand-title">ARC X</div>
+        <div class="brand-subtitle">
+          AI SUPER APP
+        </div>
+      </div>
+
+    </div>
 
     <button
-      class="icon-button"
-      id="topTheme"
+      class="new-chat"
+      id="newChat"
       type="button"
-      title="Toggle theme"
-      aria-label="Toggle theme"
     >
-      ◐
+      ＋ New Chat
     </button>
 
-  </div>
+    <div class="sidebar-label">
+      Recent
+    </div>
 
-</header>
+    <div
+      class="history"
+      id="history"
+    >
+      <div class="empty-history">
+        Your conversations will appear here.
+      </div>
+    </div>
 
+    <div class="sidebar-bottom">
 
-<!-- HOME -->
-
-<section class="home" id="home">
-
-  <svg
-    class="hero-logo"
-    viewBox="0 0 100 100"
-    aria-label="ARC-X"
-  >
-
-    <defs>
-      <linearGradient
-        id="heroGradient"
-        x1="0%"
-        y1="0%"
-        x2="100%"
-        y2="100%"
+      <button
+        class="sidebar-button"
+        id="themeButton"
+        type="button"
       >
-        <stop offset="0%" stop-color="#4da3ff"/>
-        <stop offset="100%" stop-color="#7c5cff"/>
-      </linearGradient>
-    </defs>
+        ◐ &nbsp; Toggle theme
+      </button>
 
-    <circle
-      cx="50"
-      cy="50"
-      r="39"
-      fill="none"
-      stroke="url(#heroGradient)"
-      stroke-width="4"
-    />
+    </div>
 
-    <path
-      d="M25 25 L75 75 M75 25 L25 75"
-      stroke="url(#heroGradient)"
-      stroke-width="10"
-      stroke-linecap="round"
-    />
-
-    <circle
-      cx="78"
-      cy="22"
-      r="4"
-      fill="white"
-    />
-
-  </svg>
-
-  <h1 class="hero-title">
-    What can ARC-X do for you?
-  </h1>
-
-  <p class="hero-text">
-    Search the web, research complex topics, explain ideas,
-    write content, analyze information and code — all in one place.
-  </p>
+  </aside>
 
 
-  <div class="composer-wrap">
+  <div
+    class="overlay"
+    id="overlay"
+  ></div>
 
-    <div class="composer">
 
-      <textarea
-        id="homeInput"
-        placeholder="Ask ARC-X anything..."
-        rows="2"
-        autocomplete="off"
-      ></textarea>
+  <!-- ================= MAIN ================= -->
 
-      <div class="composer-bottom">
+  <main class="main">
 
-        <div class="modes">
+    <header class="topbar">
 
-          <button class="mode active" data-mode="auto" type="button">
-            Auto
-          </button>
+      <div class="top-left">
 
-          <button class="mode" data-mode="search" type="button">
-            Search
-          </button>
+        <button
+          class="menu"
+          id="menuButton"
+          type="button"
+        >
+          ☰
+        </button>
 
-          <button class="mode" data-mode="think" type="button">
-            Think
-          </button>
+        <div class="mobile-logo">
 
-          <button class="mode" data-mode="research" type="button">
-            Research
-          </button>
+          <svg viewBox="0 0 100 100">
 
-          <button class="mode" data-mode="code" type="button">
-            Code
-          </button>
+            <defs>
+              <linearGradient id="mobileGradient"
+                x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4f9cff"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
 
-          <button class="mode" data-mode="create" type="button">
-            Create
-          </button>
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="url(#mobileGradient)"
+              stroke-width="5"
+            />
+
+            <path
+              d="M25 25 L75 75 M75 25 L25 75"
+              stroke="url(#mobileGradient)"
+              stroke-width="9"
+              stroke-linecap="round"
+            />
+
+          </svg>
+
+          ARC X
 
         </div>
 
-        <button
-          class="send"
-          id="homeSend"
-          type="button"
-          title="Send"
+        <div
+          class="model-pill"
+          id="modeLabel"
         >
-          ↑
+          Auto Mode
+        </div>
+
+      </div>
+
+      <div class="top-actions">
+
+        <button
+          class="icon-button"
+          id="themeTop"
+          type="button"
+          title="Toggle theme"
+        >
+          ◐
         </button>
 
       </div>
 
-    </div>
-
-  </div>
+    </header>
 
 
-  <div class="suggestions">
+    <!-- ================= HOME ================= -->
 
-    <button
-      class="suggestion"
-      type="button"
-      data-question="Explain artificial intelligence in simple words"
+    <section
+      class="home"
+      id="home"
     >
-      ✦ Explain something
-    </button>
 
-    <button
-      class="suggestion"
-      type="button"
-      data-question="What are the latest AI trends?"
-    >
-      ◉ Latest AI trends
-    </button>
+      <div class="hero">
 
-    <button
-      class="suggestion"
-      type="button"
-      data-question="Search the web for the latest technology news"
-    >
-      ◎ Search the web
-    </button>
+        <svg
+          class="hero-logo"
+          viewBox="0 0 100 100"
+        >
 
-    <button
-      class="suggestion"
-      type="button"
-      data-question="Help me write a professional article"
-    >
-      ✎ Create content
-    </button>
+          <defs>
+            <linearGradient
+              id="heroGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stop-color="#4f9cff"/>
+              <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+          </defs>
 
-  </div>
+          <circle
+            cx="50"
+            cy="50"
+            r="40"
+            fill="none"
+            stroke="url(#heroGradient)"
+            stroke-width="5"
+          />
 
-  <div class="status" id="homeStatus">
-    ARC-X is ready.
-  </div>
+          <path
+            d="M25 25 L75 75 M75 25 L25 75"
+            stroke="url(#heroGradient)"
+            stroke-width="9"
+            stroke-linecap="round"
+          />
 
-</section>
+          <circle
+            cx="78"
+            cy="22"
+            r="5"
+            fill="#fff"
+          />
+
+        </svg>
 
 
-<!-- CHAT -->
+        <h1 class="hero-title">
+          Welcome to
+          <span class="hero-gradient">
+            ARC X
+          </span>
+        </h1>
 
-<section class="chat" id="chat">
+        <p class="hero-description">
+          Search, think, research, create and code —
+          an AI super-app built to bring powerful AI
+          tools into one place.
+        </p>
 
-  <div class="messages" id="messages"></div>
 
-  <div class="chat-composer">
+        <!-- MAIN COMPOSER -->
 
-    <div class="chat-composer-inner">
+        <div class="composer-container">
 
-      <div class="composer">
+          <div class="composer">
 
-        <textarea
-          id="chatInput"
-          placeholder="Ask ARC-X a follow-up..."
-          rows="2"
-          autocomplete="off"
-        ></textarea>
+            <textarea
+              id="homeInput"
+              rows="2"
+              placeholder="Ask ARC X anything..."
+              autocomplete="off"
+            ></textarea>
 
-        <div class="composer-bottom">
+            <div class="composer-bottom">
 
-          <div class="modes">
+              <div class="modes">
 
-            <button class="mode active" data-mode="auto" type="button">
-              Auto
-            </button>
+                <button
+                  class="mode active"
+                  data-mode="auto"
+                  type="button"
+                >
+                  Auto
+                </button>
 
-            <button class="mode" data-mode="search" type="button">
-              Search
-            </button>
+                <button
+                  class="mode"
+                  data-mode="search"
+                  type="button"
+                >
+                  Search
+                </button>
 
-            <button class="mode" data-mode="think" type="button">
-              Think
-            </button>
+                <button
+                  class="mode"
+                  data-mode="think"
+                  type="button"
+                >
+                  Think
+                </button>
 
-            <button class="mode" data-mode="research" type="button">
-              Research
-            </button>
+                <button
+                  class="mode"
+                  data-mode="research"
+                  type="button"
+                >
+                  Research
+                </button>
 
-            <button class="mode" data-mode="code" type="button">
-              Code
-            </button>
+                <button
+                  class="mode"
+                  data-mode="code"
+                  type="button"
+                >
+                  Code
+                </button>
 
-            <button class="mode" data-mode="create" type="button">
-              Create
-            </button>
+                <button
+                  class="mode"
+                  data-mode="create"
+                  type="button"
+                >
+                  Create
+                </button>
+
+              </div>
+
+              <button
+                class="send"
+                id="homeSend"
+                type="button"
+                title="Send"
+              >
+                ↑
+              </button>
+
+            </div>
 
           </div>
 
-          <button
-            class="send"
-            id="chatSend"
-            type="button"
-            title="Send"
-          >
-            ↑
-          </button>
-
         </div>
 
-      </div>
 
-    </div>
+        <!-- QUICK ACTIONS -->
 
-  </div>
+        <div class="quick-title">
+          Explore ARC X
+        </div>
 
-</section>
+        <div class="quick-grid">
 
-  </main></div><script>
-  /* =====================================================
-     ARC-X FRONTEND ENGINE
-  ===================================================== */
+          <button
+            class="quick-card"
+            data-question="Explain artificial intelligence in simple words"
+            type="button"
+          >
+            <div class="quick-icon">✦</div>
+            <div class="quick-name">
+              Explain
+            </div>
+            <div class="quick-description">
+              Understand anything
+            </div>
+          </button>
 
-  let selectedMode = "auto";
-  let conversationId = null;
-  let isSending = false;
+          <button
+            class="quick-card"
+            data-question="Search the web for the latest AI news and summarize the important developments"
+            type="button"
+          >
+            <div class="quick-icon">⌕</div>
+            <div class="quick-name">
+              Web Search
+            </div>
+            <div class="quick-description">
+              Search current information
+            </div>
+          </button>
 
+          <button
+            class="quick-card"
+            data-question="What are the latest artificial intelligence trends?"
+            type="button"
+          >
+            <div class="quick-icon">◉</div>
+            <div class="quick-name">
+              Latest AI
+            </div>
+            <div class="quick-description">
+              Discover new trends
+            </div>
+          </button>
 
-  /* =====================================================
-     ELEMENTS
-  ===================================================== */
-
-  const home = document.getElementById("home");
-  const chat = document.getElementById("chat");
-
-  const homeInput = document.getElementById("homeInput");
-  const chatInput = document.getElementById("chatInput");
-
-  const homeSend = document.getElementById("homeSend");
-  const chatSend = document.getElementById("chatSend");
-
-  const messages = document.getElementById("messages");
-  const history = document.getElementById("history");
-
-  const newChat = document.getElementById("newChat");
-  const themeButton = document.getElementById("themeButton");
-  const topTheme = document.getElementById("topTheme");
-
-  const menuButton = document.getElementById("menuButton");
-  const sidebar = document.getElementById("sidebar");
-  const topMode = document.getElementById("topMode");
-  const homeStatus = document.getElementById("homeStatus");
-
-
-  /* =====================================================
-     MODE
-  ===================================================== */
-
-  function setMode(mode) {
-    selectedMode = mode;
-
-    document.querySelectorAll(".mode").forEach(function(button) {
-      button.classList.toggle(
-        "active",
-        button.dataset.mode === mode
-      );
-    });
-
-    const labels = {
-      auto: "Auto mode",
-      search: "Search mode",
-      think: "Think mode",
-      research: "Research mode",
-      code: "Code mode",
-      create: "Create mode"
-    };
-
-    topMode.textContent = labels[mode] || "Auto mode";
-  }
-
-
-  document.querySelectorAll(".mode").forEach(function(button) {
-    button.addEventListener("click", function() {
-      setMode(button.dataset.mode);
-    });
-  });
-
-
-  /* =====================================================
-     THEME
-  ===================================================== */
-
-  function applyTheme(theme) {
-    if (theme === "light") {
-      document.body.classList.add("light");
-    } else {
-      document.body.classList.remove("light");
-    }
-
-    localStorage.setItem("arcx_theme", theme);
-  }
-
-
-  function toggleTheme() {
-    const isLight = document.body.classList.contains("light");
-    applyTheme(isLight ? "dark" : "light");
-  }
-
-
-  const savedTheme = localStorage.getItem("arcx_theme");
-
-  
+          <button
+            c
