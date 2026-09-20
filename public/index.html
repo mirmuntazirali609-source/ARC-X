@@ -1,10 +1,18 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020816">
-<title>ARC X — AI Super App</title><style>
-*{box-sizing:border-box;margin:0;padding:0}
+<meta name="description" content="ARC X — AI Super App">
+<title>ARC X — AI Super App</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
   --bg:#020816;
@@ -17,21 +25,47 @@
   --cyan:#36d7ff;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(circle at 50% -10%,rgba(54,215,255,.12),transparent 35%),
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(54,215,255,.12),
+      transparent 35%
+    ),
     var(--bg);
   color:var(--text);
   min-height:100vh;
 }
 
-button,input,textarea{font:inherit}
-button{cursor:pointer}
+button,
+input,
+textarea{
+  font:inherit;
+}
 
-.app{min-height:100vh}
+button{
+  cursor:pointer;
+}
 
-/* SIDEBAR */
+button:focus-visible,
+textarea:focus-visible,
+a:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
 .sidebar{
   position:fixed;
@@ -65,7 +99,9 @@ button{cursor:pointer}
   background:linear-gradient(135deg,var(--blue),var(--cyan));
 }
 
-.brand strong{display:block}
+.brand strong{
+  display:block;
+}
 
 .brand small{
   color:var(--muted);
@@ -81,6 +117,10 @@ button{cursor:pointer}
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:12px;
+}
+
+.newchat:hover{
+  background:#0c192b;
 }
 
 .section-title{
@@ -138,7 +178,9 @@ button{cursor:pointer}
   background:#0c192b;
 }
 
-/* MAIN */
+/* =========================================================
+   MAIN
+========================================================= */
 
 .main{
   margin-left:275px;
@@ -202,7 +244,9 @@ button{cursor:pointer}
   box-shadow:0 0 10px rgba(255,97,120,.45);
 }
 
-/* HOME */
+/* =========================================================
+   HOME
+========================================================= */
 
 .container{
   width:min(900px,calc(100% - 28px));
@@ -242,7 +286,9 @@ button{cursor:pointer}
   font-size:14px;
 }
 
-/* MAIN SEARCH */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 .search-box{
   max-width:780px;
@@ -288,6 +334,10 @@ button{cursor:pointer}
   background:linear-gradient(135deg,var(--blue),var(--cyan));
 }
 
+.search-button:hover{
+  filter:brightness(1.08);
+}
+
 .search-button:disabled{
   opacity:.45;
   cursor:not-allowed;
@@ -300,7 +350,9 @@ button{cursor:pointer}
   margin-top:8px;
 }
 
-/* SEARCH MODE */
+/* =========================================================
+   SEARCH MODES
+========================================================= */
 
 .search-modes{
   display:flex;
@@ -319,13 +371,19 @@ button{cursor:pointer}
   font-size:11px;
 }
 
+.mode-chip:hover{
+  background:#0c192b;
+}
+
 .mode-chip.active{
   color:white;
   border-color:#5265a0;
   background:#101d35;
 }
 
-/* EXPLORE */
+/* =========================================================
+   EXPLORE
+========================================================= */
 
 .explore{
   text-align:center;
@@ -378,7 +436,9 @@ button{cursor:pointer}
   line-height:1.5;
 }
 
-/* RESULTS */
+/* =========================================================
+   RESULTS
+========================================================= */
 
 .results{
   display:none;
@@ -409,16 +469,118 @@ button{cursor:pointer}
   border-radius:9px;
 }
 
+.result-header button:hover{
+  background:#0c192b;
+}
+
 .answer{
   background:#071120;
   border:1px solid var(--border);
   border-radius:17px;
   padding:18px;
   line-height:1.7;
-  white-space:pre-wrap;
   overflow-wrap:anywhere;
   font-size:14px;
 }
+
+.answer.plain{
+  white-space:pre-wrap;
+}
+
+.answer.error{
+  color:#ff9aaa;
+  border-color:#633040;
+  background:#180b12;
+}
+
+.wait{
+  color:#7f8ea5;
+  font-size:12px;
+  text-align:center;
+  margin-top:4px;
+}
+
+/* =========================================================
+   MARKDOWN
+========================================================= */
+
+.md h3,
+.md h4,
+.md h5{
+  margin:18px 0 8px;
+  line-height:1.3;
+}
+
+.md h3{
+  font-size:18px;
+}
+
+.md h4{
+  font-size:16px;
+}
+
+.md h5{
+  font-size:14px;
+}
+
+.md>:first-child{
+  margin-top:0;
+}
+
+.md>:last-child{
+  margin-bottom:0;
+}
+
+.md p{
+  margin:0 0 12px;
+}
+
+.md ul,
+.md ol{
+  margin:0 0 12px;
+  padding-left:22px;
+}
+
+.md li{
+  margin:4px 0;
+}
+
+.md a{
+  color:#9dd7ff;
+}
+
+.md strong{
+  font-weight:750;
+}
+
+.md code{
+  background:#0c192b;
+  border:1px solid #172a43;
+  border-radius:6px;
+  padding:1px 5px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:12.5px;
+}
+
+.md pre{
+  background:#040c18;
+  border:1px solid #172a43;
+  border-radius:12px;
+  padding:14px;
+  margin:0 0 12px;
+  overflow-x:auto;
+}
+
+.md pre code{
+  background:none;
+  border:0;
+  padding:0;
+  line-height:1.55;
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
 
 .sources{
   margin-top:18px;
@@ -449,7 +611,9 @@ button{cursor:pointer}
   background:#0c1b30;
 }
 
-/* LOADING */
+/* =========================================================
+   LOADING
+========================================================= */
 
 .loading{
   display:flex;
@@ -486,13 +650,25 @@ button{cursor:pointer}
   }
 }
 
-.error{
-  color:#ff9aaa;
-  border-color:#633040;
-  background:#180b12;
+@media(prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto;
+  }
+
+  .loading span{
+    animation:none;
+    opacity:.7;
+  }
+
+  .card,
+  .sidebar{
+    transition:none;
+  }
 }
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:850px){
 
@@ -557,181 +733,315 @@ button{cursor:pointer}
   .card h3{
     font-size:13px;
   }
+
+  .answer{
+    padding:15px;
+    font-size:13px;
+  }
 }
-</style></head><body><div class="app"><!-- SIDEBAR --><aside class="sidebar" id="sidebar">  <div class="brand"><div class="logo">X</div>
+</style>
+</head>
 
-<div>
-  <strong>ARC X</strong>
-  <small>AI SUPER APP</small>
-</div>
+<body>
 
-  </div>  <button class="newchat" onclick="newChat()">
-    ＋ &nbsp; New chat
-  </button>  <div class="section-title">
-    Recent chats
-  </div>  <div class="history" id="history">
-    <div class="empty">
-      No recent chats
+<div class="app">
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="logo">X</div>
+
+      <div>
+        <strong>ARC X</strong>
+        <small>AI SUPER APP</small>
+      </div>
     </div>
-  </div>  <div class="bottom"><button class="side-btn" onclick="toggleAppearance()">
-  ◐ &nbsp; Appearance
-</button>
 
-<button class="side-btn" onclick="clearHistory()">
-  ⌫ &nbsp; Clear history
-</button>
+    <button class="newchat" onclick="newChat()">
+      ＋ &nbsp; New chat
+    </button>
 
-  </div></aside><!-- MAIN --><main class="main"><header class="topbar">  <button class="menu" onclick="toggleSidebar()">
-    ☰
-  </button>  <div class="top-title">
-    ARC X
-  </div>  <div class="status"><span
-  class="status-dot"
-  id="statusDot"
-></span>
+    <div class="section-title">
+      Recent chats
+    </div>
 
-<span id="statusText">
-  Connecting...
-</span>
+    <div class="history" id="history">
+      <div class="empty">
+        No recent chats
+      </div>
+    </div>
 
-  </div></header><div class="container"><!-- HERO --><section class="hero">  <div class="hero-logo">
-    X
-  </div>  <h1>
-    Welcome to ARC X
-  </h1>  <p>
-    Search the web, research topics, understand information,
-    create content, code and explore ideas with ARC X.
-  </p></section><!-- MAIN SEARCH --><section class="search-box">  <div class="search-container"><textarea
-  id="mainInput"
-  rows="1"
-  placeholder="Ask ARC X anything..."
-  onkeydown="handleSearchKey(event)"
-></textarea>
+    <div class="bottom">
 
-<button
-  class="search-button"
-  id="searchButton"
-  onclick="runSearch()"
-  aria-label="Search"
->
-  ↑
-</button>
+      <button class="side-btn" onclick="toggleAppearance()">
+        ◐ &nbsp; Appearance
+      </button>
 
-  </div>  <div class="search-hint">
-    Enter to search · Shift + Enter for a new line
-  </div></section><!-- SEARCH MODES --><div class="search-modes"><button
-class="mode-chip active"
-id="chipWeb"
-onclick="setSearchMode('web')"
+      <button class="side-btn" onclick="clearHistory()">
+        ⌫ &nbsp; Clear history
+      </button>
 
-«»
+    </div>
 
-⌕ Web Search
+  </aside>
 
-  </button><button
-class="mode-chip"
-id="chipAI"
-onclick="setSearchMode('ai')"
 
-«»
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
-✦ AI Chat
+  <main class="main">
 
-  </button><button
-class="mode-chip"
-id="chipResearch"
-onclick="setSearchMode('research')"
+    <header class="topbar">
 
-«»
+      <button
+        class="menu"
+        onclick="toggleSidebar()"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
 
-◉ Deep Research
+      <div class="top-title">
+        ARC X
+      </div>
 
-  </button></div><!-- EXPLORE --><div class="explore">
-  Explore ARC X
-</div><div class="cards"><button
-class="card"
-onclick="selectMode('web')"
+      <div class="status">
 
-«»
+        <span
+          class="status-dot"
+          id="statusDot"
+        ></span>
 
-<div class="card-icon">
-  ⌕
+        <span id="statusText">
+          Connecting...
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <div class="container">
+
+      <!-- =================================================
+           HERO
+      ================================================== -->
+
+      <section class="hero">
+
+        <div class="hero-logo">
+          X
+        </div>
+
+        <h1>
+          Welcome to ARC X
+        </h1>
+
+        <p>
+          Search the web, research topics, understand information,
+          create content, code and explore ideas with ARC X.
+        </p>
+
+      </section>
+
+
+      <!-- =================================================
+           SEARCH BOX
+      ================================================== -->
+
+      <section class="search-box">
+
+        <div class="search-container">
+
+          <textarea
+            id="mainInput"
+            rows="1"
+            placeholder="Search the web..."
+            onkeydown="handleSearchKey(event)"
+            aria-label="Ask ARC X"
+          ></textarea>
+
+          <button
+            class="search-button"
+            id="searchButton"
+            onclick="runSearch()"
+            aria-label="Search"
+          >
+            ↑
+          </button>
+
+        </div>
+
+        <div class="search-hint">
+          Enter to search · Shift + Enter for a new line
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           SEARCH MODES
+      ================================================== -->
+
+      <div class="search-modes">
+
+        <button
+          class="mode-chip active"
+          id="chipWeb"
+          onclick="setSearchMode('web')"
+        >
+          ⌕ Web Search
+        </button>
+
+        <button
+          class="mode-chip"
+          id="chipAI"
+          onclick="setSearchMode('ai')"
+        >
+          ✦ AI Chat
+        </button>
+
+        <button
+          class="mode-chip"
+          id="chipResearch"
+          onclick="setSearchMode('research')"
+        >
+          ◉ Deep Research
+        </button>
+
+      </div>
+
+
+      <!-- =================================================
+           EXPLORE
+      ================================================== -->
+
+      <div class="explore">
+        Explore ARC X
+      </div>
+
+      <div class="cards">
+
+        <button
+          class="card"
+          onclick="selectMode('web')"
+        >
+
+          <div class="card-icon">
+            ⌕
+          </div>
+
+          <h3>
+            Web Search
+          </h3>
+
+          <p>
+            Find current information from the web.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          onclick="selectMode('research')"
+        >
+
+          <div class="card-icon">
+            ◉
+          </div>
+
+          <h3>
+            Deep Research
+          </h3>
+
+          <p>
+            Research topics using multiple sources.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          onclick="selectMode('create')"
+        >
+
+          <div class="card-icon">
+            ✦
+          </div>
+
+          <h3>
+            Create
+          </h3>
+
+          <p>
+            Write posts, scripts and documents.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          onclick="selectMode('code')"
+        >
+
+          <div class="card-icon">
+            &lt;/&gt;
+          </div>
+
+          <h3>
+            Code
+          </h3>
+
+          <p>
+            Build and understand software.
+          </p>
+
+        </button>
+
+      </div>
+
+
+      <!-- =================================================
+           RESULTS
+      ================================================== -->
+
+      <section
+        class="results"
+        id="results"
+      >
+
+        <div class="result-header">
+
+          <h2 id="resultTitle">
+            ARC X
+          </h2>
+
+          <button onclick="clearResults()">
+            New search
+          </button>
+
+        </div>
+
+        <div id="resultContent"></div>
+
+      </section>
+
+    </div>
+
+  </main>
+
 </div>
 
-<h3>
-  Web Search
-</h3>
 
-<p>
-  Find current information from the web.
-</p>
-
-  </button><button
-class="card"
-onclick="selectMode('research')"
-
-«»
-
-<div class="card-icon">
-  ◉
-</div>
-
-<h3>
-  Deep Research
-</h3>
-
-<p>
-  Research topics using multiple sources.
-</p>
-
-  </button><button
-class="card"
-onclick="selectMode('create')"
-
-«»
-
-<div class="card-icon">
-  ✦
-</div>
-
-<h3>
-  Create
-</h3>
-
-<p>
-  Write posts, scripts and documents.
-</p>
-
-  </button><button
-class="card"
-onclick="selectMode('code')"
-
-«»
-
-<div class="card-icon">
-  &lt;/&gt;
-</div>
-
-<h3>
-  Code
-</h3>
-
-<p>
-  Build and understand software.
-</p>
-
-  </button></div><!-- RESULTS --><section
-  class="results"
-  id="results"
->  <div class="result-header"><h2 id="resultTitle">
-  ARC X
-</h2>
-
-<button onclick="clearResults()">
-  New search
-</button>
-
-  </div>  <div id="resultContent"></div></section></div></main></div><script>
+<script>
 
 /* =========================================================
    ARC X STATE
@@ -793,8 +1103,7 @@ function setSearchMode(mode){
       "Search the web...";
 
   }
-
-  if(mode === "ai"){
+  else if(mode === "ai"){
 
     document
       .getElementById("chipAI")
@@ -804,8 +1113,7 @@ function setSearchMode(mode){
       "Ask ARC X anything...";
 
   }
-
-  if(mode === "research"){
+  else if(mode === "research"){
 
     document
       .getElementById("chipResearch")
@@ -878,7 +1186,13 @@ async function runSearch(){
     mainInput.value.trim();
 
   if(!query){
+
     mainInput.focus();
+
+    return;
+  }
+
+  if(searchButton.disabled){
     return;
   }
 
@@ -900,422 +1214,42 @@ async function runSearch(){
         <span></span>
         <span></span>
       </div>
+
+      <div class="wait">
+        Working on it. The first request after a break can take up to a minute.
+      </div>
     </div>
   `;
 
   try{
 
     let endpoint;
-    let body;
+    let requestBody;
 
     if(searchMode === "web"){
 
       endpoint = "/api/search-answer";
 
-      body = {
+      requestBody = {
         query:query
       };
 
     }
-
     else if(searchMode === "research"){
 
       endpoint = "/api/research";
 
-      body = {
+      requestBody = {
         query:query
       };
 
     }
-
     else{
 
       endpoint = "/api/chat";
 
-      body = {
+      requestBody = {
         message:query
       };
 
     }
-
-    const response =
-      await fetch(
-        endpoint,
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify(body)
-        }
-      );
-
-    let data;
-
-    try{
-
-      data =
-        await response.json();
-
-    }
-    catch(error){
-
-      throw new Error(
-        "ARC X server returned an invalid response."
-      );
-
-    }
-
-    if(
-      !response.ok ||
-      data.ok === false
-    ){
-
-      throw new Error(
-        data.error ||
-        `Request failed (${response.status})`
-      );
-
-    }
-
-    const answer =
-      data.answer ||
-      data.response ||
-      data.research ||
-      data.text ||
-      "No answer returned.";
-
-    showAnswer(
-      answer,
-      data.sources ||
-      data.results ||
-      []
-    );
-
-    saveHistory(query);
-
-  }
-
-  catch(error){
-
-    resultContent.innerHTML = `
-      <div class="answer error">
-        ⚠️ ${escapeHtml(
-          error &&
-          error.message
-            ? error.message
-            : "ARC X could not complete the request."
-        )}
-      </div>
-    `;
-
-  }
-
-  finally{
-
-    searchButton.disabled = false;
-
-  }
-}
-
-
-/* =========================================================
-   SHOW ANSWER
-========================================================= */
-
-function showAnswer(
-  answer,
-  sources
-){
-
-  let html =
-    `<div class="answer">${escapeHtml(answer)}</div>`;
-
-  if(
-    Array.isArray(sources) &&
-    sources.length
-  ){
-
-    html += `
-      <div class="sources">
-        <div class="sources-title">
-          Sources
-        </div>
-    `;
-
-    sources.forEach(
-      function(source,index){
-
-        if(
-          !source ||
-          !source.url
-        ){
-          return;
-        }
-
-        html += `
-          <a
-            class="source"
-            href="${escapeAttribute(source.url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ${index + 1}.
-            ${escapeHtml(
-              source.title ||
-              source.url
-            )}
-          </a>
-        `;
-
-      }
-    );
-
-    html += `
-      </div>
-    `;
-
-  }
-
-  resultContent.innerHTML =
-    html;
-
-  results.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-function handleSearchKey(event){
-
-  if(
-    event.key === "Enter" &&
-    !event.shiftKey
-  ){
-
-    event.preventDefault();
-
-    runSearch();
-
-  }
-
-}
-
-
-/* =========================================================
-   TEXTAREA RESIZE
-========================================================= */
-
-mainInput.addEventListener(
-  "input",
-  function(){
-
-    this.style.height = "auto";
-
-    this.style.height =
-      Math.min(
-        this.scrollHeight,
-        160
-      ) + "px";
-
-  }
-);
-
-
-/* =========================================================
-   RESULTS
-========================================================= */
-
-function clearResults(){
-
-  results.classList.remove("show");
-
-  resultContent.innerHTML = "";
-
-  mainInput.value = "";
-
-  mainInput.style.height = "auto";
-
-  mainInput.focus();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function saveHistory(query){
-
-  history.unshift({
-    query:query,
-    mode:searchMode,
-    time:Date.now()
-  });
-
-  history =
-    history.slice(0,30);
-
-  try{
-
-    localStorage.setItem(
-      "arcx_history",
-      JSON.stringify(history)
-    );
-
-  }
-  catch(error){
-
-    /* Ignore localStorage errors */
-
-  }
-
-  renderHistory();
-}
-
-
-function loadHistory(){
-
-  try{
-
-    const saved =
-      JSON.parse(
-        localStorage.getItem(
-          "arcx_history"
-        ) || "[]"
-      );
-
-    if(Array.isArray(saved)){
-
-      history = saved;
-
-    }
-
-  }
-
-  catch(error){
-
-    history = [];
-
-  }
-
-  renderHistory();
-}
-
-
-function renderHistory(){
-
-  historyEl.innerHTML = "";
-
-  if(!history.length){
-
-    historyEl.innerHTML =
-      `<div class="empty">
-        No recent chats
-      </div>`;
-
-    return;
-  }
-
-  history.forEach(
-    function(item){
-
-      const button =
-        document.createElement("button");
-
-      button.className =
-        "history-item";
-
-      button.textContent =
-        item.query ||
-        "Untitled";
-
-      button.onclick =
-        function(){
-
-          setSearchMode(
-            item.mode ||
-            "web"
-          );
-
-          mainInput.value =
-            item.query ||
-            "";
-
-          mainInput.style.height =
-            "auto";
-
-          mainInput.style.height =
-            Math.min(
-              mainInput.scrollHeight,
-              160
-            ) + "px";
-
-          mainInput.focus();
-
-          closeSidebar();
-
-        };
-
-      historyEl.appendChild(button);
-
-    }
-  );
-
-}
-
-
-function clearHistory(){
-
-  history = [];
-
-  try{
-
-    localStorage.removeItem(
-      "arcx_history"
-    );
-
-  }
-  catch(error){
-
-    /* Ignore localStorage errors */
-
-  }
-
-  renderHistory();
-
-}
-
-
-/* =========================================================
-   NEW CHAT
-========================================================= */
-
-function newChat(){
-
-  mainInput.value = "";
-
-  mainInput.style.height = "auto";
-
-  clearResults();
-
-  setSearchMode("web");
-
-  closeSidebar();
-
-}
-
-
-/* =========================================================
-   SIDEBAR
-==========================================
