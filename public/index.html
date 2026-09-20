@@ -7,11 +7,7 @@
 <title>ARC X — AI Super App</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
   --bg:#020816;
@@ -20,106 +16,80 @@
   --border:#1b2b42;
   --text:#f5f7fb;
   --muted:#91a0b5;
-  --accent:#7c8cff;
-  --accent2:#42d9ff;
-  --danger:#ff667d;
-  --shadow:0 18px 50px rgba(0,0,0,.35);
+  --blue:#6676ff;
+  --cyan:#36d7ff;
 }
 
 body{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(circle at 50% -10%,rgba(66,217,255,.10),transparent 35%),
+    radial-gradient(circle at 50% -10%,rgba(54,215,255,.12),transparent 35%),
     var(--bg);
   color:var(--text);
   min-height:100vh;
-  overflow-x:hidden;
 }
 
-button,
-input,
-textarea{
-  font:inherit;
-}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
 
-button{
-  cursor:pointer;
-}
+.app{min-height:100vh}
 
-.app{
-  min-height:100vh;
-  display:flex;
-}
-
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 
 .sidebar{
-  width:280px;
-  background:rgba(4,12,24,.96);
-  border-right:1px solid var(--border);
-  padding:18px;
-  display:flex;
-  flex-direction:column;
   position:fixed;
   left:0;
   top:0;
   bottom:0;
-  z-index:50;
-  transition:.25s ease;
+  width:275px;
+  padding:18px;
+  background:#040c18;
+  border-right:1px solid var(--border);
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  transition:.25s;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:11px;
-  padding:8px 4px 20px;
+  gap:10px;
+  margin-bottom:18px;
 }
 
-.brand-mark{
-  width:38px;
-  height:38px;
+.logo{
+  width:40px;
+  height:40px;
   border-radius:12px;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#6876ff,#31cfff);
-  color:white;
   font-weight:900;
-  box-shadow:0 0 25px rgba(66,217,255,.18);
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
 }
 
-.brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.5px;
-}
-
-.brand-text span{
+.brand strong{display:block}
+.brand small{
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
   letter-spacing:1.5px;
 }
 
-.new-chat{
+.newchat{
   width:100%;
-  border:1px solid var(--border);
-  background:var(--panel);
-  color:var(--text);
-  border-radius:13px;
   padding:13px;
   text-align:left;
-  transition:.2s;
+  color:white;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
 }
 
-.new-chat:hover{
-  border-color:var(--accent);
-  background:var(--panel2);
-}
-
-.sidebar-title{
-  color:#68778e;
+.section-title{
+  color:#64738a;
   font-size:11px;
   text-transform:uppercase;
-  letter-spacing:1.4px;
+  letter-spacing:1.3px;
   margin:25px 5px 10px;
 }
 
@@ -128,58 +98,49 @@ button{
   overflow:auto;
 }
 
-.history-empty{
+.empty{
   color:#66758b;
   font-size:13px;
-  padding:10px 5px;
+  padding:8px 5px;
 }
 
 .history-item{
+  width:100%;
+  padding:10px;
   border:0;
   background:transparent;
-  color:#cdd6e4;
-  width:100%;
+  color:#ccd5e3;
   text-align:left;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:3px;
+  border-radius:9px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-.history-item:hover{
-  background:#0c192b;
-}
+.history-item:hover{background:#0c192b}
 
-.sidebar-bottom{
+.bottom{
   border-top:1px solid var(--border);
-  padding-top:12px;
+  padding-top:10px;
 }
 
-.side-action{
+.side-btn{
   width:100%;
-  background:transparent;
+  padding:11px 7px;
   border:0;
-  color:#cbd4e2;
-  padding:11px 8px;
+  background:transparent;
+  color:#cbd5e3;
   text-align:left;
-  border-radius:9px;
-  margin-bottom:3px;
+  border-radius:8px;
 }
 
-.side-action:hover{
-  background:#0c192b;
-}
+.side-btn:hover{background:#0c192b}
 
-/* ================= MAIN ================= */
+/* MAIN */
 
 .main{
-  width:100%;
-  margin-left:280px;
+  margin-left:275px;
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
 }
 
 .topbar{
@@ -187,15 +148,15 @@ button{
   display:flex;
   align-items:center;
   padding:0 22px;
-  border-bottom:1px solid rgba(27,43,66,.7);
+  border-bottom:1px solid rgba(27,43,66,.75);
+  background:rgba(2,8,22,.78);
+  backdrop-filter:blur(15px);
   position:sticky;
   top:0;
-  background:rgba(2,8,22,.78);
-  backdrop-filter:blur(16px);
-  z-index:20;
+  z-index:50;
 }
 
-.menu-btn{
+.menu{
   display:none;
   border:0;
   background:transparent;
@@ -204,11 +165,9 @@ button{
   margin-right:12px;
 }
 
-.top-title{
-  font-weight:750;
-}
+.top-title{font-weight:800}
 
-.connection{
+.status{
   margin-left:auto;
   display:flex;
   align-items:center;
@@ -217,411 +176,339 @@ button{
   font-size:12px;
 }
 
-.dot{
+.status-dot{
   width:8px;
   height:8px;
   border-radius:50%;
   background:#777;
 }
 
-.dot.online{
+.status-dot.online{
   background:#4ee58a;
-  box-shadow:0 0 12px rgba(78,229,138,.6);
+  box-shadow:0 0 12px #4ee58a;
 }
 
-.dot.offline{
-  background:#ff667d;
-}
+/* HOME */
 
-/* ================= HOME ================= */
-
-.content{
-  width:min(1050px,calc(100% - 32px));
-  margin:0 auto;
-  padding:70px 0 150px;
+.container{
+  width:min(900px,calc(100% - 28px));
+  margin:auto;
+  padding:65px 0 120px;
 }
 
 .hero{
   text-align:center;
-  max-width:760px;
-  margin:0 auto 42px;
+  margin-bottom:25px;
 }
 
 .hero-logo{
-  width:68px;
-  height:68px;
+  width:70px;
+  height:70px;
   margin:0 auto 20px;
   display:grid;
   place-items:center;
-  border-radius:21px;
-  font-size:27px;
+  border-radius:22px;
+  font-size:28px;
   font-weight:900;
-  background:linear-gradient(135deg,#6876ff,#31cfff);
-  box-shadow:0 0 50px rgba(66,217,255,.14);
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  box-shadow:0 0 45px rgba(54,215,255,.15);
 }
 
 .hero h1{
-  font-size:clamp(32px,6vw,56px);
-  line-height:1;
+  font-size:clamp(34px,7vw,56px);
   letter-spacing:-2px;
-  margin-bottom:15px;
+  margin-bottom:13px;
 }
 
 .hero p{
   color:var(--muted);
-  font-size:15px;
-  line-height:1.7;
+  max-width:680px;
+  margin:auto;
+  line-height:1.65;
+  font-size:14px;
 }
 
-/* ================= MODE CARDS ================= */
+/* MAIN SEARCH */
 
-.explore-title{
+.search-box{
+  max-width:780px;
+  margin:0 auto 28px;
+}
+
+.search-container{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:9px;
+  border:1px solid #2a3e5c;
+  border-radius:19px;
+  background:rgba(7,17,31,.97);
+  box-shadow:0 18px 55px rgba(0,0,0,.4);
+}
+
+.search-container textarea{
+  flex:1;
+  min-height:48px;
+  max-height:160px;
+  resize:none;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:white;
+  padding:13px 10px;
+  line-height:1.4;
+}
+
+.search-container textarea::placeholder{
+  color:#64748a;
+}
+
+.search-button{
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:14px;
+  color:white;
+  font-size:21px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+}
+
+.search-button:disabled{
+  opacity:.45;
+}
+
+.search-hint{
+  text-align:center;
+  color:#596980;
+  font-size:10px;
+  margin-top:8px;
+}
+
+/* SEARCH MODE */
+
+.search-modes{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  margin-bottom:32px;
+  flex-wrap:wrap;
+}
+
+.mode-chip{
+  border:1px solid var(--border);
+  background:#071120;
+  color:#9caabd;
+  padding:8px 13px;
+  border-radius:20px;
+  font-size:11px;
+}
+
+.mode-chip.active{
+  color:white;
+  border-color:#5265a0;
+  background:#101d35;
+}
+
+/* EXPLORE */
+
+.explore{
+  text-align:center;
   color:#aeb9ca;
   font-size:13px;
   margin-bottom:13px;
-  text-align:center;
 }
 
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:13px;
+  gap:12px;
 }
 
-.mode-card{
-  border:1px solid var(--border);
-  background:linear-gradient(180deg,rgba(10,23,40,.95),rgba(6,15,28,.95));
-  border-radius:17px;
-  padding:20px;
-  color:white;
-  text-align:left;
+.card{
   min-height:150px;
-  transition:.2s ease;
+  text-align:left;
+  color:white;
+  padding:19px;
+  border-radius:17px;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg,#0a1728,#06101e);
+  transition:.2s;
 }
 
-.mode-card:hover{
+.card:hover{
   transform:translateY(-2px);
-  border-color:#405275;
-  box-shadow:var(--shadow);
+  border-color:#415477;
 }
 
-.mode-icon{
+.card-icon{
   width:38px;
   height:38px;
-  border-radius:11px;
   display:grid;
   place-items:center;
-  background:#111f34;
-  color:#dce5ff;
-  margin-bottom:18px;
-  font-size:20px;
+  border-radius:11px;
+  background:#101f35;
+  margin-bottom:16px;
+  font-size:19px;
 }
 
-.mode-card h3{
-  font-size:15px;
+.card h3{
+  font-size:14px;
   margin-bottom:7px;
 }
 
-.mode-card p{
-  color:#8493a9;
-  font-size:12px;
-  line-height:1.55;
+.card p{
+  color:#8392a8;
+  font-size:11px;
+  line-height:1.5;
 }
 
-/* ================= WORKSPACE ================= */
+/* RESULTS */
 
-.workspace{
-  margin-top:30px;
+.results{
   display:none;
+  max-width:900px;
+  margin:35px auto 0;
 }
 
-.workspace.active{
-  display:block;
-}
+.results.show{display:block}
 
-.workspace-header{
+.result-header{
   display:flex;
   align-items:center;
-  gap:12px;
   margin-bottom:15px;
 }
 
-.back-btn{
-  border:1px solid var(--border);
-  background:var(--panel);
-  color:white;
-  border-radius:10px;
-  padding:8px 11px;
-}
+.result-header h2{font-size:20px}
 
-.workspace-header h2{
-  font-size:20px;
-}
-
-.workspace-subtitle{
-  color:var(--muted);
-  font-size:12px;
+.result-header button{
   margin-left:auto;
+  border:1px solid var(--border);
+  background:#071120;
+  color:white;
+  padding:8px 11px;
+  border-radius:9px;
 }
 
-/* ================= MESSAGES ================= */
-
-.messages{
-  min-height:180px;
-  max-height:55vh;
-  overflow:auto;
-  padding:4px;
-  margin-bottom:15px;
-}
-
-.message{
-  display:flex;
-  margin:10px 0;
-}
-
-.message.user{
-  justify-content:flex-end;
-}
-
-.bubble{
-  max-width:min(820px,90%);
-  padding:13px 15px;
-  border-radius:15px;
-  line-height:1.65;
-  font-size:14px;
+.answer{
+  background:#071120;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:18px;
+  line-height:1.7;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
-}
-
-.message.user .bubble{
-  background:#182a46;
-  border:1px solid #294364;
-}
-
-.message.assistant .bubble{
-  background:#07111f;
-  border:1px solid var(--border);
-}
-
-.message.system .bubble{
-  color:#8493a9;
-  font-size:12px;
-  text-align:center;
-  width:100%;
+  font-size:14px;
 }
 
 .sources{
-  margin-top:12px;
-  padding-top:11px;
-  border-top:1px solid var(--border);
+  margin-top:18px;
 }
 
 .sources-title{
-  font-size:12px;
-  font-weight:700;
+  font-weight:750;
   margin-bottom:8px;
 }
 
 .source{
   display:block;
-  padding:8px 10px;
-  margin:5px 0;
-  border-radius:9px;
-  background:#0b182a;
-  border:1px solid #172942;
   text-decoration:none;
-  color:#9ccfff;
+  color:#9dd7ff;
+  background:#091729;
+  border:1px solid #172a43;
+  padding:10px;
+  border-radius:10px;
+  margin:6px 0;
   font-size:11px;
   overflow:hidden;
-  text-overflow:ellipsis;
   white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
-/* ================= INPUT ================= */
-
-.input-area{
-  position:sticky;
-  bottom:12px;
-}
-
-.composer{
-  display:flex;
-  align-items:flex-end;
-  gap:8px;
-  padding:9px;
-  background:rgba(7,17,31,.96);
-  border:1px solid #233650;
-  border-radius:17px;
-  box-shadow:0 15px 50px rgba(0,0,0,.4);
-  backdrop-filter:blur(15px);
-}
-
-.composer textarea{
-  flex:1;
-  min-height:46px;
-  max-height:150px;
-  resize:none;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:white;
-  padding:12px 9px;
-  line-height:1.4;
-}
-
-.composer textarea::placeholder{
-  color:#64748a;
-}
-
-.send-btn{
-  width:44px;
-  height:44px;
-  border:0;
-  border-radius:12px;
-  background:linear-gradient(135deg,#6574ff,#36cfff);
-  color:white;
-  font-size:19px;
-  font-weight:900;
-}
-
-.send-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.composer-hint{
-  color:#586980;
-  text-align:center;
-  font-size:10px;
-  margin-top:8px;
-}
-
-/* ================= LOADING ================= */
+/* LOADING */
 
 .loading{
-  display:inline-flex;
+  display:flex;
+  justify-content:center;
   gap:5px;
-  align-items:center;
+  padding:18px;
 }
 
 .loading span{
-  width:6px;
-  height:6px;
-  background:#8ea0ba;
+  width:7px;
+  height:7px;
   border-radius:50%;
-  animation:pulse 1s infinite;
+  background:#9aa8bd;
+  animation:bounce 1s infinite;
 }
 
-.loading span:nth-child(2){
-  animation-delay:.15s;
-}
+.loading span:nth-child(2){animation-delay:.15s}
+.loading span:nth-child(3){animation-delay:.3s}
 
-.loading span:nth-child(3){
-  animation-delay:.3s;
+@keyframes bounce{
+  0%,80%,100%{opacity:.25;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-4px)}
 }
-
-@keyframes pulse{
-  0%,80%,100%{
-    opacity:.25;
-    transform:translateY(0);
-  }
-  40%{
-    opacity:1;
-    transform:translateY(-3px);
-  }
-}
-
-/* ================= ERROR ================= */
 
 .error{
   color:#ff9aaa;
-  background:rgba(255,70,100,.07);
-  border:1px solid rgba(255,70,100,.2);
+  border-color:#633040;
 }
 
-/* ================= MOBILE ================= */
+/* MOBILE */
 
 @media(max-width:850px){
 
   .sidebar{
     transform:translateX(-100%);
-    box-shadow:20px 0 60px rgba(0,0,0,.5);
   }
 
   .sidebar.open{
     transform:translateX(0);
   }
 
-  .main{
-    margin-left:0;
-  }
+  .main{margin-left:0}
 
-  .menu-btn{
+  .menu{
     display:block;
   }
 
   .cards{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
   }
 
-  .content{
+  .container{
     padding-top:45px;
   }
 }
 
 @media(max-width:520px){
 
-  .topbar{
-    padding:0 14px;
-  }
+  .topbar{padding:0 14px}
 
-  .connection{
-    display:none;
-  }
-
-  .content{
-    width:calc(100% - 20px);
+  .container{
+    width:calc(100% - 18px);
     padding-top:35px;
   }
 
-  .hero{
-    margin-bottom:30px;
-  }
+  .hero h1{font-size:39px}
 
-  .hero h1{
-    font-size:39px;
-  }
+  .hero p{font-size:13px}
 
-  .hero p{
-    font-size:13px;
+  .search-container{
+    border-radius:16px;
   }
 
   .cards{
-    grid-template-columns:1fr 1fr;
-    gap:9px;
+    gap:8px;
   }
 
-  .mode-card{
-    padding:15px;
+  .card{
     min-height:145px;
+    padding:15px;
   }
 
-  .mode-card h3{
-    font-size:13px;
-  }
-
-  .mode-card p{
-    font-size:11px;
-  }
-
-  .workspace-subtitle{
-    display:none;
-  }
-
-  .bubble{
-    max-width:94%;
-    font-size:13px;
-  }
+  .card h3{font-size:13px}
 }
 </style>
 </head>
@@ -630,322 +517,647 @@ button{
 
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
 
-    <div class="brand">
-      <div class="brand-mark">X</div>
-      <div class="brand-text">
-        <strong>ARC X</strong>
-        <span>AI SUPER APP</span>
-      </div>
+  <div class="brand">
+    <div class="logo">X</div>
+    <div>
+      <strong>ARC X</strong>
+      <small>AI SUPER APP</small>
     </div>
+  </div>
 
-    <button class="new-chat" onclick="newChat()">
-      ＋ &nbsp; New chat
+  <button class="newchat" onclick="newChat()">
+    ＋ &nbsp; New chat
+  </button>
+
+  <div class="section-title">Recent chats</div>
+
+  <div class="history" id="history">
+    <div class="empty">No recent chats</div>
+  </div>
+
+  <div class="bottom">
+    <button class="side-btn" onclick="toggleAppearance()">
+      ◐ &nbsp; Appearance
     </button>
 
-    <div class="sidebar-title">
-      Recent chats
-    </div>
+    <button class="side-btn" onclick="clearHistory()">
+      ⌫ &nbsp; Clear history
+    </button>
+  </div>
 
-    <div class="history" id="history">
-      <div class="history-empty">
-        No recent chats
-      </div>
-    </div>
+</aside>
 
-    <div class="sidebar-bottom">
+<!-- MAIN -->
+<main class="main">
 
-      <button class="side-action" onclick="toggleAppearance()">
-        ◐ &nbsp; Appearance
-      </button>
+<header class="topbar">
 
-      <button class="side-action" onclick="clearHistory()">
-        ⌫ &nbsp; Clear history
-      </button>
+  <button class="menu" onclick="toggleSidebar()">☰</button>
 
-    </div>
+  <div class="top-title">ARC X</div>
 
-  </aside>
+  <div class="status">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Connecting...</span>
+  </div>
 
-  <!-- MAIN -->
-  <main class="main">
+</header>
 
-    <header class="topbar">
+<div class="container">
 
-      <button class="menu-btn" onclick="toggleSidebar()">
-        ☰
-      </button>
+<!-- HERO -->
 
-      <div class="top-title">
-        ARC X
-      </div>
+<section class="hero">
 
-      <div class="connection">
-        <span class="dot" id="statusDot"></span>
-        <span id="statusText">Connecting...</span>
-      </div>
+  <div class="hero-logo">X</div>
 
-    </header>
+  <h1>Welcome to ARC X</h1>
 
-    <section class="content">
+  <p>
+    Search the web, research topics, understand information,
+    create content, code and explore ideas with ARC X.
+  </p>
 
-      <!-- HOME -->
-      <div id="home">
+</section>
 
-        <div class="hero">
+<!-- MAIN SEARCH -->
 
-          <div class="hero-logo">
-            X
-          </div>
+<section class="search-box">
 
-          <h1>
-            Welcome to ARC X
-          </h1>
+  <div class="search-container">
 
-          <p>
-            Search the web, research topics, understand information,
-            create content, code and explore ideas with ARC X.
-          </p>
+    <textarea
+      id="mainInput"
+      rows="1"
+      placeholder="Ask ARC X anything..."
+      onkeydown="handleSearchKey(event)"
+    ></textarea>
 
-        </div>
+    <button
+      class="search-button"
+      id="searchButton"
+      onclick="runSearch()"
+    >
+      ↑
+    </button>
 
-        <div class="explore-title">
-          Explore ARC X
-        </div>
+  </div>
 
-        <div class="cards">
+  <div class="search-hint">
+    Enter to search · Shift + Enter for a new line
+  </div>
 
-          <button class="mode-card" onclick="openMode('search')">
+</section>
 
-            <div class="mode-icon">
-              ⌕
-            </div>
+<!-- SEARCH MODES -->
 
-            <h3>
-              Web Search
-            </h3>
+<div class="search-modes">
 
-            <p>
-              Find current information from the web.
-            </p>
+  <button
+    class="mode-chip active"
+    id="chipWeb"
+    onclick="setSearchMode('web')"
+  >
+    ⌕ Web Search
+  </button>
 
-          </button>
+  <button
+    class="mode-chip"
+    id="chipAI"
+    onclick="setSearchMode('ai')"
+  >
+    ✦ AI Chat
+  </button>
 
-          <button class="mode-card" onclick="openMode('research')">
+  <button
+    class="mode-chip"
+    id="chipResearch"
+    onclick="setSearchMode('research')"
+  >
+    ◉ Deep Research
+  </button>
 
-            <div class="mode-icon">
-              ◉
-            </div>
+</div>
 
-            <h3>
-              Deep Research
-            </h3>
+<!-- EXPLORE -->
 
-            <p>
-              Research topics using multiple sources.
-            </p>
+<div class="explore">
+  Explore ARC X
+</div>
 
-          </button>
+<div class="cards">
 
-          <button class="mode-card" onclick="openMode('create')">
+  <button class="card" onclick="selectMode('web')">
 
-            <div class="mode-icon">
-              ✦
-            </div>
+    <div class="card-icon">⌕</div>
 
-            <h3>
-              Create
-            </h3>
+    <h3>Web Search</h3>
 
-            <p>
-              Write posts, scripts and documents.
-            </p>
+    <p>
+      Find current information from the web.
+    </p>
 
-          </button>
+  </button>
 
-          <button class="mode-card" onclick="openMode('code')">
+  <button class="card" onclick="selectMode('research')">
 
-            <div class="mode-icon">
-              &lt;/&gt;
-            </div>
+    <div class="card-icon">◉</div>
 
-            <h3>
-              Code
-            </h3>
+    <h3>Deep Research</h3>
 
-            <p>
-              Build and understand software.
-            </p>
+    <p>
+      Research topics using multiple sources.
+    </p>
 
-          </button>
+  </button>
 
-        </div>
+  <button class="card" onclick="selectMode('create')">
 
-      </div>
+    <div class="card-icon">✦</div>
 
-      <!-- WORKSPACE -->
-      <div class="workspace" id="workspace">
+    <h3>Create</h3>
 
-        <div class="workspace-header">
+    <p>
+      Write posts, scripts and documents.
+    </p>
 
-          <button class="back-btn" onclick="showHome()">
-            ←
-          </button>
+  </button>
 
-          <h2 id="workspaceTitle">
-            ARC X
-          </h2>
+  <button class="card" onclick="selectMode('code')">
 
-          <div class="workspace-subtitle" id="workspaceSubtitle">
-            AI
-          </div>
+    <div class="card-icon">&lt;/&gt;</div>
 
-        </div>
+    <h3>Code</h3>
 
-        <div class="messages" id="messages"></div>
+    <p>
+      Build and understand software.
+    </p>
 
-        <div class="input-area">
+  </button>
 
-          <div class="composer">
+</div>
 
-            <textarea
-              id="input"
-              placeholder="Ask ARC X anything..."
-              rows="1"
-              onkeydown="handleKey(event)"
-            ></textarea>
+<!-- RESULTS -->
 
-            <button
-              class="send-btn"
-              id="sendBtn"
-              onclick="sendMessage()"
-            >
-              ↑
-            </button>
+<section class="results" id="results">
 
-          </div>
+  <div class="result-header">
 
-          <div class="composer-hint">
-            ARC X can make mistakes. Check important information.
-          </div>
+    <h2 id="resultTitle">ARC X</h2>
 
-        </div>
+    <button onclick="clearResults()">
+      New search
+    </button>
 
-      </div>
+  </div>
 
-    </section>
+  <div id="resultContent"></div>
 
-  </main>
+</section>
+
+</div>
+
+</main>
 
 </div>
 
 <script>
-/* =========================================================
-   ARC X FRONTEND
-========================================================= */
-
-const state = {
-  mode: "chat",
-  messages: [],
-  history: []
-};
-
-const home = document.getElementById("home");
-const workspace = document.getElementById("workspace");
-const messagesEl = document.getElementById("messages");
-const input = document.getElementById("input");
-const sendBtn = document.getElementById("sendBtn");
-const historyEl = document.getElementById("history");
-
-const workspaceTitle = document.getElementById("workspaceTitle");
-const workspaceSubtitle = document.getElementById("workspaceSubtitle");
-
-const statusDot = document.getElementById("statusDot");
-const statusText = document.getElementById("statusText");
-
-const sidebar = document.getElementById("sidebar");
 
 /* =========================================================
-   MODE INFORMATION
+   ARC X STATE
 ========================================================= */
 
-const modes = {
-  search: {
-    title: "Web Search",
-    subtitle: "Live web search",
-    placeholder: "Search the web..."
-  },
+let searchMode = "web";
 
-  research: {
-    title: "Deep Research",
-    subtitle: "Multi-source research",
-    placeholder: "What should ARC X research?"
-  },
+const mainInput =
+  document.getElementById("mainInput");
 
-  create: {
-    title: "Create",
-    subtitle: "Content creation",
-    placeholder: "What do you want ARC X to create?"
-  },
+const searchButton =
+  document.getElementById("searchButton");
 
-  code: {
-    title: "Code",
-    subtitle: "AI coding assistant",
-    placeholder: "Describe the code you need..."
+const results =
+  document.getElementById("results");
+
+const resultContent =
+  document.getElementById("resultContent");
+
+const resultTitle =
+  document.getElementById("resultTitle");
+
+const historyEl =
+  document.getElementById("history");
+
+const sidebar =
+  document.getElementById("sidebar");
+
+/* =========================================================
+   MODE
+========================================================= */
+
+function setSearchMode(mode){
+
+  searchMode = mode;
+
+  document
+    .querySelectorAll(".mode-chip")
+    .forEach(x => x.classList.remove("active"));
+
+  if(mode === "web"){
+    document.getElementById("chipWeb").classList.add("active");
+    mainInput.placeholder = "Search the web...";
   }
-};
 
-/* =========================================================
-   OPEN MODE
-========================================================= */
+  if(mode === "ai"){
+    document.getElementById("chipAI").classList.add("active");
+    mainInput.placeholder = "Ask ARC X anything...";
+  }
 
-function openMode(mode){
+  if(mode === "research"){
+    document.getElementById("chipResearch").classList.add("active");
+    mainInput.placeholder = "What should ARC X research?";
+  }
 
-  state.mode = mode;
-  state.messages = [];
+  mainInput.focus();
+}
 
-  const info = modes[mode];
+function selectMode(mode){
 
-  workspaceTitle.textContent = info.title;
-  workspaceSubtitle.textContent = info.subtitle;
+  if(mode === "web" ||
+     mode === "research"){
 
-  input.placeholder = info.placeholder;
+    setSearchMode(mode);
 
-  home.style.display = "none";
-  workspace.classList.add("active");
+    mainInput.focus();
 
-  messagesEl.innerHTML = "";
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
 
-  addSystemMessage(
-    mode === "search"
-      ? "Ask ARC X to search the live web."
-      : mode === "research"
-      ? "Give ARC X a topic and it will research it using multiple web sources."
-      : mode === "create"
-      ? "Tell ARC X what you want created."
-      : "Describe the software or coding problem you want help with."
-  );
+    return;
+  }
 
-  input.focus();
+  if(mode === "create"){
 
-  closeSidebar();
+    setSearchMode("ai");
+
+    mainInput.placeholder =
+      "What do you want ARC X to create?";
+
+    mainInput.focus();
+
+    return;
+  }
+
+  if(mode === "code"){
+
+    setSearchMode("ai");
+
+    mainInput.placeholder =
+      "Describe the code you need...";
+
+    mainInput.focus();
+
+  }
 }
 
 /* =========================================================
-   HOME
+   SEARCH
 ========================================================= */
 
-function showHome(){
+async function runSearch(){
 
-  workspace.classList.remove("active");
-  home.style.display = "block";
+  const query =
+    mainInput.value.trim();
 
-  state.mode = "chat";
-  state.messages = [];
+  if(!query) return;
 
-  input.value = "";
+  searchButton.disabled = true;
+
+  results.classList.add("show");
+
+  resultTitle.textContent =
+    searchMode === "web"
+      ? "Web Search"
+      : searchMode === "research"
+      ? "Deep Research"
+      : "ARC X";
+
+  resultContent.innerHTML = `
+    <div class="answer">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  `;
+
+  try{
+
+    let endpoint;
+    let body;
+
+    if(searchMode === "web"){
+
+      endpoint = "/api/search-answer";
+
+      body = {
+        query:query
+      };
+
+    }
+
+    else if(searchMode === "research"){
+
+      endpoint = "/api/research";
+
+      body = {
+        query:query
+      };
+
+    }
+
+    else{
+
+      endpoint = "/api/chat";
+
+      body = {
+        message:query
+      };
+
+    }
+
+    const response =
+      await fetch(endpoint,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(body)
+      });
+
+    let data;
+
+    try{
+      data = await response.json();
+    }
+    catch{
+      throw new Error(
+        "ARC X server returned an invalid response."
+      );
+    }
+
+    if(!response.ok || data.ok === false){
+
+      throw new Error(
+        data.error ||
+        `Request failed (${response.status})`
+      );
+
+    }
+
+    const answer =
+      data.answer ||
+      data.response ||
+      data.research ||
+      "No answer returned.";
+
+    showAnswer(
+      answer,
+      data.sources || data.results || []
+    );
+
+    saveHistory(query);
+
+  }
+  catch(error){
+
+    resultContent.innerHTML = `
+      <div class="answer error">
+        ⚠️ ${escapeHtml(
+          error.message ||
+          "ARC X could not complete the request."
+        )}
+      </div>
+    `;
+
+  }
+  finally{
+
+    searchButton.disabled = false;
+
+  }
+}
+
+/* =========================================================
+   SHOW ANSWER
+========================================================= */
+
+function showAnswer(answer,sources){
+
+  let html =
+    `<div class="answer">${escapeHtml(answer)}</div>`;
+
+  if(Array.isArray(sources) && sources.length){
+
+    html += `<div class="sources">
+      <div class="sources-title">Sources</div>`;
+
+    sources.forEach((source,index)=>{
+
+      if(!source || !source.url) return;
+
+      html += `
+        <a
+          class="source"
+          href="${escapeAttribute(source.url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${index + 1}.
+          ${escapeHtml(
+            source.title || source.url
+          )}
+        </a>
+      `;
+
+    });
+
+    html += `</div>`;
+  }
+
+  resultContent.innerHTML = html;
+
+  results.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+function handleSearchKey(event){
+
+  if(
+    event.key === "Enter" &&
+    !event.shiftKey
+  ){
+
+    event.preventDefault();
+
+    runSearch();
+
+  }
+
+}
+
+/* =========================================================
+   TEXTAREA RESIZE
+========================================================= */
+
+mainInput.addEventListener(
+  "input",
+  function(){
+
+    this.style.height = "auto";
+
+    this.style.height =
+      Math.min(this.scrollHeight,160) + "px";
+
+  }
+);
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+function clearResults(){
+
+  results.classList.remove("show");
+
+  resultContent.innerHTML = "";
+
+  mainInput.value = "";
+
+  mainInput.focus();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+let history = [];
+
+function saveHistory(query){
+
+  history.unshift({
+    query:query,
+    mode:searchMode,
+    time:Date.now()
+  });
+
+  history =
+    history.slice(0,30);
+
+  localStorage.setItem(
+    "arcx_history",
+    JSON.stringify(history)
+  );
+
+  renderHistory();
+}
+
+function loadHistory(){
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          "arcx_history"
+        ) || "[]"
+      );
+
+    if(Array.isArray(saved)){
+      history = saved;
+    }
+
+  }
+  catch{
+
+    history = [];
+
+  }
+
+  renderHistory();
+}
+
+function renderHistory(){
+
+  historyEl.innerHTML = "";
+
+  if(!history.length){
+
+    historyEl.innerHTML =
+      `<div class="empty">
+        No recent chats
+      </div>`;
+
+    return;
+  }
+
+  history.forEach(item=>{
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "history-item";
+
+    button.textContent =
+      item.query || "Untitled";
+
+    button.onclick = ()=>{
+
+      setSearchMode(
+        item.mode || "web"
+      );
+
+      mainInput.value =
+        item.query || "";
+
+      mainInput.focus();
+
+      closeSidebar();
+
+    };
+
+    historyEl.appendChild(button);
+
+  });
+}
+
+function clearHistory(){
+
+  history = [];
+
+  localStorage.removeItem(
+    "arcx_history"
+  );
+
+  renderHistory();
 
 }
 
@@ -955,231 +1167,105 @@ function showHome(){
 
 function newChat(){
 
-  showHome();
+  mainInput.value = "";
 
-  state.messages = [];
+  clearResults();
 
-  messagesEl.innerHTML = "";
+  setSearchMode("web");
 
   closeSidebar();
+
 }
 
 /* =========================================================
-   MESSAGE DISPLAY
+   SIDEBAR
 ========================================================= */
 
-function addMessage(role, text, sources = []){
+function toggleSidebar(){
 
-  const wrapper = document.createElement("div");
+  sidebar.classList.toggle("open");
 
-  wrapper.className = `message ${role}`;
-
-  const bubble = document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.textContent = text;
-
-  wrapper.appendChild(bubble);
-
-  if(Array.isArray(sources) && sources.length){
-
-    const sourceBox = document.createElement("div");
-
-    sourceBox.className = "sources";
-
-    const title = document.createElement("div");
-
-    title.className = "sources-title";
-
-    title.textContent = "Sources";
-
-    sourceBox.appendChild(title);
-
-    sources.forEach((source,index)=>{
-
-      if(!source || !source.url) return;
-
-      const link = document.createElement("a");
-
-      link.className = "source";
-
-      link.href = source.url;
-
-      link.target = "_blank";
-
-      link.rel = "noopener noreferrer";
-
-      link.textContent =
-        `${index + 1}. ${source.title || source.url}`;
-
-      sourceBox.appendChild(link);
-
-    });
-
-    bubble.appendChild(sourceBox);
-  }
-
-  messagesEl.appendChild(wrapper);
-
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-
-  return wrapper;
 }
 
-function addSystemMessage(text){
+function closeSidebar(){
 
-  const wrapper = document.createElement("div");
+  sidebar.classList.remove("open");
 
-  wrapper.className = "message system";
-
-  const bubble = document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.textContent = text;
-
-  wrapper.appendChild(bubble);
-
-  messagesEl.appendChild(wrapper);
-}
-
-function addLoading(){
-
-  const wrapper = document.createElement("div");
-
-  wrapper.className = "message assistant";
-
-  wrapper.id = "loadingMessage";
-
-  const bubble = document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.innerHTML = `
-    <div class="loading">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  `;
-
-  wrapper.appendChild(bubble);
-
-  messagesEl.appendChild(wrapper);
-
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-function removeLoading(){
-
-  const loading = document.getElementById("loadingMessage");
-
-  if(loading){
-    loading.remove();
-  }
 }
 
 /* =========================================================
-   SEND
+   APPEARANCE
 ========================================================= */
 
-async function sendMessage(){
+function toggleAppearance(){
 
-  const text = input.value.trim();
+  alert(
+    "Appearance controls can be expanded in the next ARC X update."
+  );
 
-  if(!text || sendBtn.disabled) return;
+}
 
-  addMessage("user", text);
+/* =========================================================
+   SECURITY HELPERS
+========================================================= */
 
-  state.messages.push({
-    role:"user",
-    content:text
-  });
+function escapeHtml(value){
 
-  input.value = "";
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
-  autoResize();
+}
 
-  sendBtn.disabled = true;
+function escapeAttribute(value){
 
-  addLoading();
+  return escapeHtml(value);
+
+}
+
+/* =========================================================
+   SERVER STATUS
+========================================================= */
+
+async function checkStatus(){
+
+  const dot =
+    document.getElementById("statusDot");
+
+  const text =
+    document.getElementById("statusText");
 
   try{
 
-    let data;
+    const response =
+      await fetch("/api/status");
 
-    if(state.mode === "search"){
+    const data =
+      await response.json();
 
-      data = await apiRequest("/api/search-answer",{
-        query:text
-      });
+    dot.classList.add("online");
 
-    }
+    if(
+      data.groqConfigured &&
+      data.tavilyConfigured
+    ){
 
-    else if(state.mode === "research"){
-
-      data = await apiRequest("/api/research",{
-        query:text
-      });
-
-    }
-
-    else if(state.mode === "create"){
-
-      data = await apiRequest("/api/create",{
-        prompt:text,
-        type:"general"
-      });
+      text.textContent =
+        "ARC X Online";
 
     }
+    else if(data.groqConfigured){
 
-    else if(state.mode === "code"){
-
-      data = await apiRequest("/api/code",{
-        prompt:text
-      });
+      text.textContent =
+        "AI Online";
 
     }
-
     else{
 
-      data = await apiRequest("/api/chat",{
-        message:text,
-        messages:state.messages
-      });
+      text.textContent =
+        "Setup Required";
 
-    }
-
-    removeLoading();
-
-    if(!data || data.ok === false){
-
-      throw new Error(
-        data?.error || "ARC X returned an unknown error."
-      );
-    }
-
-    const answer =
-      data.answer ||
-      data.response ||
-      data.research ||
-      "ARC X returned no answer.";
-
-    addMessage(
-      "assistant",
-      answer,
-      data.sources || data.results || []
-    );
-
-    state.messages.push({
-      role:"assistant",
-      content:answer
-    });
-
-    saveHistory(text);
-
-  }
-  catch(error){
-
-    removeLoadi
+   
