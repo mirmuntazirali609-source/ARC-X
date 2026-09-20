@@ -651,6 +651,7 @@ a:focus-visible{
 }
 
 @media(prefers-reduced-motion:reduce){
+
   html{
     scroll-behavior:auto;
   }
@@ -746,19 +747,19 @@ a:focus-visible{
 
 <div class="app">
 
-  <!-- =====================================================
-       SIDEBAR
-  ====================================================== -->
+  <!-- SIDEBAR -->
 
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
+
       <div class="logo">X</div>
 
       <div>
         <strong>ARC X</strong>
         <small>AI SUPER APP</small>
       </div>
+
     </div>
 
     <button class="newchat" onclick="newChat()">
@@ -790,9 +791,7 @@ a:focus-visible{
   </aside>
 
 
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
+  <!-- MAIN -->
 
   <main class="main">
 
@@ -828,9 +827,7 @@ a:focus-visible{
 
     <div class="container">
 
-      <!-- =================================================
-           HERO
-      ================================================== -->
+      <!-- HERO -->
 
       <section class="hero">
 
@@ -850,9 +847,7 @@ a:focus-visible{
       </section>
 
 
-      <!-- =================================================
-           SEARCH BOX
-      ================================================== -->
+      <!-- SEARCH -->
 
       <section class="search-box">
 
@@ -884,9 +879,7 @@ a:focus-visible{
       </section>
 
 
-      <!-- =================================================
-           SEARCH MODES
-      ================================================== -->
+      <!-- MODES -->
 
       <div class="search-modes">
 
@@ -917,9 +910,7 @@ a:focus-visible{
       </div>
 
 
-      <!-- =================================================
-           EXPLORE
-      ================================================== -->
+      <!-- EXPLORE -->
 
       <div class="explore">
         Explore ARC X
@@ -1009,9 +1000,7 @@ a:focus-visible{
       </div>
 
 
-      <!-- =================================================
-           RESULTS
-      ================================================== -->
+      <!-- RESULTS -->
 
       <section
         class="results"
@@ -1048,7 +1037,6 @@ a:focus-visible{
 ========================================================= */
 
 let searchMode = "web";
-
 let history = [];
 
 const mainInput =
@@ -1080,6 +1068,154 @@ const statusText =
 
 
 /* =========================================================
+   LOAD SAVED HISTORY
+========================================================= */
+
+function loadHistory(){
+
+  try{
+
+    const saved =
+      localStorage.getItem("arcx_history");
+
+    if(saved){
+
+      const parsed =
+        JSON.parse(saved);
+
+      if(Array.isArray(parsed)){
+        history = parsed;
+      }
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "History could not be loaded:",
+      error
+    );
+
+  }
+
+  renderHistory();
+}
+
+
+/* =========================================================
+   SAVE HISTORY
+========================================================= */
+
+function saveHistory(){
+
+  try{
+
+    localStorage.setItem(
+      "arcx_history",
+      JSON.stringify(history.slice(0,30))
+    );
+
+  }catch(error){
+
+    console.warn(
+      "History could not be saved:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER HISTORY
+========================================================= */
+
+function renderHistory(){
+
+  if(!history.length){
+
+    historyEl.innerHTML = `
+      <div class="empty">
+        No recent chats
+      </div>
+    `;
+
+    return;
+  }
+
+  historyEl.innerHTML = "";
+
+  history.forEach(function(item,index){
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "history-item";
+
+    button.textContent =
+      item.query;
+
+    button.title =
+      item.query;
+
+    button.onclick = function(){
+
+      mainInput.value =
+        item.query;
+
+      setSearchMode(
+        item.mode || "web"
+      );
+
+      runSearch();
+
+      if(window.innerWidth <= 850){
+        sidebar.classList.remove("open");
+      }
+
+    };
+
+    historyEl.appendChild(button);
+
+  });
+
+}
+
+
+/* =========================================================
+   ADD HISTORY
+========================================================= */
+
+function addHistory(query,mode){
+
+  history.unshift({
+    query:query,
+    mode:mode,
+    time:Date.now()
+  });
+
+  history =
+    history.filter(function(item,index,array){
+
+      return index ===
+        array.findIndex(function(other){
+
+          return other.query === item.query &&
+                 other.mode === item.mode;
+
+        });
+
+    }).slice(0,30);
+
+  saveHistory();
+  renderHistory();
+
+}
+
+
+/* =========================================================
    MODE
 ========================================================= */
 
@@ -1103,6 +1239,7 @@ function setSearchMode(mode){
       "Search the web...";
 
   }
+
   else if(mode === "ai"){
 
     document
@@ -1113,6 +1250,7 @@ function setSearchMode(mode){
       "Ask ARC X anything...";
 
   }
+
   else if(mode === "research"){
 
     document
@@ -1125,6 +1263,7 @@ function setSearchMode(mode){
   }
 
   mainInput.focus();
+
 }
 
 
@@ -1141,8 +1280,6 @@ function selectMode(mode){
 
     setSearchMode(mode);
 
-    mainInput.focus();
-
     window.scrollTo({
       top:0,
       behavior:"smooth"
@@ -1153,103 +1290,8 @@ function selectMode(mode){
 
   if(mode === "create"){
 
-    setSearchMode("ai");
+    searchMode = "create";
 
-    mainInput.placeholder =
-      "What do you want ARC X to create?";
-
-    mainInput.focus();
-
-    return;
-  }
-
-  if(mode === "code"){
-
-    setSearchMode("ai");
-
-    mainInput.placeholder =
-      "Describe the code you need...";
-
-    mainInput.focus();
-
-  }
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-async function runSearch(){
-
-  const query =
-    mainInput.value.trim();
-
-  if(!query){
-
-    mainInput.focus();
-
-    return;
-  }
-
-  if(searchButton.disabled){
-    return;
-  }
-
-  searchButton.disabled = true;
-
-  results.classList.add("show");
-
-  resultTitle.textContent =
-    searchMode === "web"
-      ? "Web Search"
-      : searchMode === "research"
-      ? "Deep Research"
-      : "ARC X";
-
-  resultContent.innerHTML = `
-    <div class="answer">
-      <div class="loading">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <div class="wait">
-        Working on it. The first request after a break can take up to a minute.
-      </div>
-    </div>
-  `;
-
-  try{
-
-    let endpoint;
-    let requestBody;
-
-    if(searchMode === "web"){
-
-      endpoint = "/api/search-answer";
-
-      requestBody = {
-        query:query
-      };
-
-    }
-    else if(searchMode === "research"){
-
-      endpoint = "/api/research";
-
-      requestBody = {
-        query:query
-      };
-
-    }
-    else{
-
-      endpoint = "/api/chat";
-
-      requestBody = {
-        message:query
-      };
-
-    }
+    document
+      .querySelectorAll(".mode-chip")
+      .forEach(funct
