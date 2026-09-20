@@ -19,8 +19,6 @@
   --line:rgba(96,147,255,.18);
   --blue:#16c8ff;
   --violet:#7b4dff;
-  --user:#092450;
-  --danger:#ff6680;
 }
 
 body.light{
@@ -31,10 +29,10 @@ body.light{
   --text:#101522;
   --muted:#68738a;
   --line:rgba(20,50,100,.14);
-  --user:#dceaff;
 }
 
 html,body{
+  width:100%;
   height:100%;
   overflow:hidden;
 }
@@ -47,20 +45,26 @@ body{
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
-button,input,textarea{font:inherit}
+button,input,textarea{
+  font:inherit;
+}
+
 button{
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
 
 /* APP */
+
 .app{
+  width:100%;
   height:100dvh;
   display:flex;
   overflow:hidden;
 }
 
 /* SIDEBAR */
+
 .sidebar{
   width:270px;
   height:100%;
@@ -110,7 +114,6 @@ button{
   background:linear-gradient(135deg,#091934,#151044);
   border:1px solid rgba(42,192,255,.45);
   position:relative;
-  box-shadow:0 0 25px rgba(40,110,255,.18);
 }
 
 .side-logo:before{
@@ -199,6 +202,7 @@ button{
 }
 
 /* MAIN */
+
 .main{
   width:100%;
   height:100%;
@@ -208,6 +212,7 @@ button{
 }
 
 /* HEADER */
+
 .header{
   height:70px;
   min-height:70px;
@@ -315,6 +320,7 @@ button{
 }
 
 /* CONTENT */
+
 .content{
   flex:1;
   min-height:0;
@@ -435,6 +441,7 @@ button{
 }
 
 /* CHAT */
+
 .chat{
   width:min(850px,100%);
   margin:auto;
@@ -493,7 +500,6 @@ button{
   align-items:center;
   gap:9px;
   margin-bottom:9px;
-  color:var(--text);
   font-size:13px;
   font-weight:700;
 }
@@ -537,6 +543,7 @@ button{
   border-radius:17px;
   padding:16px;
   line-height:1.65;
+  white-space:pre-wrap;
 }
 
 .light .answer{
@@ -634,11 +641,8 @@ button{
   }
 }
 
-.error{
-  color:#ff7b8d;
-}
-
 /* COMPOSER */
+
 .composer-wrap{
   position:fixed;
   left:0;
@@ -750,7 +754,6 @@ button{
   color:white;
   font-size:30px;
   line-height:1;
-  box-shadow:0 0 18px rgba(46,142,255,.2);
   transition:.2s;
 }
 
@@ -839,6 +842,7 @@ button{
 }
 
 /* FILE */
+
 .file-chip{
   display:none;
   margin:8px 10px 0;
@@ -864,6 +868,7 @@ button{
 }
 
 /* TOAST */
+
 .toast{
   position:fixed;
   left:50%;
@@ -889,6 +894,7 @@ button{
 }
 
 /* MOBILE */
+
 @media(max-width:700px){
 
   .header{
@@ -1043,10 +1049,13 @@ button{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar" id="sidebar">
 
   <div class="side-brand">
     <div class="side-logo"></div>
+
     <div>
       <div class="side-name">ARC X</div>
       <div class="side-sub">AI SUPER APP</div>
@@ -1057,40 +1066,90 @@ button{
     ＋ &nbsp; New chat
   </button>
 
-  <div class="side-label">Recent chats</div>
+  <div class="side-label">
+    Recent chats
+  </div>
+
   <div class="history" id="history"></div>
 
   <div class="side-bottom">
-    <button id="themeButton">◐ &nbsp; Appearance</button>
-    <button id="clearHistory">⌫ &nbsp; Clear history</button>
+
+    <button id="themeButton">
+      ◐ &nbsp; Appearance
+    </button>
+
+    <button id="clearHistory">
+      ⌫ &nbsp; Clear history
+    </button>
+
   </div>
 
 </aside>
+
+<!-- MAIN -->
 
 <main class="main">
 
 <header class="header">
 
   <div class="header-left">
-    <button class="header-btn" id="menuButton">☰</button>
+
+    <button
+      class="header-btn"
+      id="menuButton"
+      aria-label="Menu"
+    >
+      ☰
+    </button>
+
   </div>
 
   <div class="brand-center">
+
     <div class="brand-mark"></div>
 
     <div>
-      <div class="brand-text">ARC X</div>
-      <div class="brand-sub">AI SUPER APP</div>
+      <div class="brand-text">
+        ARC X
+      </div>
+
+      <div class="brand-sub">
+        AI SUPER APP
+      </div>
     </div>
+
   </div>
 
   <div class="header-right">
-    <button class="header-btn" id="headerSearch">⌕</button>
-    <button class="pro" id="proButton">♛ Pro</button>
-    <button class="header-btn" id="themeButtonTop">◐</button>
+
+    <button
+      class="header-btn"
+      id="headerSearch"
+      aria-label="Search"
+    >
+      ⌕
+    </button>
+
+    <button
+      class="pro"
+      id="proButton"
+    >
+      ♛ Pro
+    </button>
+
+    <button
+      class="header-btn"
+      id="themeButtonTop"
+      aria-label="Theme"
+    >
+      ◐
+    </button>
+
   </div>
 
 </header>
+
+<!-- CONTENT -->
 
 <section class="content" id="content">
 
@@ -1109,127 +1168,235 @@ button{
 
   <div class="explore">
 
-    <div class="explore-title">Explore ARC X</div>
+    <div class="explore-title">
+      Explore ARC X
+    </div>
 
     <div class="explore-grid">
 
-      <button class="explore-card" data-mode="search">
-        <div class="card-icon">⌕</div>
-        <div class="card-title">Web Search</div>
+      <button
+        class="explore-card"
+        data-mode="search"
+      >
+
+        <div class="card-icon">
+          ⌕
+        </div>
+
+        <div class="card-title">
+          Web Search
+        </div>
+
         <div class="card-desc">
           Find current information from the web.
         </div>
+
       </button>
 
-      <button class="explore-card" data-mode="research">
-        <div class="card-icon">◉</div>
-        <div class="card-title">Deep Research</div>
+      <button
+        class="explore-card"
+        data-mode="research"
+      >
+
+        <div class="card-icon">
+          ◉
+        </div>
+
+        <div class="card-title">
+          Deep Research
+        </div>
+
         <div class="card-desc">
           Research topics using multiple sources.
         </div>
+
       </button>
 
-      <button class="explore-card" data-mode="create">
-        <div class="card-icon">✦</div>
-        <div class="card-title">Create</div>
+      <button
+        class="explore-card"
+        data-mode="create"
+      >
+
+        <div class="card-icon">
+          ✦
+        </div>
+
+        <div class="card-title">
+          Create
+        </div>
+
         <div class="card-desc">
           Write posts, scripts and documents.
         </div>
+
       </button>
 
-      <button class="explore-card" data-mode="code">
-        <div class="card-icon">&lt;/&gt;</div>
-        <div class="card-title">Code</div>
+      <button
+        class="explore-card"
+        data-mode="code"
+      >
+
+        <div class="card-icon">
+          &lt;/&gt;
+        </div>
+
+        <div class="card-title">
+          Code
+        </div>
+
         <div class="card-desc">
           Build and understand software.
         </div>
+
       </button>
 
     </div>
+
   </div>
+
 </div>
 
-<div class="chat" id="chat"></div>
+<!-- CHAT -->
+
+<div
+  class="chat"
+  id="chat"
+></div>
 
 </section>
+
+<!-- COMPOSER -->
 
 <div class="composer-wrap">
 
 <div class="composer">
 
-<div class="tools-panel" id="toolsPanel">
+<!-- TOOLS PANEL -->
 
-  <button class="tool" id="filesTool">
-    <div class="tool-icon">📄</div>
-    <div class="tool-name">Upload Files</div>
-    <div class="tool-desc">PDF, DOC, XLS, TXT...</div>
+<div
+  class="tools-panel"
+  id="toolsPanel"
+>
+
+  <button
+    class="tool"
+    id="filesTool"
+  >
+
+    <div class="tool-icon">
+      📄
+    </div>
+
+    <div class="tool-name">
+      Upload Files
+    </div>
+
+    <div class="tool-desc">
+      PDF, DOC, XLS, TXT...
+    </div>
+
   </button>
 
-  <button class="tool" id="cameraTool">
-    <div class="tool-icon">📷</div>
-    <div class="tool-name">Camera</div>
-    <div class="tool-desc">Take Photo</div>
+  <button
+    class="tool"
+    id="cameraTool"
+  >
+
+    <div class="tool-icon">
+      📷
+    </div>
+
+    <div class="tool-name">
+      Camera
+    </div>
+
+    <div class="tool-desc">
+      Take Photo
+    </div>
+
   </button>
 
-  <button class="tool" id="photosTool">
-    <div class="tool-icon">🖼</div>
-    <div class="tool-name">Photos</div>
-    <div class="tool-desc">From Gallery</div>
+  <button
+    class="tool"
+    id="photosTool"
+  >
+
+    <div class="tool-icon">
+      🖼
+    </div>
+
+    <div class="tool-name">
+      Photos
+    </div>
+
+    <div class="tool-desc">
+      From Gallery
+    </div>
+
   </button>
 
-  <button class="tool" id="webTool">
-    <div class="tool-icon">🌐</div>
-    <div class="tool-name">Web Search</div>
-    <div class="tool-desc">Search the web</div>
+  <button
+    class="tool"
+    id="webTool"
+  >
+
+    <div class="tool-icon">
+      🌐
+    </div>
+
+    <div class="tool-name">
+      Web Search
+    </div>
+
+    <div class="tool-desc">
+      Search the web
+    </div>
+
   </button>
 
-  <button class="tool" id="researchTool">
-    <div class="tool-icon">🔬</div>
-    <div class="tool-name">Deep Research</div>
-    <div class="tool-desc">Multi-source research</div>
+  <button
+    class="tool"
+    id="researchTool"
+  >
+
+    <div class="tool-icon">
+      🔬
+    </div>
+
+    <div class="tool-name">
+      Deep Research
+    </div>
+
+    <div class="tool-desc">
+      Multi-source research
+    </div>
+
   </button>
 
-  <button class="tool" id="imageTool">
-    <div class="tool-icon">✦</div>
-    <div class="tool-name">Generate Image</div>
-    <div class="tool-desc">Create with AI</div>
+  <button
+    class="tool"
+    id="imageTool"
+  >
+
+    <div class="tool-icon">
+      ✦
+    </div>
+
+    <div class="tool-name">
+      Generate Image
+    </div>
+
+    <div class="tool-desc">
+      Create with AI
+    </div>
+
   </button>
 
-  <button class="tool" id="documentTool">
-    <div class="tool-icon">📄</div>
-    <div class="tool-name">Create Document</div>
-    <div class="tool-desc">Write, edit, design</div>
-  </button>
+  <button
+    class="tool"
+    id="documentTool"
+  >
 
-  <button class="tool" id="moreTool">
-    <div class="tool-icon">▦</div>
-    <div class="tool-name">More Tools</div>
-    <div class="tool-desc">Apps, integrations...</div>
-  </button>
-
-</div>
-
-<div class="composer-box">
-
-  <div class="file-chip" id="fileChip">
-    <span id="fileName">File selected</span>
-    <button class="file-remove" id="removeFile">×</button>
-  </div>
-
-  <div class="input-row">
-
-    <button class="plus" id="plusButton" aria-label="Tools">+</button>
-
-    <textarea
-      id="prompt"
-      rows="1"
-      placeholder="Ask ARC X anything..."
-      autocomplete="off"
-    ></textarea>
-
-    <button class="voice" id="voiceButton" aria-label="Voice">
-      🎙
-    </button>
-
-    <button class="send" id="sendButton" aria-label="Send">
-  
+    <div class="tool-icon">
+      📄
+    </d
