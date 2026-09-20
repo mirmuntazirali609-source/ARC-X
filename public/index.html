@@ -32,18 +32,22 @@ html{
 body{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(54,215,255,.12),
-      transparent 35%
-    ),
+    radial-gradient(circle at 50% -10%,rgba(54,215,255,.12),transparent 35%),
     var(--bg);
   color:var(--text);
   min-height:100vh;
 }
 
+body.light{
+  --bg:#f5f7fb;
+  --panel:#ffffff;
+  --panel2:#eef2f8;
+  --border:#d7deea;
+  --text:#101828;
+  --muted:#667085;
+}
+
 button,
-input,
 textarea{
   font:inherit;
 }
@@ -53,8 +57,7 @@ button{
 }
 
 button:focus-visible,
-textarea:focus-visible,
-a:focus-visible{
+textarea:focus-visible{
   outline:2px solid var(--cyan);
   outline-offset:2px;
 }
@@ -63,9 +66,7 @@ a:focus-visible{
   min-height:100vh;
 }
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+/* SIDEBAR */
 
 .sidebar{
   position:fixed;
@@ -79,7 +80,7 @@ a:focus-visible{
   z-index:100;
   display:flex;
   flex-direction:column;
-  transition:.25s;
+  transition:transform .25s ease;
 }
 
 .brand{
@@ -89,14 +90,19 @@ a:focus-visible{
   margin-bottom:18px;
 }
 
-.logo{
-  width:40px;
-  height:40px;
-  border-radius:12px;
+.logo,
+.hero-logo{
   display:grid;
   place-items:center;
   font-weight:900;
   background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:white;
+}
+
+.logo{
+  width:40px;
+  height:40px;
+  border-radius:12px;
 }
 
 .brand strong{
@@ -178,9 +184,7 @@ a:focus-visible{
   background:#0c192b;
 }
 
-/* =========================================================
-   MAIN
-========================================================= */
+/* MAIN */
 
 .main{
   margin-left:275px;
@@ -236,17 +240,13 @@ a:focus-visible{
 
 .status-dot.warning{
   background:#ffc857;
-  box-shadow:0 0 10px rgba(255,200,87,.45);
 }
 
 .status-dot.error{
   background:#ff6178;
-  box-shadow:0 0 10px rgba(255,97,120,.45);
 }
 
-/* =========================================================
-   HOME
-========================================================= */
+/* HOME */
 
 .container{
   width:min(900px,calc(100% - 28px));
@@ -263,12 +263,8 @@ a:focus-visible{
   width:70px;
   height:70px;
   margin:0 auto 20px;
-  display:grid;
-  place-items:center;
   border-radius:22px;
   font-size:28px;
-  font-weight:900;
-  background:linear-gradient(135deg,var(--blue),var(--cyan));
   box-shadow:0 0 45px rgba(54,215,255,.15);
 }
 
@@ -286,9 +282,7 @@ a:focus-visible{
   font-size:14px;
 }
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* SEARCH */
 
 .search-box{
   max-width:780px;
@@ -350,9 +344,7 @@ a:focus-visible{
   margin-top:8px;
 }
 
-/* =========================================================
-   SEARCH MODES
-========================================================= */
+/* MODES */
 
 .search-modes{
   display:flex;
@@ -381,9 +373,7 @@ a:focus-visible{
   background:#101d35;
 }
 
-/* =========================================================
-   EXPLORE
-========================================================= */
+/* EXPLORE */
 
 .explore{
   text-align:center;
@@ -436,9 +426,7 @@ a:focus-visible{
   line-height:1.5;
 }
 
-/* =========================================================
-   RESULTS
-========================================================= */
+/* RESULTS */
 
 .results{
   display:none;
@@ -469,10 +457,6 @@ a:focus-visible{
   border-radius:9px;
 }
 
-.result-header button:hover{
-  background:#0c192b;
-}
-
 .answer{
   background:#071120;
   border:1px solid var(--border);
@@ -481,10 +465,6 @@ a:focus-visible{
   line-height:1.7;
   overflow-wrap:anywhere;
   font-size:14px;
-}
-
-.answer.plain{
-  white-space:pre-wrap;
 }
 
 .answer.error{
@@ -500,15 +480,11 @@ a:focus-visible{
   margin-top:4px;
 }
 
-/* =========================================================
-   MARKDOWN
-========================================================= */
+/* MARKDOWN */
 
 .md h3,
-.md h4,
-.md h5{
+.md h4{
   margin:18px 0 8px;
-  line-height:1.3;
 }
 
 .md h3{
@@ -517,18 +493,6 @@ a:focus-visible{
 
 .md h4{
   font-size:16px;
-}
-
-.md h5{
-  font-size:14px;
-}
-
-.md>:first-child{
-  margin-top:0;
-}
-
-.md>:last-child{
-  margin-bottom:0;
 }
 
 .md p{
@@ -578,9 +542,7 @@ a:focus-visible{
   line-height:1.55;
 }
 
-/* =========================================================
-   SOURCES
-========================================================= */
+/* SOURCES */
 
 .sources{
   margin-top:18px;
@@ -606,14 +568,7 @@ a:focus-visible{
   text-overflow:ellipsis;
 }
 
-.source:hover{
-  border-color:#36557c;
-  background:#0c1b30;
-}
-
-/* =========================================================
-   LOADING
-========================================================= */
+/* LOADING */
 
 .loading{
   display:flex;
@@ -643,33 +598,13 @@ a:focus-visible{
     opacity:.25;
     transform:translateY(0);
   }
-
   40%{
     opacity:1;
     transform:translateY(-4px);
   }
 }
 
-@media(prefers-reduced-motion:reduce){
-
-  html{
-    scroll-behavior:auto;
-  }
-
-  .loading span{
-    animation:none;
-    opacity:.7;
-  }
-
-  .card,
-  .sidebar{
-    transition:none;
-  }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
+/* MOBILE */
 
 @media(max-width:850px){
 
@@ -718,10 +653,6 @@ a:focus-visible{
     font-size:13px;
   }
 
-  .search-container{
-    border-radius:16px;
-  }
-
   .cards{
     gap:8px;
   }
@@ -729,10 +660,6 @@ a:focus-visible{
   .card{
     min-height:145px;
     padding:15px;
-  }
-
-  .card h3{
-    font-size:13px;
   }
 
   .answer{
@@ -747,341 +674,347 @@ a:focus-visible{
 
 <div class="app">
 
-  <!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
 
-  <aside class="sidebar" id="sidebar">
-
-    <div class="brand">
-
-      <div class="logo">X</div>
-
-      <div>
-        <strong>ARC X</strong>
-        <small>AI SUPER APP</small>
-      </div>
-
+  <div class="brand">
+    <div class="logo">X</div>
+    <div>
+      <strong>ARC X</strong>
+      <small>AI SUPER APP</small>
     </div>
+  </div>
 
-    <button class="newchat" onclick="newChat()">
-      ＋ &nbsp; New chat
+  <button class="newchat" id="newChatButton">
+    ＋ &nbsp; New chat
+  </button>
+
+  <div class="section-title">
+    Recent chats
+  </div>
+
+  <div class="history" id="history">
+    <div class="empty">No recent chats</div>
+  </div>
+
+  <div class="bottom">
+
+    <button class="side-btn" id="appearanceButton">
+      ◐ &nbsp; Appearance
     </button>
 
-    <div class="section-title">
-      Recent chats
+    <button class="side-btn" id="clearHistoryButton">
+      ⌫ &nbsp; Clear history
+    </button>
+
+  </div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+  <button
+    class="menu"
+    id="menuButton"
+    aria-label="Open menu">
+    ☰
+  </button>
+
+  <div class="top-title">
+    ARC X
+  </div>
+
+  <div class="status">
+
+    <span
+      class="status-dot"
+      id="statusDot">
+    </span>
+
+    <span id="statusText">
+      Connecting...
+    </span>
+
+  </div>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+  <div class="hero-logo">
+    X
+  </div>
+
+  <h1>
+    Welcome to ARC X
+  </h1>
+
+  <p>
+    Search the web, research topics, understand information,
+    create content, code and explore ideas with ARC X.
+  </p>
+
+</section>
+
+
+<section class="search-box">
+
+  <div class="search-container">
+
+    <textarea
+      id="mainInput"
+      rows="1"
+      placeholder="Search the web..."
+      aria-label="Ask ARC X">
+    </textarea>
+
+    <button
+      class="search-button"
+      id="searchButton"
+      aria-label="Search">
+      ↑
+    </button>
+
+  </div>
+
+  <div class="search-hint">
+    Enter to search · Shift + Enter for a new line
+  </div>
+
+</section>
+
+
+<div class="search-modes">
+
+  <button
+    class="mode-chip active"
+    id="chipWeb"
+    data-mode="web">
+    ⌕ Web Search
+  </button>
+
+  <button
+    class="mode-chip"
+    id="chipAI"
+    data-mode="ai">
+    ✦ AI Chat
+  </button>
+
+  <button
+    class="mode-chip"
+    id="chipResearch"
+    data-mode="research">
+    ◉ Deep Research
+  </button>
+
+</div>
+
+
+<div class="explore">
+  Explore ARC X
+</div>
+
+
+<div class="cards">
+
+  <button
+    class="card"
+    data-tool="web">
+
+    <div class="card-icon">
+      ⌕
     </div>
 
-    <div class="history" id="history">
-      <div class="empty">
-        No recent chats
-      </div>
+    <h3>Web Search</h3>
+
+    <p>
+      Find current information from the web.
+    </p>
+
+  </button>
+
+
+  <button
+    class="card"
+    data-tool="research">
+
+    <div class="card-icon">
+      ◉
     </div>
 
-    <div class="bottom">
+    <h3>Deep Research</h3>
 
-      <button class="side-btn" onclick="toggleAppearance()">
-        ◐ &nbsp; Appearance
-      </button>
+    <p>
+      Research topics using multiple sources.
+    </p>
 
-      <button class="side-btn" onclick="clearHistory()">
-        ⌫ &nbsp; Clear history
-      </button>
+  </button>
 
+
+  <button
+    class="card"
+    data-tool="create">
+
+    <div class="card-icon">
+      ✦
     </div>
 
-  </aside>
+    <h3>Create</h3>
 
+    <p>
+      Write posts, scripts and documents.
+    </p>
 
-  <!-- MAIN -->
+  </button>
 
-  <main class="main">
 
-    <header class="topbar">
+  <button
+    class="card"
+    data-tool="code">
 
-      <button
-        class="menu"
-        onclick="toggleSidebar()"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
-
-      <div class="top-title">
-        ARC X
-      </div>
-
-      <div class="status">
-
-        <span
-          class="status-dot"
-          id="statusDot"
-        ></span>
-
-        <span id="statusText">
-          Connecting...
-        </span>
-
-      </div>
-
-    </header>
-
-
-    <div class="container">
-
-      <!-- HERO -->
-
-      <section class="hero">
-
-        <div class="hero-logo">
-          X
-        </div>
-
-        <h1>
-          Welcome to ARC X
-        </h1>
-
-        <p>
-          Search the web, research topics, understand information,
-          create content, code and explore ideas with ARC X.
-        </p>
-
-      </section>
-
-
-      <!-- SEARCH -->
-
-      <section class="search-box">
-
-        <div class="search-container">
-
-          <textarea
-            id="mainInput"
-            rows="1"
-            placeholder="Search the web..."
-            onkeydown="handleSearchKey(event)"
-            aria-label="Ask ARC X"
-          ></textarea>
-
-          <button
-            class="search-button"
-            id="searchButton"
-            onclick="runSearch()"
-            aria-label="Search"
-          >
-            ↑
-          </button>
-
-        </div>
-
-        <div class="search-hint">
-          Enter to search · Shift + Enter for a new line
-        </div>
-
-      </section>
-
-
-      <!-- MODES -->
-
-      <div class="search-modes">
-
-        <button
-          class="mode-chip active"
-          id="chipWeb"
-          onclick="setSearchMode('web')"
-        >
-          ⌕ Web Search
-        </button>
-
-        <button
-          class="mode-chip"
-          id="chipAI"
-          onclick="setSearchMode('ai')"
-        >
-          ✦ AI Chat
-        </button>
-
-        <button
-          class="mode-chip"
-          id="chipResearch"
-          onclick="setSearchMode('research')"
-        >
-          ◉ Deep Research
-        </button>
-
-      </div>
-
-
-      <!-- EXPLORE -->
-
-      <div class="explore">
-        Explore ARC X
-      </div>
-
-      <div class="cards">
-
-        <button
-          class="card"
-          onclick="selectMode('web')"
-        >
-
-          <div class="card-icon">
-            ⌕
-          </div>
-
-          <h3>
-            Web Search
-          </h3>
-
-          <p>
-            Find current information from the web.
-          </p>
-
-        </button>
-
-
-        <button
-          class="card"
-          onclick="selectMode('research')"
-        >
-
-          <div class="card-icon">
-            ◉
-          </div>
-
-          <h3>
-            Deep Research
-          </h3>
-
-          <p>
-            Research topics using multiple sources.
-          </p>
-
-        </button>
-
-
-        <button
-          class="card"
-          onclick="selectMode('create')"
-        >
-
-          <div class="card-icon">
-            ✦
-          </div>
-
-          <h3>
-            Create
-          </h3>
-
-          <p>
-            Write posts, scripts and documents.
-          </p>
-
-        </button>
-
-
-        <button
-          class="card"
-          onclick="selectMode('code')"
-        >
-
-          <div class="card-icon">
-            &lt;/&gt;
-          </div>
-
-          <h3>
-            Code
-          </h3>
-
-          <p>
-            Build and understand software.
-          </p>
-
-        </button>
-
-      </div>
-
-
-      <!-- RESULTS -->
-
-      <section
-        class="results"
-        id="results"
-      >
-
-        <div class="result-header">
-
-          <h2 id="resultTitle">
-            ARC X
-          </h2>
-
-          <button onclick="clearResults()">
-            New search
-          </button>
-
-        </div>
-
-        <div id="resultContent"></div>
-
-      </section>
-
+    <div class="card-icon">
+      &lt;/&gt;
     </div>
 
-  </main>
+    <h3>Code</h3>
+
+    <p>
+      Build and understand software.
+    </p>
+
+  </button>
+
+</div>
+
+
+<section
+  class="results"
+  id="results">
+
+  <div class="result-header">
+
+    <h2 id="resultTitle">
+      ARC X
+    </h2>
+
+    <button id="newSearchButton">
+      New search
+    </button>
+
+  </div>
+
+  <div id="resultContent"></div>
+
+</section>
+
+</div>
+
+</main>
 
 </div>
 
 
 <script>
+"use strict";
 
 /* =========================================================
-   ARC X STATE
+   ARC X FRONTEND
 ========================================================= */
 
-let searchMode = "web";
-let history = [];
+var searchMode = "web";
+var history = [];
 
-const mainInput =
-  document.getElementById("mainInput");
-
-const searchButton =
-  document.getElementById("searchButton");
-
-const results =
-  document.getElementById("results");
-
-const resultContent =
-  document.getElementById("resultContent");
-
-const resultTitle =
-  document.getElementById("resultTitle");
-
-const historyEl =
-  document.getElementById("history");
-
-const sidebar =
-  document.getElementById("sidebar");
-
-const statusDot =
-  document.getElementById("statusDot");
-
-const statusText =
-  document.getElementById("statusText");
+var mainInput = document.getElementById("mainInput");
+var searchButton = document.getElementById("searchButton");
+var results = document.getElementById("results");
+var resultContent = document.getElementById("resultContent");
+var resultTitle = document.getElementById("resultTitle");
+var historyEl = document.getElementById("history");
+var sidebar = document.getElementById("sidebar");
+var statusDot = document.getElementById("statusDot");
+var statusText = document.getElementById("statusText");
+var newChatButton = document.getElementById("newChatButton");
+var appearanceButton = document.getElementById("appearanceButton");
+var clearHistoryButton = document.getElementById("clearHistoryButton");
+var menuButton = document.getElementById("menuButton");
+var newSearchButton = document.getElementById("newSearchButton");
 
 
 /* =========================================================
-   LOAD SAVED HISTORY
+   STATUS
+========================================================= */
+
+function setStatus(text, type){
+
+  statusText.textContent = text;
+
+  statusDot.className = "status-dot";
+
+  if(type){
+    statusDot.classList.add(type);
+  }
+}
+
+
+/* =========================================================
+   HEALTH CHECK
+========================================================= */
+
+async function checkHealth(){
+
+  setStatus("Connecting...", "");
+
+  try{
+
+    var response = await fetch("/api/health", {
+      method:"GET",
+      cache:"no-store"
+    });
+
+    if(!response.ok){
+      throw new Error("Health check failed");
+    }
+
+    var data = await response.json();
+
+    if(data.ok){
+
+      setStatus("Connected", "online");
+
+    }else{
+
+      setStatus("Server issue", "warning");
+
+    }
+
+  }catch(error){
+
+    console.error("ARC X health error:", error);
+
+    setStatus("Disconnected", "error");
+
+  }
+}
+
+
+/* =========================================================
+   HISTORY
 ========================================================= */
 
 function loadHistory(){
 
   try{
 
-    const saved =
-      localStorage.getItem("arcx_history");
+    var saved = localStorage.getItem("arcx_history");
 
     if(saved){
 
-      const parsed =
-        JSON.parse(saved);
+      var parsed = JSON.parse(saved);
 
       if(Array.isArray(parsed)){
         history = parsed;
@@ -1091,20 +1024,13 @@ function loadHistory(){
 
   }catch(error){
 
-    console.warn(
-      "History could not be loaded:",
-      error
-    );
+    console.warn("History load error:", error);
 
   }
 
   renderHistory();
 }
 
-
-/* =========================================================
-   SAVE HISTORY
-========================================================= */
 
 function saveHistory(){
 
@@ -1117,78 +1043,14 @@ function saveHistory(){
 
   }catch(error){
 
-    console.warn(
-      "History could not be saved:",
-      error
-    );
+    console.warn("History save error:", error);
 
   }
 
 }
 
 
-/* =========================================================
-   RENDER HISTORY
-========================================================= */
-
-function renderHistory(){
-
-  if(!history.length){
-
-    historyEl.innerHTML = `
-      <div class="empty">
-        No recent chats
-      </div>
-    `;
-
-    return;
-  }
-
-  historyEl.innerHTML = "";
-
-  history.forEach(function(item,index){
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "history-item";
-
-    button.textContent =
-      item.query;
-
-    button.title =
-      item.query;
-
-    button.onclick = function(){
-
-      mainInput.value =
-        item.query;
-
-      setSearchMode(
-        item.mode || "web"
-      );
-
-      runSearch();
-
-      if(window.innerWidth <= 850){
-        sidebar.classList.remove("open");
-      }
-
-    };
-
-    historyEl.appendChild(button);
-
-  });
-
-}
-
-
-/* =========================================================
-   ADD HISTORY
-========================================================= */
-
-function addHistory(query,mode){
+function addHistory(query, mode){
 
   history.unshift({
     query:query,
@@ -1196,27 +1058,184 @@ function addHistory(query,mode){
     time:Date.now()
   });
 
-  history =
-    history.filter(function(item,index,array){
+  var unique = [];
 
-      return index ===
-        array.findIndex(function(other){
+  history.forEach(function(item){
 
-          return other.query === item.query &&
-                 other.mode === item.mode;
+    var exists = unique.some(function(existing){
 
-        });
+      return existing.query === item.query &&
+             existing.mode === item.mode;
 
-    }).slice(0,30);
+    });
+
+    if(!exists){
+      unique.push(item);
+    }
+
+  });
+
+  history = unique.slice(0,30);
 
   saveHistory();
+  renderHistory();
+}
+
+
+function renderHistory(){
+
+  historyEl.innerHTML = "";
+
+  if(!history.length){
+
+    var empty = document.createElement("div");
+
+    empty.className = "empty";
+    empty.textContent = "No recent chats";
+
+    historyEl.appendChild(empty);
+
+    return;
+  }
+
+  history.forEach(function(item){
+
+    var button = document.createElement("button");
+
+    button.className = "history-item";
+    button.textContent = item.query;
+    button.title = item.query;
+
+    button.addEventListener("click", function(){
+
+      mainInput.value = item.query;
+
+      setSearchMode(item.mode || "web");
+
+      runSearch();
+
+      if(window.innerWidth <= 850){
+        sidebar.classList.remove("open");
+      }
+
+    });
+
+    historyEl.appendChild(button);
+
+  });
+}
+
+
+/* =========================================================
+   NEW CHAT
+========================================================= */
+
+function newChat(){
+
+  mainInput.value = "";
+
+  resultContent.innerHTML = "";
+
+  results.classList.remove("show");
+
+  setSearchMode("web");
+
+  mainInput.focus();
+
+  if(window.innerWidth <= 850){
+    sidebar.classList.remove("open");
+  }
+}
+
+
+/* =========================================================
+   CLEAR RESULTS
+========================================================= */
+
+function clearResults(){
+
+  resultContent.innerHTML = "";
+
+  results.classList.remove("show");
+
+  mainInput.value = "";
+
+  mainInput.focus();
+}
+
+
+/* =========================================================
+   CLEAR HISTORY
+========================================================= */
+
+function clearHistory(){
+
+  history = [];
+
+  try{
+    localStorage.removeItem("arcx_history");
+  }catch(error){}
+
   renderHistory();
 
 }
 
 
 /* =========================================================
-   MODE
+   APPEARANCE
+========================================================= */
+
+function toggleAppearance(){
+
+  document.body.classList.toggle("light");
+
+  try{
+
+    localStorage.setItem(
+      "arcx_appearance",
+      document.body.classList.contains("light")
+        ? "light"
+        : "dark"
+    );
+
+  }catch(error){}
+
+}
+
+
+/* =========================================================
+   LOAD APPEARANCE
+========================================================= */
+
+function loadAppearance(){
+
+  try{
+
+    var saved =
+      localStorage.getItem("arcx_appearance");
+
+    if(saved === "light"){
+      document.body.classList.add("light");
+    }
+
+  }catch(error){}
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar(){
+
+  sidebar.classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   SEARCH MODE
 ========================================================= */
 
 function setSearchMode(mode){
@@ -1226,8 +1245,11 @@ function setSearchMode(mode){
   document
     .querySelectorAll(".mode-chip")
     .forEach(function(button){
+
       button.classList.remove("active");
+
     });
+
 
   if(mode === "web"){
 
@@ -1262,7 +1284,19 @@ function setSearchMode(mode){
 
   }
 
-  mainInput.focus();
+  else if(mode === "create"){
+
+    mainInput.placeholder =
+      "What should ARC X create?";
+
+  }
+
+  else if(mode === "code"){
+
+    mainInput.placeholder =
+      "What code should ARC X build or explain?";
+
+  }
 
 }
 
@@ -1273,12 +1307,11 @@ function setSearchMode(mode){
 
 function selectMode(mode){
 
-  if(
-    mode === "web" ||
-    mode === "research"
-  ){
+  if(mode === "web"){
 
-    setSearchMode(mode);
+    setSearchMode("web");
+
+    mainInput.focus();
 
     window.scrollTo({
       top:0,
@@ -1288,10 +1321,54 @@ function selectMode(mode){
     return;
   }
 
+
+  if(mode === "research"){
+
+    setSearchMode("research");
+
+    mainInput.focus();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    return;
+  }
+
+
   if(mode === "create"){
 
-    searchMode = "create";
+    setSearchMode("create");
 
-    document
-      .querySelectorAll(".mode-chip")
-      .forEach(funct
+    mainInput.focus();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    return;
+  }
+
+
+  if(mode === "code"){
+
+    setSearchMode("code");
+
+    mainInput.focus();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    return;
+  }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+==
