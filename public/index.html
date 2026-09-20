@@ -23,7 +23,7 @@
 
 body.light{
   --bg:#f5f7fb;
-  --panel:#fff;
+  --panel:#ffffff;
   --panel2:#eef2f8;
   --panel3:#e6ebf5;
   --text:#101522;
@@ -45,7 +45,7 @@ body{
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
-button,input,textarea{
+button,textarea,input{
   font:inherit;
 }
 
@@ -54,7 +54,7 @@ button{
   -webkit-tap-highlight-color:transparent;
 }
 
-/* APP */
+/* ================= APP ================= */
 
 .app{
   width:100%;
@@ -63,22 +63,35 @@ button{
   overflow:hidden;
 }
 
-/* SIDEBAR */
+.main{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+/* ================= SIDEBAR ================= */
 
 .sidebar{
-  width:270px;
-  height:100%;
-  background:rgba(4,10,23,.98);
-  border-right:1px solid var(--line);
   position:fixed;
   left:0;
   top:0;
-  z-index:100;
+  z-index:1000;
+
+  width:270px;
+  height:100%;
+
   padding:18px;
+
   display:flex;
   flex-direction:column;
+
+  background:rgba(4,10,23,.98);
+  border-right:1px solid var(--line);
+
   transform:translateX(-105%);
-  transition:.22s ease;
+  transition:transform .22s ease;
 }
 
 .sidebar.open{
@@ -96,24 +109,14 @@ button{
   margin-bottom:22px;
 }
 
-.side-name{
-  font-weight:800;
-  font-size:19px;
-}
-
-.side-sub{
-  font-size:9px;
-  color:var(--muted);
-  letter-spacing:1.5px;
-}
-
 .side-logo{
   width:42px;
   height:42px;
   border-radius:13px;
+  position:relative;
+
   background:linear-gradient(135deg,#091934,#151044);
   border:1px solid rgba(42,192,255,.45);
-  position:relative;
 }
 
 .side-logo:before{
@@ -136,13 +139,27 @@ button{
   font-weight:900;
 }
 
+.side-name{
+  font-size:19px;
+  font-weight:800;
+}
+
+.side-sub{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:1.5px;
+}
+
 .new-chat{
   width:100%;
   padding:13px;
+
   border:1px solid var(--line);
   border-radius:13px;
+
   background:var(--panel2);
   color:var(--text);
+
   text-align:left;
   margin-bottom:20px;
 }
@@ -167,15 +184,19 @@ button{
 .history button{
   width:100%;
   padding:10px;
+
   border:0;
+  border-radius:9px;
+
   background:transparent;
   color:var(--text);
+
   text-align:left;
-  border-radius:9px;
+  font-size:12px;
+
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  font-size:12px;
 }
 
 .history button:hover{
@@ -189,40 +210,38 @@ button{
 
 .side-bottom button{
   width:100%;
+  padding:11px;
+
   border:0;
+  border-radius:9px;
+
   background:transparent;
   color:var(--text);
+
   text-align:left;
-  padding:11px;
-  border-radius:9px;
 }
 
 .side-bottom button:hover{
   background:var(--panel2);
 }
 
-/* MAIN */
-
-.main{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-}
-
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header{
   height:70px;
   min-height:70px;
-  border-bottom:1px solid var(--line);
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 14px;
+
   position:relative;
-  z-index:30;
+  z-index:100;
+
+  border-bottom:1px solid var(--line);
+
   background:rgba(2,8,22,.8);
   backdrop-filter:blur(18px);
 }
@@ -235,18 +254,22 @@ button{
 .header-right{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:8px;
 }
 
 .header-btn{
   width:42px;
   height:42px;
-  border:0;
-  border-radius:12px;
-  background:transparent;
-  color:var(--text);
+
   display:grid;
   place-items:center;
+
+  border:0;
+  border-radius:12px;
+
+  background:transparent;
+  color:var(--text);
+
   font-size:21px;
 }
 
@@ -258,6 +281,7 @@ button{
   position:absolute;
   left:50%;
   transform:translateX(-50%);
+
   display:flex;
   align-items:center;
   gap:8px;
@@ -274,10 +298,13 @@ button{
   position:absolute;
   left:2px;
   top:0;
+
+  color:#20d7ff;
+
   font-size:39px;
   line-height:1;
   font-weight:900;
-  color:#20d7ff;
+
   transform:skew(-13deg);
 }
 
@@ -286,9 +313,11 @@ button{
   position:absolute;
   right:-2px;
   bottom:0;
+
+  color:#895eff;
+
   font-size:29px;
   font-weight:900;
-  color:#895eff;
 }
 
 .brand-text{
@@ -306,43 +335,56 @@ button{
 }
 
 .pro{
+  padding:8px 12px;
+
   border:1px solid rgba(139,77,255,.55);
+  border-radius:18px;
+
   background:linear-gradient(
     135deg,
     rgba(105,60,255,.2),
     rgba(18,150,255,.08)
   );
+
   color:#d9caff;
-  border-radius:18px;
-  padding:8px 12px;
+
   font-size:11px;
   font-weight:700;
 }
 
-/* CONTENT */
+/* ================= CONTENT ================= */
 
 .content{
   flex:1;
   min-height:0;
+
   overflow-y:auto;
+
   padding-bottom:190px;
 }
 
 .home{
   width:min(850px,100%);
   margin:auto;
+
   padding:55px 18px 50px;
+
   text-align:center;
 }
 
 .home-logo{
   width:84px;
   height:84px;
+
   margin:auto;
-  border-radius:25px;
+
   position:relative;
+
+  border-radius:25px;
+
   background:linear-gradient(135deg,#06152d,#151038);
   border:1px solid rgba(52,189,255,.5);
+
   box-shadow:
     0 0 50px rgba(25,135,255,.18),
     inset 0 0 30px rgba(126,72,255,.1);
@@ -351,54 +393,72 @@ button{
 .home-logo:before{
   content:"A";
   position:absolute;
+
   left:17px;
   top:14px;
+
+  color:#27d8ff;
+
   font-size:43px;
   font-weight:900;
-  color:#27d8ff;
+
   transform:skew(-12deg);
 }
 
 .home-logo:after{
   content:"X";
   position:absolute;
+
   right:11px;
   bottom:10px;
+
+  color:#8a5eff;
+
   font-size:34px;
   font-weight:900;
-  color:#8a5eff;
 }
 
 .home h1{
   margin-top:25px;
+
   font-size:clamp(32px,7vw,53px);
   letter-spacing:-2px;
 }
 
 .gradient{
-  background:linear-gradient(90deg,#fff,#b48aff,#30d8ff);
+  background:linear-gradient(
+    90deg,
+    #fff,
+    #b48aff,
+    #30d8ff
+  );
+
   -webkit-background-clip:text;
   background-clip:text;
+
   color:transparent;
 }
 
 .home p{
-  color:var(--muted);
-  line-height:1.6;
-  font-size:14px;
   max-width:650px;
   margin:13px auto 0;
+
+  color:var(--muted);
+
+  line-height:1.6;
+  font-size:14px;
 }
 
 .explore{
-  text-align:left;
   margin-top:48px;
+  text-align:left;
 }
 
 .explore-title{
+  margin-bottom:12px;
+
   font-size:14px;
   font-weight:700;
-  margin-bottom:12px;
 }
 
 .explore-grid{
@@ -410,11 +470,20 @@ button{
 .explore-card{
   min-height:105px;
   padding:15px;
+
   border:1px solid var(--line);
   border-radius:16px;
-  background:linear-gradient(145deg,var(--panel),var(--panel2));
+
+  background:linear-gradient(
+    145deg,
+    var(--panel),
+    var(--panel2)
+  );
+
   color:var(--text);
+
   text-align:left;
+
   transition:.2s;
 }
 
@@ -424,8 +493,8 @@ button{
 }
 
 .card-icon{
-  font-size:22px;
   margin-bottom:12px;
+  font-size:22px;
 }
 
 .card-title{
@@ -434,18 +503,22 @@ button{
 }
 
 .card-desc{
-  font-size:9px;
-  color:var(--muted);
-  line-height:1.4;
   margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:9px;
+  line-height:1.4;
 }
 
-/* CHAT */
+/* ================= CHAT ================= */
 
 .chat{
   width:min(850px,100%);
   margin:auto;
+
   padding:25px 15px 20px;
+
   display:none;
 }
 
@@ -456,6 +529,7 @@ button{
 .msg{
   display:flex;
   margin:17px 0;
+
   animation:appear .2s ease;
 }
 
@@ -464,6 +538,7 @@ button{
     opacity:0;
     transform:translateY(7px);
   }
+
   to{
     opacity:1;
     transform:none;
@@ -476,16 +551,26 @@ button{
 
 .bubble{
   max-width:80%;
+
   padding:13px 15px;
+
   border-radius:18px;
+
   font-size:14px;
   line-height:1.6;
+
   overflow-wrap:anywhere;
 }
 
 .user .bubble{
-  background:linear-gradient(135deg,#082652,#092d65);
+  background:linear-gradient(
+    135deg,
+    #082652,
+    #092d65
+  );
+
   border:1px solid rgba(30,153,255,.35);
+
   border-bottom-right-radius:5px;
 }
 
@@ -499,7 +584,9 @@ button{
   display:flex;
   align-items:center;
   gap:9px;
+
   margin-bottom:9px;
+
   font-size:13px;
   font-weight:700;
 }
@@ -507,42 +594,60 @@ button{
 .mini-logo{
   width:30px;
   height:30px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#071a35,#18103d);
-  border:1px solid rgba(33,204,255,.5);
+
   position:relative;
+
+  border-radius:10px;
+
+  background:linear-gradient(
+    135deg,
+    #071a35,
+    #18103d
+  );
+
+  border:1px solid rgba(33,204,255,.5);
 }
 
 .mini-logo:before{
   content:"A";
   position:absolute;
+
   left:6px;
   top:5px;
+
   color:#28d7ff;
-  font-weight:900;
+
   font-size:17px;
+  font-weight:900;
 }
 
 .mini-logo:after{
   content:"X";
   position:absolute;
+
   right:3px;
   bottom:3px;
+
   color:#8c5cff;
-  font-weight:900;
+
   font-size:13px;
+  font-weight:900;
 }
 
 .answer{
+  padding:16px;
+
   border:1px solid var(--line);
+  border-radius:17px;
+
   background:linear-gradient(
     145deg,
     rgba(8,22,45,.9),
     rgba(4,15,32,.95)
   );
-  border-radius:17px;
-  padding:16px;
+
   line-height:1.65;
+
   white-space:pre-wrap;
 }
 
@@ -552,55 +657,70 @@ button{
 
 .sources{
   margin-top:17px;
-  border-top:1px solid var(--line);
   padding-top:13px;
+
+  border-top:1px solid var(--line);
 }
 
 .sources-title{
+  margin-bottom:8px;
+
   font-size:11px;
   font-weight:700;
-  margin-bottom:8px;
 }
 
 .source-list{
   display:flex;
   gap:7px;
+
   overflow-x:auto;
 }
 
 .source{
   min-width:145px;
   max-width:190px;
+
   padding:9px;
+
   border:1px solid var(--line);
   border-radius:10px;
+
   background:var(--panel2);
-  text-decoration:none;
+
   color:var(--text);
+
+  text-decoration:none;
+
   font-size:10px;
 }
 
 .source-url{
-  color:var(--muted);
-  font-size:8px;
   margin-top:4px;
-  overflow:hidden;
+
+  color:var(--muted);
+
+  font-size:8px;
+
   white-space:nowrap;
+  overflow:hidden;
   text-overflow:ellipsis;
 }
 
 .message-actions{
   display:flex;
   gap:5px;
+
   margin-top:8px;
 }
 
 .message-actions button{
+  padding:7px;
+
   border:0;
+  border-radius:8px;
+
   background:transparent;
   color:var(--muted);
-  padding:7px;
-  border-radius:8px;
 }
 
 .message-actions button:hover{
@@ -610,15 +730,18 @@ button{
 
 .typing{
   display:flex;
-  gap:4px;
   align-items:center;
+  gap:4px;
 }
 
 .typing span{
   width:6px;
   height:6px;
+
   border-radius:50%;
+
   background:#8b9ab7;
+
   animation:bounce 1s infinite;
 }
 
@@ -635,22 +758,35 @@ button{
     transform:none;
     opacity:.4;
   }
+
   30%{
     transform:translateY(-5px);
     opacity:1;
   }
 }
 
-/* COMPOSER */
+/* ================= COMPOSER ================= */
 
 .composer-wrap{
   position:fixed;
+
   left:0;
   right:0;
   bottom:0;
-  z-index:50;
-  padding:8px 14px calc(10px + env(safe-area-inset-bottom));
-  background:linear-gradient(to top,var(--bg) 68%,transparent);
+
+  z-index:500;
+
+  padding:
+    8px
+    14px
+    calc(10px + env(safe-area-inset-bottom));
+
+  background:
+    linear-gradient(
+      to top,
+      var(--bg) 68%,
+      transparent
+    );
 }
 
 .composer{
@@ -661,16 +797,30 @@ button{
 
 .tools-panel{
   display:none;
+
   position:absolute;
+
   bottom:70px;
   left:0;
-  width:min(650px,calc(100vw - 28px));
+
+  width:min(
+    650px,
+    calc(100vw - 28px)
+  );
+
   padding:12px;
-  border-radius:20px;
+
   border:1px solid rgba(34,179,255,.35);
+  border-radius:20px;
+
   background:rgba(5,15,32,.98);
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
-  grid-template-columns:repeat(4,1fr);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:9px;
 }
 
@@ -684,16 +834,27 @@ button{
 
 .tool{
   min-height:88px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:linear-gradient(145deg,var(--panel2),var(--panel));
-  color:var(--text);
+
+  padding:8px;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+
   gap:7px;
-  padding:8px;
+
+  border:1px solid var(--line);
+  border-radius:14px;
+
+  background:linear-gradient(
+    145deg,
+    var(--panel2),
+    var(--panel)
+  );
+
+  color:var(--text);
+
   text-align:center;
 }
 
@@ -704,14 +865,18 @@ button{
 .tool-icon{
   width:35px;
   height:35px;
-  border-radius:10px;
+
   display:grid;
   place-items:center;
+
+  border-radius:10px;
+
   background:linear-gradient(
     135deg,
     rgba(20,204,255,.12),
     rgba(126,71,255,.18)
   );
+
   font-size:18px;
 }
 
@@ -721,16 +886,20 @@ button{
 }
 
 .tool-desc{
-  font-size:8px;
   color:var(--muted);
+  font-size:8px;
 }
 
 .composer-box{
+  overflow:hidden;
+
   border:1px solid rgba(62,151,255,.28);
   border-radius:23px;
+
   background:rgba(5,15,32,.97);
-  box-shadow:0 12px 50px rgba(0,0,0,.4);
-  overflow:hidden;
+
+  box-shadow:
+    0 12px 50px rgba(0,0,0,.4);
 }
 
 .light .composer-box{
@@ -741,6 +910,7 @@ button{
   display:flex;
   align-items:flex-end;
   gap:7px;
+
   padding:9px;
 }
 
@@ -748,12 +918,21 @@ button{
   width:48px;
   height:48px;
   min-width:48px;
-  border-radius:50%;
+
   border:1px solid rgba(40,201,255,.6);
-  background:linear-gradient(135deg,#101d44,#180c45);
+  border-radius:50%;
+
+  background:linear-gradient(
+    135deg,
+    #101d44,
+    #180c45
+  );
+
   color:white;
+
   font-size:30px;
   line-height:1;
+
   transition:.2s;
 }
 
@@ -764,14 +943,20 @@ button{
 #prompt{
   flex:1;
   min-width:0;
+
   min-height:48px;
   max-height:140px;
+
+  padding:13px 5px;
+
   resize:none;
+
   border:0;
   outline:0;
+
   background:transparent;
   color:var(--text);
-  padding:13px 5px;
+
   font-size:14px;
 }
 
@@ -784,10 +969,13 @@ button{
   width:48px;
   height:48px;
   min-width:48px;
-  border-radius:50%;
-  border:0;
+
   display:grid;
   place-items:center;
+
+  border:0;
+  border-radius:50%;
+
   font-size:19px;
 }
 
@@ -797,23 +985,33 @@ button{
 }
 
 .send{
+  background:linear-gradient(
+    135deg,
+    #19cfff,
+    #794cff
+  );
+
   color:white;
-  background:linear-gradient(135deg,#19cfff,#794cff);
-  box-shadow:0 0 22px rgba(85,93,255,.35);
+
+  box-shadow:
+    0 0 22px rgba(85,93,255,.35);
 }
 
 .send:disabled{
   opacity:.4;
-  box-shadow:none;
   cursor:not-allowed;
+  box-shadow:none;
 }
 
 .mode-row{
   display:flex;
   align-items:center;
   gap:5px;
+
   padding:0 12px 9px;
+
   overflow-x:auto;
+
   scrollbar-width:none;
 }
 
@@ -823,17 +1021,23 @@ button{
 
 .mode{
   white-space:nowrap;
+
   padding:6px 9px;
+
   border:1px solid transparent;
   border-radius:9px;
+
   background:transparent;
   color:var(--muted);
+
   font-size:9px;
 }
 
 .mode.active{
   color:#fff;
+
   background:rgba(98,83,255,.18);
+
   border-color:rgba(116,93,255,.25);
 }
 
@@ -841,50 +1045,65 @@ button{
   color:#111;
 }
 
-/* FILE */
+/* ================= FILE ================= */
 
 .file-chip{
   display:none;
-  margin:8px 10px 0;
-  padding:8px 10px;
+
   width:max-content;
   max-width:90%;
+
+  margin:8px 10px 0;
+  padding:8px 10px;
+
   border:1px solid var(--line);
   border-radius:9px;
+
   background:var(--panel2);
+
   font-size:10px;
 }
 
 .file-chip.show{
   display:flex;
-  gap:8px;
   align-items:center;
+  gap:8px;
 }
 
 .file-remove{
   border:0;
-  background:none;
+  background:transparent;
   color:var(--muted);
 }
 
-/* TOAST */
+/* ================= TOAST ================= */
 
 .toast{
   position:fixed;
+
   left:50%;
   bottom:110px;
-  transform:translate(-50%,15px);
+
+  z-index:2000;
+
+  max-width:90%;
+
+  padding:10px 14px;
+
+  border:1px solid var(--line);
+  border-radius:11px;
+
+  background:#161d2c;
+  color:white;
+
+  font-size:11px;
+  text-align:center;
+
   opacity:0;
   pointer-events:none;
-  z-index:200;
-  padding:10px 14px;
-  border-radius:11px;
-  background:#161d2c;
-  border:1px solid var(--line);
-  color:white;
-  font-size:11px;
-  max-width:90%;
-  text-align:center;
+
+  transform:translate(-50%,15px);
+
   transition:.2s;
 }
 
@@ -893,7 +1112,7 @@ button{
   transform:translate(-50%,0);
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:700px){
 
@@ -940,9 +1159,9 @@ button{
   }
 
   .home-logo:before{
-    font-size:36px;
     left:14px;
     top:12px;
+    font-size:36px;
   }
 
   .home-logo:after{
@@ -975,13 +1194,18 @@ button{
   }
 
   .tools-panel{
-    bottom:70px;
-    grid-template-columns:repeat(2,1fr);
-    width:calc(100vw - 20px);
     left:50%;
-    transform:translateX(-50%);
+    bottom:70px;
+
+    width:calc(100vw - 20px);
+
     max-height:55vh;
+
     overflow:auto;
+
+    grid-template-columns:repeat(2,1fr);
+
+    transform:translateX(-50%);
   }
 
   .tool{
@@ -1019,8 +1243,8 @@ button{
   }
 
   .mode{
-    font-size:8px;
     padding:5px 7px;
+    font-size:8px;
   }
 }
 
@@ -1051,18 +1275,28 @@ button{
 
 <!-- SIDEBAR -->
 
-<aside class="sidebar" id="sidebar">
+<aside
+  class="sidebar"
+  id="sidebar"
+>
 
   <div class="side-brand">
+
     <div class="side-logo"></div>
 
     <div>
       <div class="side-name">ARC X</div>
-      <div class="side-sub">AI SUPER APP</div>
+      <div class="side-sub">
+        AI SUPER APP
+      </div>
     </div>
+
   </div>
 
-  <button class="new-chat" id="newChat">
+  <button
+    class="new-chat"
+    id="newChat"
+  >
     ＋ &nbsp; New chat
   </button>
 
@@ -1070,7 +1304,10 @@ button{
     Recent chats
   </div>
 
-  <div class="history" id="history"></div>
+  <div
+    class="history"
+    id="history"
+  ></div>
 
   <div class="side-bottom">
 
@@ -1085,6 +1322,7 @@ button{
   </div>
 
 </aside>
+
 
 <!-- MAIN -->
 
@@ -1104,11 +1342,13 @@ button{
 
   </div>
 
+
   <div class="brand-center">
 
     <div class="brand-mark"></div>
 
     <div>
+
       <div class="brand-text">
         ARC X
       </div>
@@ -1116,9 +1356,11 @@ button{
       <div class="brand-sub">
         AI SUPER APP
       </div>
+
     </div>
 
   </div>
+
 
   <div class="header-right">
 
@@ -1149,254 +1391,185 @@ button{
 
 </header>
 
+
 <!-- CONTENT -->
 
-<section class="content" id="content">
+<section
+  class="content"
+  id="content"
+>
 
-<div class="home" id="home">
+  <div
+    class="home"
+    id="home"
+  >
 
-  <div class="home-logo"></div>
+    <div class="home-logo"></div>
 
-  <h1>
-    Welcome to <span class="gradient">ARC X</span>
-  </h1>
+    <h1>
+      Welcome to
+      <span class="gradient">
+        ARC X
+      </span>
+    </h1>
 
-  <p>
-    Search the web, research topics, understand information,
-    create content, code and explore ideas with ARC X.
-  </p>
+    <p>
+      Search the web, research topics,
+      understand information, create content,
+      code and explore ideas with ARC X.
+    </p>
 
-  <div class="explore">
 
-    <div class="explore-title">
-      Explore ARC X
-    </div>
+    <div class="explore">
 
-    <div class="explore-grid">
+      <div class="explore-title">
+        Explore ARC X
+      </div>
 
-      <button
-        class="explore-card"
-        data-mode="search"
-      >
 
-        <div class="card-icon">
-          ⌕
-        </div>
+      <div class="explore-grid">
 
-        <div class="card-title">
-          Web Search
-        </div>
+        <button
+          class="explore-card"
+          data-mode="search"
+        >
 
-        <div class="card-desc">
-          Find current information from the web.
-        </div>
+          <div class="card-icon">
+            ⌕
+          </div>
 
-      </button>
+          <div class="card-title">
+            Web Search
+          </div>
 
-      <button
-        class="explore-card"
-        data-mode="research"
-      >
+          <div class="card-desc">
+            Find current information from the web.
+          </div>
 
-        <div class="card-icon">
-          ◉
-        </div>
+        </button>
 
-        <div class="card-title">
-          Deep Research
-        </div>
 
-        <div class="card-desc">
-          Research topics using multiple sources.
-        </div>
+        <button
+          class="explore-card"
+          data-mode="research"
+        >
 
-      </button>
+          <div class="card-icon">
+            ◉
+          </div>
 
-      <button
-        class="explore-card"
-        data-mode="create"
-      >
+          <div class="card-title">
+            Deep Research
+          </div>
 
-        <div class="card-icon">
-          ✦
-        </div>
+          <div class="card-desc">
+            Research topics using multiple sources.
+          </div>
 
-        <div class="card-title">
-          Create
-        </div>
+        </button>
 
-        <div class="card-desc">
-          Write posts, scripts and documents.
-        </div>
 
-      </button>
+        <button
+          class="explore-card"
+          data-mode="create"
+        >
 
-      <button
-        class="explore-card"
-        data-mode="code"
-      >
+          <div class="card-icon">
+            ✦
+          </div>
 
-        <div class="card-icon">
-          &lt;/&gt;
-        </div>
+          <div class="card-title">
+            Create
+          </div>
 
-        <div class="card-title">
-          Code
-        </div>
+          <div class="card-desc">
+            Write posts, scripts and documents.
+          </div>
 
-        <div class="card-desc">
-          Build and understand software.
-        </div>
+        </button>
 
-      </button>
+
+        <button
+          class="explore-card"
+          data-mode="code"
+        >
+
+          <div class="card-icon">
+            &lt;/&gt;
+          </div>
+
+          <div class="card-title">
+            Code
+          </div>
+
+          <div class="card-desc">
+            Build and understand software.
+          </div>
+
+        </button>
+
+      </div>
 
     </div>
 
   </div>
 
-</div>
 
-<!-- CHAT -->
+  <!-- CHAT -->
 
-<div
-  class="chat"
-  id="chat"
-></div>
+  <div
+    class="chat"
+    id="chat"
+  ></div>
 
 </section>
+
 
 <!-- COMPOSER -->
 
 <div class="composer-wrap">
 
-<div class="composer">
+  <div class="composer">
 
-<!-- TOOLS PANEL -->
 
-<div
-  class="tools-panel"
-  id="toolsPanel"
->
+    <!-- TOOLS -->
 
-  <button
-    class="tool"
-    id="filesTool"
-  >
+    <div
+      class="tools-panel"
+      id="toolsPanel"
+    >
 
-    <div class="tool-icon">
-      📄
-    </div>
+      <button
+        class="tool"
+        id="filesTool"
+      >
 
-    <div class="tool-name">
-      Upload Files
-    </div>
+        <div class="tool-icon">
+          📄
+        </div>
 
-    <div class="tool-desc">
-      PDF, DOC, XLS, TXT...
-    </div>
+        <div class="tool-name">
+          Upload Files
+        </div>
 
-  </button>
+        <div class="tool-desc">
+          PDF, DOC, XLS, TXT...
+        </div>
 
-  <button
-    class="tool"
-    id="cameraTool"
-  >
+      </button>
 
-    <div class="tool-icon">
-      📷
-    </div>
 
-    <div class="tool-name">
-      Camera
-    </div>
+      <button
+        class="tool"
+        id="cameraTool"
+      >
 
-    <div class="tool-desc">
-      Take Photo
-    </div>
+        <div class="tool-icon">
+          📷
+        </div>
 
-  </button>
+        <div class="tool-name">
+          Camera
+        </div>
 
-  <button
-    class="tool"
-    id="photosTool"
-  >
-
-    <div class="tool-icon">
-      🖼
-    </div>
-
-    <div class="tool-name">
-      Photos
-    </div>
-
-    <div class="tool-desc">
-      From Gallery
-    </div>
-
-  </button>
-
-  <button
-    class="tool"
-    id="webTool"
-  >
-
-    <div class="tool-icon">
-      🌐
-    </div>
-
-    <div class="tool-name">
-      Web Search
-    </div>
-
-    <div class="tool-desc">
-      Search the web
-    </div>
-
-  </button>
-
-  <button
-    class="tool"
-    id="researchTool"
-  >
-
-    <div class="tool-icon">
-      🔬
-    </div>
-
-    <div class="tool-name">
-      Deep Research
-    </div>
-
-    <div class="tool-desc">
-      Multi-source research
-    </div>
-
-  </button>
-
-  <button
-    class="tool"
-    id="imageTool"
-  >
-
-    <div class="tool-icon">
-      ✦
-    </div>
-
-    <div class="tool-name">
-      Generate Image
-    </div>
-
-    <div class="tool-desc">
-      Create with AI
-    </div>
-
-  </button>
-
-  <button
-    class="tool"
-    id="documentTool"
-  >
-
-    <div class="tool-icon">
-      📄
-    </d
+   
