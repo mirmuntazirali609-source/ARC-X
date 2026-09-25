@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#020816">
-<meta name="description" content="ARC X — AI Super App">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<meta
+  name="theme-color"
+  content="#050816"
+>
+
+<meta
+  name="description"
+  content="ARC X — AI Super App"
+>
+
 <title>ARC X — AI Super App</title>
 
 <style>
+
+/* =========================
+   ARC X — CORE
+   ========================= */
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -15,49 +34,36 @@
 }
 
 :root{
-  --bg:#020816;
-  --bg2:#050d1b;
-  --panel:#071120;
-  --panel2:#0b1728;
-  --panel3:#0e1b2f;
-  --border:#1b2b42;
-  --border2:#263b58;
-  --text:#f5f7fb;
-  --muted:#91a0b5;
-  --muted2:#65758c;
-  --blue:#6676ff;
-  --cyan:#36d7ff;
-  --green:#4ee58a;
-  --red:#ff6178;
-  --yellow:#ffc857;
+  --bg:#050816;
+  --panel:#0a1022;
+  --panel2:#0e1630;
+  --border:rgba(255,255,255,.09);
+  --text:#f5f7ff;
+  --muted:#8d98b7;
+  --accent:#7658ff;
+  --accent2:#00b7ff;
+  --green:#35d07f;
+  --red:#ff5577;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
+html,
 body{
-  min-height:100vh;
+  min-height:100%;
+  background:var(--bg);
   color:var(--text);
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(54,215,255,.13),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 100% 30%,
-      rgba(102,118,255,.07),
-      transparent 30%
-    ),
-    var(--bg);
   font-family:
     Inter,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
+    Roboto,
+    Arial,
     sans-serif;
+}
+
+body{
+  overflow-x:hidden;
 }
 
 button,
@@ -66,705 +72,604 @@ textarea{
 }
 
 button{
+  border:0;
   cursor:pointer;
 }
 
-button:focus-visible,
-textarea:focus-visible{
-  outline:2px solid var(--cyan);
-  outline-offset:2px;
+.app{
+  min-height:100vh;
 }
+
 
 /* =========================
    SIDEBAR
-========================= */
+   ========================= */
 
 .sidebar{
   position:fixed;
-  inset:0 auto 0 0;
-  width:275px;
-  padding:18px;
-  z-index:100;
+  left:0;
+  top:0;
+  bottom:0;
+  width:265px;
+  padding:18px 14px;
+  background:rgba(7,12,29,.98);
+  border-right:1px solid var(--border);
+  z-index:50;
   display:flex;
   flex-direction:column;
-  background:
-    linear-gradient(
-      180deg,
-      #040c18,
-      #030916
-    );
-  border-right:1px solid var(--border);
   transition:transform .25s ease;
 }
 
-.brand{
+.logo{
   display:flex;
   align-items:center;
   gap:10px;
-  margin-bottom:18px;
+  padding:4px 6px 22px;
 }
 
-.logo{
-  width:42px;
-  height:42px;
+.logoMark{
+  width:40px;
+  height:40px;
+  border-radius:12px;
   display:grid;
   place-items:center;
-  border-radius:13px;
-  color:white;
-  font-weight:950;
   background:
     linear-gradient(
       135deg,
-      var(--blue),
-      var(--cyan)
+      var(--accent),
+      var(--accent2)
     );
+  font-size:20px;
+  font-weight:900;
   box-shadow:
-    0 8px 25px rgba(54,215,255,.12);
+    0 0 25px
+    rgba(118,88,255,.3);
 }
 
-.brand strong{
-  display:block;
-  font-size:15px;
+.logoName{
+  font-size:21px;
+  font-weight:800;
 }
 
-.brand small{
-  display:block;
-  margin-top:2px;
-  color:var(--muted2);
+.logoSub{
   font-size:9px;
-  letter-spacing:1.6px;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  margin-top:2px;
 }
 
-.newchat{
+.newChat{
   width:100%;
-  border:1px solid var(--border2);
-  border-radius:13px;
   padding:13px;
-  color:white;
-  text-align:left;
+  border-radius:12px;
   background:
     linear-gradient(
       135deg,
-      rgba(102,118,255,.10),
-      rgba(54,215,255,.05)
+      #7658ff,
+      #5140d5
     );
-  transition:.2s;
+  color:white;
+  font-weight:750;
+  margin-bottom:22px;
+  box-shadow:
+    0 8px 22px
+    rgba(80,60,210,.2);
 }
 
-.newchat:hover{
-  border-color:#52658b;
-  transform:translateY(-1px);
+.newChat:hover{
+  filter:brightness(1.08);
 }
 
-.section-title{
-  margin:25px 5px 10px;
-  color:#64738a;
+.sideTitle{
   font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:1.4px;
+  color:#697493;
+  padding:8px;
+}
+
+.sideBtn{
+  width:100%;
+  padding:11px;
+  border-radius:9px;
+  background:transparent;
+  color:#aeb7d0;
+  text-align:left;
+  margin-bottom:3px;
+}
+
+.sideBtn:hover{
+  background:rgba(255,255,255,.06);
+  color:white;
 }
 
 .history{
   flex:1;
   overflow-y:auto;
-  scrollbar-width:thin;
+  margin-top:7px;
 }
 
-.empty{
-  padding:9px 5px;
-  color:#66758b;
+.historyItem{
+  padding:9px;
+  border-radius:8px;
   font-size:12px;
-}
-
-.history-item{
-  width:100%;
-  padding:10px;
-  margin-bottom:3px;
-  border:0;
-  border-radius:9px;
-  color:#ccd5e3;
-  background:transparent;
-  text-align:left;
+  color:#929bb5;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+  cursor:pointer;
 }
 
-.history-item:hover{
-  background:#0c192b;
+.historyItem:hover{
+  background:rgba(255,255,255,.05);
+  color:white;
 }
 
-.bottom{
-  padding-top:10px;
-  border-top:1px solid var(--border);
-}
-
-.side-btn{
-  width:100%;
-  padding:11px 7px;
-  border:0;
-  border-radius:9px;
-  color:#cbd5e3;
-  background:transparent;
-  text-align:left;
-}
-
-.side-btn:hover{
-  background:#0c192b;
-}
 
 /* =========================
    MAIN
-========================= */
+   ========================= */
 
 .main{
+  margin-left:265px;
   min-height:100vh;
-  margin-left:275px;
 }
 
+
+/* =========================
+   TOP BAR
+   ========================= */
+
 .topbar{
-  position:sticky;
-  top:0;
-  z-index:50;
   height:64px;
+  padding:0 23px;
   display:flex;
   align-items:center;
-  padding:0 22px;
-  border-bottom:1px solid rgba(27,43,66,.75);
-  background:rgba(2,8,22,.78);
-  backdrop-filter:blur(18px);
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,8,22,.78);
+  backdrop-filter:blur(16px);
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .menu{
   display:none;
-  margin-right:12px;
-  padding:3px;
-  border:0;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:#111a35;
   color:white;
-  background:transparent;
-  font-size:25px;
+  font-size:20px;
 }
 
-.top-title{
-  font-size:15px;
-  font-weight:850;
-  letter-spacing:.2px;
+.topTitle{
+  font-size:13px;
+  font-weight:700;
+  color:#c4cbe0;
 }
 
 .status{
   display:flex;
   align-items:center;
   gap:7px;
-  margin-left:auto;
+  font-size:12px;
   color:var(--muted);
-  font-size:11px;
 }
 
-.status-dot{
+.dot{
   width:8px;
   height:8px;
   border-radius:50%;
-  background:#777;
+  background:#f0a500;
 }
 
-.status-dot.online{
+.dot.online{
   background:var(--green);
-  box-shadow:0 0 12px var(--green);
+  box-shadow:
+    0 0 9px
+    rgba(53,208,127,.7);
 }
 
-.status-dot.warning{
-  background:var(--yellow);
-  box-shadow:0 0 10px rgba(255,200,87,.4);
-}
-
-.status-dot.error{
+.dot.offline{
   background:var(--red);
-  box-shadow:0 0 10px rgba(255,97,120,.4);
 }
 
-/* =========================
-   MAIN CONTAINER
-========================= */
 
-.container{
-  width:min(920px,calc(100% - 28px));
+/* =========================
+   HOME
+   ========================= */
+
+.home{
+  width:100%;
+  max-width:1040px;
   margin:auto;
-  padding:68px 0 120px;
+  padding:68px 25px 90px;
 }
-
-/* =========================
-   HERO
-========================= */
 
 .hero{
-  margin-bottom:28px;
   text-align:center;
+  margin-bottom:32px;
 }
 
-.hero-logo{
-  width:76px;
-  height:76px;
-  display:grid;
-  place-items:center;
-  margin:0 auto 20px;
-  border-radius:24px;
-  color:white;
-  font-size:30px;
-  font-weight:950;
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--cyan)
-    );
-  box-shadow:
-    0 0 55px rgba(54,215,255,.16);
+.badge{
+  display:inline-flex;
+  padding:7px 12px;
+  border-radius:30px;
+  background:rgba(118,88,255,.1);
+  border:1px solid rgba(118,88,255,.25);
+  color:#b8adff;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.1px;
+  margin-bottom:18px;
 }
 
 .hero h1{
-  margin-bottom:13px;
-  font-size:clamp(36px,7vw,58px);
-  line-height:1.05;
-  letter-spacing:-2.5px;
+  font-size:clamp(40px,7vw,66px);
+  line-height:1;
+  letter-spacing:-3px;
+  margin-bottom:16px;
+}
+
+.gradient{
+  background:
+    linear-gradient(
+      90deg,
+      #fff,
+      #a995ff,
+      #58d7ff
+    );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
 .hero p{
-  max-width:690px;
+  max-width:650px;
   margin:auto;
   color:var(--muted);
   font-size:14px;
   line-height:1.7;
 }
 
+
 /* =========================
    SEARCH
-========================= */
+   ========================= */
 
-.search-box{
-  max-width:800px;
-  margin:0 auto 13px;
+.search{
+  max-width:850px;
+  margin:auto;
 }
 
-.search-container{
-  display:flex;
-  align-items:flex-end;
-  gap:8px;
-  padding:9px;
-  border:1px solid #2b4160;
-  border-radius:20px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(9,20,36,.98),
-      rgba(5,14,27,.98)
-    );
+.searchBox{
+  background:rgba(11,18,40,.96);
+  border:1px solid var(--border);
+  border-radius:19px;
+  overflow:hidden;
   box-shadow:
-    0 20px 60px rgba(0,0,0,.38);
-  transition:border-color .2s,box-shadow .2s;
-}
-
-.search-container:focus-within{
-  border-color:#47648e;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.4),
-    0 0 0 3px rgba(54,215,255,.05);
-}
-
-.search-container textarea{
-  width:100%;
-  min-height:48px;
-  max-height:170px;
-  resize:none;
-  padding:13px 10px;
-  border:0;
-  outline:0;
-  color:white;
-  background:transparent;
-  line-height:1.45;
-}
-
-.search-container textarea::placeholder{
-  color:#64748a;
-}
-
-.search-button{
-  flex:0 0 48px;
-  width:48px;
-  height:48px;
-  border:0;
-  border-radius:14px;
-  color:white;
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--cyan)
-    );
-  font-size:21px;
-  font-weight:950;
+    0 20px 60px
+    rgba(0,0,0,.32);
   transition:.2s;
 }
 
-.search-button:hover{
-  transform:translateY(-1px);
+.searchBox:focus-within{
+  border-color:rgba(118,88,255,.58);
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.32),
+    0 0 30px
+    rgba(118,88,255,.08);
+}
+
+#query{
+  width:100%;
+  height:112px;
+  padding:19px;
+  border:0;
+  outline:0;
+  resize:none;
+  background:transparent;
+  color:white;
+  font-size:16px;
+  line-height:1.5;
+}
+
+#query::placeholder{
+  color:#66718f;
+}
+
+.searchBottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px;
+}
+
+.modes{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.mode{
+  padding:8px 11px;
+  border-radius:9px;
+  background:rgba(255,255,255,.05);
+  color:#8993b0;
+  font-size:11px;
+  font-weight:700;
+}
+
+.mode:hover{
+  background:rgba(255,255,255,.09);
+  color:white;
+}
+
+.mode.active{
+  background:rgba(118,88,255,.18);
+  border:1px solid rgba(118,88,255,.38);
+  color:white;
+}
+
+.send{
+  width:44px;
+  height:44px;
+  flex:none;
+  border-radius:13px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      #4d8cff
+    );
+  color:white;
+  font-size:20px;
+  box-shadow:
+    0 7px 20px
+    rgba(80,70,220,.25);
+}
+
+.send:hover{
   filter:brightness(1.08);
 }
 
-.search-button:disabled{
-  opacity:.45;
+.send:disabled{
+  opacity:.5;
   cursor:not-allowed;
-  transform:none;
 }
 
-.search-hint{
-  margin-top:8px;
-  color:#596980;
-  text-align:center;
-  font-size:10px;
-}
 
 /* =========================
-   MODE CHIPS
-========================= */
+   LOADING
+   ========================= */
 
-.search-modes{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:7px;
-  margin:18px 0 34px;
-}
-
-.mode-chip{
-  padding:8px 13px;
-  border:1px solid var(--border);
-  border-radius:20px;
-  color:#9caabd;
-  background:#071120;
-  font-size:11px;
-  transition:.2s;
-}
-
-.mode-chip:hover{
-  border-color:#3b5273;
-  background:#0c192b;
-}
-
-.mode-chip.active{
-  color:white;
-  border-color:#5265a0;
-  background:
-    linear-gradient(
-      135deg,
-      #111c36,
-      #10223a
-    );
-}
-
-/* =========================
-   EXPLORE
-========================= */
-
-.explore{
-  margin-bottom:13px;
-  color:#aeb9ca;
-  text-align:center;
-  font-size:13px;
-  font-weight:650;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-
-.card{
-  min-height:158px;
-  padding:19px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  color:white;
-  background:
-    linear-gradient(
-      180deg,
-      #0a1728,
-      #06101e
-    );
-  text-align:left;
-  transition:
-    transform .2s,
-    border-color .2s,
-    box-shadow .2s;
-}
-
-.card:hover{
-  transform:translateY(-3px);
-  border-color:#415477;
-  box-shadow:0 15px 35px rgba(0,0,0,.22);
-}
-
-.card-icon{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  margin-bottom:17px;
-  border-radius:12px;
-  color:#dce8ff;
-  background:#101f35;
-  font-size:19px;
-}
-
-.card h3{
-  margin-bottom:7px;
-  font-size:14px;
-}
-
-.card p{
-  color:#8392a8;
-  font-size:11px;
-  line-height:1.55;
-}
-
-/* =========================
-   RESULTS
-========================= */
-
-.results{
+.loading{
   display:none;
-  margin:38px auto 0;
+  padding:18px 4px;
+  color:#98a3c0;
+  font-size:12px;
 }
 
-.results.show{
+.loading.show{
+  display:block;
+}
+  /* =========================
+   RESULT
+   ========================= */
+
+.result{
+  display:none;
+  margin-top:28px;
+  background:#0a1023;
+  border:1px solid var(--border);
+  border-radius:17px;
+  overflow:hidden;
+}
+
+.result.show{
   display:block;
 }
 
-.result-header{
+.resultHead{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
-  margin-bottom:15px;
+  padding:13px 16px;
+  border-bottom:1px solid var(--border);
 }
 
-.result-header h2{
-  font-size:20px;
-  letter-spacing:-.3px;
+.resultMode{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  color:#aa9aff;
 }
 
-.result-actions{
+.actions{
   display:flex;
-  gap:7px;
-  margin-left:auto;
+  gap:6px;
 }
 
-.result-action{
-  padding:8px 10px;
-  border:1px solid var(--border);
-  border-radius:9px;
+.small{
+  padding:7px 10px;
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+  color:#b6bfd7;
+  font-size:10px;
+}
+
+.small:hover{
+  background:rgba(255,255,255,.1);
   color:white;
-  background:#071120;
-  font-size:11px;
-}
-
-.result-action:hover{
-  background:#0c192b;
 }
 
 .answer{
-  padding:19px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  color:#e7ecf5;
-  background:
-    linear-gradient(
-      180deg,
-      #071120,
-      #06101e
-    );
+  padding:20px;
   font-size:14px;
-  line-height:1.75;
+  line-height:1.8;
   overflow-wrap:anywhere;
 }
 
-.answer.error{
-  color:#ff9aaa;
-  border-color:#633040;
-  background:#180b12;
+.answer h1,
+.answer h2,
+.answer h3{
+  margin:16px 0 9px;
+  color:white;
 }
 
-.wait{
-  margin-top:4px;
-  color:#7f8ea5;
-  text-align:center;
-  font-size:12px;
+.answer p{
+  margin-bottom:12px;
 }
 
-/* =========================
-   MARKDOWN
-========================= */
-
-.md h1,
-.md h2,
-.md h3,
-.md h4{
-  margin:18px 0 9px;
-  line-height:1.3;
+.answer ul,
+.answer ol{
+  padding-left:22px;
+  margin-bottom:13px;
 }
 
-.md h1{
-  font-size:24px;
-}
-
-.md h2{
-  font-size:20px;
-}
-
-.md h3{
-  font-size:18px;
-}
-
-.md h4{
-  font-size:16px;
-}
-
-.md p{
-  margin:0 0 13px;
-}
-
-.md ul,
-.md ol{
-  margin:0 0 13px;
-  padding-left:23px;
-}
-
-.md li{
+.answer li{
   margin:5px 0;
 }
 
-.md strong{
-  font-weight:800;
-}
-
-.md code{
+.answer code{
+  background:rgba(255,255,255,.07);
   padding:2px 5px;
-  border:1px solid #172a43;
-  border-radius:6px;
-  color:#d9ecff;
-  background:#0c192b;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
-  font-size:12px;
+  border-radius:4px;
 }
 
-.md pre{
-  margin:0 0 14px;
+.answer pre{
+  background:#040814;
+  border:1px solid var(--border);
   padding:14px;
-  overflow-x:auto;
-  border:1px solid #172a43;
-  border-radius:12px;
-  background:#040c18;
+  border-radius:9px;
+  overflow:auto;
+  margin:12px 0;
 }
-
-.md pre code{
-  padding:0;
-  border:0;
-  background:transparent;
-  line-height:1.55;
-}
-
-/* =========================
-   SOURCES
-========================= */
 
 .sources{
-  margin-top:18px;
-}
-
-.sources-title{
-  margin-bottom:8px;
-  color:#cbd6e7;
-  font-size:13px;
-  font-weight:750;
+  display:none;
+  padding:15px;
+  border-top:1px solid var(--border);
 }
 
 .source{
   display:block;
-  margin:6px 0;
-  padding:11px;
-  overflow:hidden;
-  border:1px solid #172a43;
-  border-radius:11px;
-  color:#9dd7ff;
-  background:#091729;
+  padding:6px 0;
+  font-size:11px;
+  color:#9eabd0;
   text-decoration:none;
   white-space:nowrap;
+  overflow:hidden;
   text-overflow:ellipsis;
-  font-size:11px;
 }
 
 .source:hover{
-  border-color:#36557c;
-  background:#0c1b30;
+  color:white;
 }
+
 
 /* =========================
-   LOADING
-========================= */
+   EXPLORE
+   ========================= */
 
-.loading{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  padding:20px 0 10px;
+.explore{
+  max-width:850px;
+  margin:50px auto 0;
 }
 
-.loading span{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#9aa8bd;
-  animation:arcBounce 1s infinite;
+.exploreTitle{
+  text-align:center;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:#8d97b2;
+  margin-bottom:16px;
 }
 
-.loading span:nth-child(2){
-  animation-delay:.15s;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
 }
 
-.loading span:nth-child(3){
-  animation-delay:.30s;
+.card{
+  padding:17px;
+  border-radius:15px;
+  background:rgba(11,18,40,.7);
+  border:1px solid var(--border);
+  color:white;
+  text-align:left;
+  transition:.2s;
 }
 
-@keyframes arcBounce{
-  0%,80%,100%{
-    opacity:.25;
-    transform:translateY(0);
-  }
-
-  40%{
-    opacity:1;
-    transform:translateY(-5px);
-  }
+.card:hover{
+  background:#101936;
+  border-color:rgba(118,88,255,.35);
+  transform:translateY(-2px);
 }
+
+.icon{
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.card p{
+  font-size:10px;
+  color:#7f89a7;
+  line-height:1.5;
+}
+
+
+/* =========================
+   TOAST
+   ========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translate(-50%,20px);
+  padding:10px 15px;
+  border-radius:9px;
+  background:#121b38;
+  border:1px solid var(--border);
+  color:white;
+  font-size:11px;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  z-index:200;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
 
 /* =========================
    MOBILE
-========================= */
+   ========================= */
 
 @media(max-width:850px){
 
   .sidebar{
     transform:translateX(-100%);
+    width:280px;
+    box-shadow:20px 0 50px rgba(0,0,0,.4);
   }
 
   .sidebar.open{
     transform:translateX(0);
-    box-shadow:20px 0 55px rgba(0,0,0,.55);
   }
 
   .main{
@@ -775,81 +680,109 @@ textarea:focus-visible{
     display:block;
   }
 
-  .cards{
-    grid-template-columns:1fr 1fr;
+  .topTitle{
+    display:none;
   }
 
-  .container{
-    padding-top:46px;
+  .home{
+    padding:45px 14px 70px;
   }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
 }
 
-@media(max-width:520px){
 
-  .topbar{
-    height:58px;
-    padding:0 14px;
-  }
+@media(max-width:480px){
 
-  .container{
-    width:calc(100% - 18px);
-    padding-top:35px;
-  }
-
-  .hero-logo{
-    width:68px;
-    height:68px;
-    border-radius:20px;
+  .home{
+    padding-left:11px;
+    padding-right:11px;
   }
 
   .hero h1{
-    font-size:39px;
+    font-size:40px;
+    letter-spacing:-2px;
   }
 
   .hero p{
     font-size:13px;
   }
 
-  .search-container{
-    border-radius:17px;
+  .searchBottom{
+    align-items:flex-end;
   }
 
-  .search-button{
-    width:46px;
-    height:46px;
-    flex-basis:46px;
+  .mode{
+    padding:7px 8px;
+    font-size:10px;
   }
 
-  .cards{
+  .grid{
     gap:8px;
   }
 
   .card{
-    min-height:148px;
-    padding:15px;
-  }
-
-  .card h3{
-    font-size:13px;
-  }
-
-  .card p{
-    font-size:10.5px;
+    padding:13px;
   }
 
   .answer{
-    padding:15px;
-    font-size:13px;
+    padding:16px;
   }
 
-  .result-actions{
-    gap:5px;
-  }
-
-  .result-action{
-    padding:7px 8px;
-  }
 }
+
+
+/* =========================
+   LIGHT THEME
+   ========================= */
+
+body.light{
+  background:#f5f7fc;
+  color:#111827;
+}
+
+body.light .sidebar{
+  background:#ffffff;
+}
+
+body.light .topbar{
+  background:rgba(255,255,255,.9);
+}
+
+body.light .searchBox,
+body.light .result,
+body.light .card{
+  background:#ffffff;
+  border-color:#dfe4ef;
+}
+
+body.light #query{
+  color:#111827;
+}
+
+body.light #query::placeholder{
+  color:#7b8499;
+}
+
+body.light .answer h1,
+body.light .answer h2,
+body.light .answer h3{
+  color:#111827;
+}
+
+body.light .sideBtn,
+body.light .historyItem{
+  color:#596579;
+}
+
+
+/* =========================
+   END OF CSS
+   ========================= */
+
 </style>
 </head>
 
@@ -857,518 +790,826 @@ textarea:focus-visible{
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+     ========================= -->
 
 <aside class="sidebar" id="sidebar">
 
-  <div class="brand">
+  <div class="logo">
 
-    <div class="logo">X</div>
+    <div class="logoMark">A</div>
 
     <div>
-      <strong>ARC X</strong>
-      <small>AI SUPER APP</small>
+
+      <div class="logoName">
+        ARC X
+      </div>
+
+      <div class="logoSub">
+        AI SUPER APP
+      </div>
+
     </div>
 
   </div>
 
 
   <button
-    class="newchat"
-    id="newChatButton">
-
-    ＋ &nbsp; New chat
-
+    class="newChat"
+    id="newChat"
+  >
+    ＋ New Chat
   </button>
 
 
-  <div class="section-title">
-    Recent chats
+  <div class="sideTitle">
+    WORKSPACE
   </div>
+
+
+  <button
+    class="sideBtn"
+    id="historyBtn"
+  >
+    ◷ &nbsp; Recent Chats
+  </button>
+
+
+  <button
+    class="sideBtn"
+    id="appearanceBtn"
+  >
+    ◐ &nbsp; Appearance
+  </button>
+
+
+  <button
+    class="sideBtn"
+    id="clearBtn"
+  >
+    ⌫ &nbsp; Clear History
+  </button>
 
 
   <div
     class="history"
-    id="history">
+    id="history"
+  >
 
-    <div class="empty">
-      No recent chats
+    <div class="sideTitle">
+      RECENT
     </div>
-
-  </div>
-
-
-  <div class="bottom">
-
-    <button
-      class="side-btn"
-      id="appearanceButton">
-
-      ◐ &nbsp; Appearance
-
-    </button>
-
-
-    <button
-      class="side-btn"
-      id="clearHistoryButton">
-
-      ⌫ &nbsp; Clear history
-
-    </button>
 
   </div>
 
 </aside>
 
 
-<!-- MAIN -->
+<!-- =========================
+     MAIN
+     ========================= -->
 
 <main class="main">
 
 
-<header class="topbar">
-
-  <button
-    class="menu"
-    id="menuButton"
-    aria-label="Open menu">
-
-    ☰
-
-  </button>
-
-
-  <div class="top-title">
-    ARC X
-  </div>
-
-
-  <div class="status">
-
-    <span
-      class="status-dot"
-      id="statusDot">
-    </span>
-
-    <span id="statusText">
-      Connecting...
-    </span>
-
-  </div>
-
-</header>
-
-
-<div class="container">
-
-
-<!-- HERO -->
-
-<section class="hero">
-
-  <div class="hero-logo">
-    X
-  </div>
-
-
-  <h1>
-    Welcome to ARC X
-  </h1>
-
-
-  <p>
-    Search the web, research topics, understand information,
-    create content, code and explore ideas with ARC X.
-  </p>
-
-</section>
-
-
-<!-- SEARCH -->
-
-<section class="search-box">
-
-  <div class="search-container">
-
-    <textarea
-      id="mainInput"
-      rows="1"
-      placeholder="Search the web..."
-      aria-label="Ask ARC X">
-    </textarea>
-
+  <header class="topbar">
 
     <button
-      class="search-button"
-      id="searchButton"
-      aria-label="Send">
-
-      ↑
-
+      class="menu"
+      id="menuBtn"
+      aria-label="Open menu"
+    >
+      ☰
     </button>
 
-  </div>
 
+    <div class="topTitle">
+      ARC X — AI Super App
+    </div>
 
-  <div class="search-hint">
-    Enter to search · Shift + Enter for a new line
-  </div>
 
-</section>
+    <div class="status">
 
+      <span
+        class="dot"
+        id="statusDot"
+      ></span>
 
-<!-- MODES -->
-
-<div class="search-modes">
-
-  <button
-    class="mode-chip active"
-    id="chipWeb"
-    data-mode="web">
-
-    ⌕ Web Search
-
-  </button>
-
-
-  <button
-    class="mode-chip"
-    id="chipAI"
-    data-mode="ai">
-
-    ✦ AI Chat
-
-  </button>
-
-
-  <button
-    class="mode-chip"
-    id="chipResearch"
-    data-mode="research">
-
-    ◉ Deep Research
-
-  </button>
-
-</div>
-
-
-<!-- EXPLORE -->
-
-<div class="explore">
-  Explore ARC X
-</div>
-
-
-<div class="cards">
-
-
-<button
-  class="card"
-  data-tool="web">
-
-  <div class="card-icon">
-    ⌕
-  </div>
-
-  <h3>
-    Web Search
-  </h3>
-
-  <p>
-    Find current information from the web.
-  </p>
-
-</button>
-
-
-<button
-  class="card"
-  data-tool="research">
-
-  <div class="card-icon">
-    ◉
-  </div>
-
-  <h3>
-    Deep Research
-  </h3>
-
-  <p>
-    Research topics using multiple sources.
-  </p>
-
-</button>
-
-
-<button
-  class="card"
-  data-tool="create">
-
-  <div class="card-icon">
-    ✦
-  </div>
-
-  <h3>
-    Create
-  </h3>
-
-  <p>
-    Write posts, scripts and documents.
-  </p>
-
-</button>
-
-
-<button
-  class="card"
-  data-tool="code">
-
-  <div class="card-icon">
-    &lt;/&gt;
-  </div>
-
-  <h3>
-    Code
-  </h3>
-
-  <p>
-    Build and understand software.
-  </p>
-
-</button>
-
-
-</div>
-
-
-<!-- RESULTS -->
-
-<section
-  class="results"
-  id="results">
-
-
-  <div class="result-header">
-
-    <h2 id="resultTitle">
-      ARC X
-    </h2>
-
-
-    <div class="result-actions">
-
-      <button
-        class="result-action"
-        id="copyButton">
-
-        Copy
-
-      </button>
-
-
-      <button
-        class="result-action"
-        id="newSearchButton">
-
-        New search
-
-      </button>
+      <span id="statusText">
+        Connecting...
+      </span>
 
     </div>
 
-  </div>
+  </header>
 
 
-  <div id="resultContent"></div>
+  <section class="home">
 
 
-</section>
+    <!-- =========================
+         HERO
+         ========================= -->
+
+    <div class="hero">
+
+      <div class="badge">
+        ✦ AI SEARCH • RESEARCH • CREATION
+      </div>
 
 
-</div>
+      <h1>
+        <span class="gradient">
+          Ask anything.
+        </span>
+      </h1>
+
+
+      <p>
+        Search the web, research topics,
+        understand information, create content,
+        code and explore ideas with ARC X.
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         SEARCH
+         ========================= -->
+
+    <div class="search">
+
+      <div class="searchBox">
+
+
+        <textarea
+          id="query"
+          maxlength="12000"
+          placeholder="Ask ARC X anything..."
+          autocomplete="off"
+        ></textarea>
+
+
+        <div class="searchBottom">
+
+
+          <div class="modes">
+
+            <button
+              class="mode active"
+              data-mode="web"
+            >
+              ◉ Web Search
+            </button>
+
+
+            <button
+              class="mode"
+              data-mode="ai"
+            >
+              ✦ AI Chat
+            </button>
+
+
+            <button
+              class="mode"
+              data-mode="research"
+            >
+              ◎ Deep Research
+            </button>
+
+          </div>
+
+
+          <button
+            class="send"
+            id="send"
+            aria-label="Send"
+          >
+            ↑
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="loading"
+        id="loading"
+      >
+        ARC X is working...
+      </div>
+
+
+      <!-- RESULT -->
+
+      <div
+        class="result"
+        id="result"
+      >
+
+        <div class="resultHead">
+
+          <span
+            class="resultMode"
+            id="resultMode"
+          >
+            WEB SEARCH
+          </span>
+
+
+          <div class="actions">
+
+            <button
+              class="small"
+              id="copy"
+            >
+              Copy
+            </button>
+
+            <button
+              class="small"
+              id="newSearch"
+            >
+              New Search
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="answer"
+          id="answer"
+        ></div>
+
+
+        <div
+          class="sources"
+          id="sourcesBox"
+        >
+
+          <div class="sideTitle">
+            SOURCES
+          </div>
+
+          <div id="sources"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         EXPLORE
+         ========================= -->
+
+    <div class="explore">
+
+      <div class="exploreTitle">
+        EXPLORE ARC X
+      </div>
+
+
+      <div class="grid">
+
+
+        <button
+          class="card"
+          data-explore="web"
+        >
+
+          <div class="icon">
+            ⌕
+          </div>
+
+          <h3>
+            Web Search
+          </h3>
+
+          <p>
+            Search current information across the web.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          data-explore="research"
+        >
+
+          <div class="icon">
+            ◎
+          </div>
+
+          <h3>
+            Deep Research
+          </h3>
+
+          <p>
+            Explore topics with deeper research.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          data-explore="create"
+        >
+
+          <div class="icon">
+            ✎
+          </div>
+
+          <h3>
+            Create
+          </h3>
+
+          <p>
+            Write content, scripts and ideas.
+          </p>
+
+        </button>
+
+
+        <button
+          class="card"
+          data-explore="code"
+        >
+
+          <div class="icon">
+            &lt;/&gt;
+          </div>
+
+          <h3>
+            Code
+          </h3>
+
+          <p>
+            Write, explain and improve code.
+          </p>
+
+        </button>
+
+
+      </div>
+
+    </div>
+
+
+  </section>
 
 </main>
 
-</div>
 
+<!-- TOAST -->
 
+<div
+  class="toast"
+  id="toast"
+></div>
 <script>
-"use strict";
 
-/* =========================================================
-   ARC X CORE
-========================================================= */
+/* =========================
+   ARC X — CORE JAVASCRIPT
+   ========================= */
 
 var searchMode = "web";
 var history = [];
 var lastAnswer = "";
 
 
-/* DOM */
+/* =========================
+   ELEMENTS
+   ========================= */
 
-var mainInput =
-  document.getElementById("mainInput");
+var sidebar = document.getElementById("sidebar");
+var menuBtn = document.getElementById("menuBtn");
 
-var searchButton =
-  document.getElementById("searchButton");
+var queryBox = document.getElementById("query");
+var sendBtn = document.getElementById("send");
 
-var results =
-  document.getElementById("results");
+var loading = document.getElementById("loading");
 
-var resultContent =
-  document.getElementById("resultContent");
+var result = document.getElementById("result");
+var answerBox = document.getElementById("answer");
+var resultMode = document.getElementById("resultMode");
 
-var resultTitle =
-  document.getElementById("resultTitle");
+var sourcesBox = document.getElementById("sourcesBox");
+var sourcesBoxInner = document.getElementById("sources");
 
-var historyEl =
-  document.getElementById("history");
+var statusDot = document.getElementById("statusDot");
+var statusText = document.getElementById("statusText");
 
-var sidebar =
-  document.getElementById("sidebar");
-
-var statusDot =
-  document.getElementById("statusDot");
-
-var statusText =
-  document.getElementById("statusText");
-
-var copyButton =
-  document.getElementById("copyButton");
+var toast = document.getElementById("toast");
 
 
-/* =========================================================
-   STATUS
-========================================================= */
+/* =========================
+   TOAST
+   ========================= */
 
-function setStatus(text,type){
+var toastTimer = null;
 
-  statusText.textContent = text;
+function showToast(message){
 
-  statusDot.className =
-    "status-dot";
-
-  if(type){
-    statusDot.classList.add(type);
+  if(!toast){
+    return;
   }
 
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(function(){
+
+    toast.classList.remove("show");
+
+  },2400);
 }
 
 
-/* =========================================================
-   SERVER HEALTH
-========================================================= */
+/* =========================
+   STATUS
+   ========================= */
 
-async function checkHealth(){
+function setStatus(type,message){
 
-  setStatus(
-    "Connecting...",
-    ""
+  statusText.textContent = message;
+
+  statusDot.classList.remove(
+    "online",
+    "offline",
+    "checking"
   );
 
-  try{
+  statusDot.classList.add(type);
+}
 
-    var response =
-      await fetch(
-        "/api/health?x=" +
-        Date.now(),
-        {
-          method:"GET",
-          cache:"no-store"
-        }
+
+/* =========================
+   ESCAPE HTML
+   ========================= */
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================
+   MARKDOWN RENDERER
+   ========================= */
+
+function renderMarkdown(text){
+
+  if(!text){
+    return "";
+  }
+
+  var safe = escapeHTML(text);
+
+  var codeBlocks = [];
+
+  safe = safe.replace(
+    /```([\s\S]*?)```/g,
+    function(match,code){
+
+      var index = codeBlocks.length;
+
+      codeBlocks.push(
+        "<pre><code>" +
+        code.trim() +
+        "</code></pre>"
       );
 
+      return "___ARC_CODE_" + index + "___";
+    }
+  );
 
-    if(!response.ok){
 
-      throw new Error(
-        "Server returned HTTP " +
-        response.status
+  safe = safe.replace(
+    /^### (.*)$/gm,
+    "<h3>$1</h3>"
+  );
+
+  safe = safe.replace(
+    /^## (.*)$/gm,
+    "<h2>$1</h2>"
+  );
+
+  safe = safe.replace(
+    /^# (.*)$/gm,
+    "<h1>$1</h1>"
+  );
+
+
+  safe = safe.replace(
+    /\*\*(.*?)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+
+  safe = safe.replace(
+    /`([^`]+)`/g,
+    "<code>$1</code>"
+  );
+
+
+  var lines = safe.split("\n");
+  var output = [];
+  var inList = false;
+
+
+  for(var i = 0; i < lines.length; i++){
+
+    var line = lines[i];
+
+
+    if(
+      line.indexOf("- ") === 0 ||
+      line.indexOf("* ") === 0
+    ){
+
+      if(!inList){
+        output.push("<ul>");
+        inList = true;
+      }
+
+      output.push(
+        "<li>" +
+        line.substring(2) +
+        "</li>"
       );
 
+      continue;
     }
 
 
-    var data =
-      await response.json();
+    if(inList){
+
+      output.push("</ul>");
+      inList = false;
+    }
 
 
-    if(data.ok){
+    if(
+      line.trim() === ""
+    ){
 
-      setStatus(
-        "Connected",
-        "online"
-      );
+      continue;
+    }
+
+
+    if(
+      line.indexOf("<h1>") === 0 ||
+      line.indexOf("<h2>") === 0 ||
+      line.indexOf("<h3>") === 0 ||
+      line.indexOf("<pre>") === 0 ||
+      line.indexOf("___ARC_CODE_") === 0
+    ){
+
+      output.push(line);
 
     }else{
 
-      setStatus(
-        "Server issue",
-        "warning"
+      output.push(
+        "<p>" + line + "</p>"
       );
 
     }
 
-
-  }catch(error){
-
-    console.error(
-      "Health check:",
-      error
-    );
-
-    setStatus(
-      "Disconnected",
-      "error"
-    );
-
   }
 
+
+  if(inList){
+    output.push("</ul>");
+  }
+
+
+  var html = output.join("");
+
+
+  html = html.replace(
+    /___ARC_CODE_(\d+)___/g,
+    function(match,index){
+      return codeBlocks[Number(index)];
+    }
+  );
+
+
+  return html;
 }
 
 
-/* =========================================================
+/* =========================
+   GET ANSWER
+   ========================= */
+
+function getAnswer(data){
+
+  if(!data){
+    return "";
+  }
+
+
+  if(typeof data === "string"){
+    return data;
+  }
+
+
+  var possible = [
+
+    data.answer,
+    data.response,
+    data.result,
+    data.text,
+    data.content,
+    data.message,
+
+    data.data && data.data.answer,
+    data.data && data.data.response,
+    data.data && data.data.text,
+
+    data.result && data.result.answer,
+    data.result && data.result.text
+
+  ];
+
+
+  for(var i = 0; i < possible.length; i++){
+
+    if(
+      typeof possible[i] === "string" &&
+      possible[i].trim()
+    ){
+
+      return possible[i];
+    }
+
+  }
+
+
+  return "";
+}
+
+
+/* =========================
+   GET SOURCES
+   ========================= */
+
+function getSources(data){
+
+  if(!data){
+    return [];
+  }
+
+
+  var sources =
+    data.sources ||
+    data.results ||
+    data.citations ||
+    data.references ||
+    (data.data && data.data.sources) ||
+    [];
+
+
+  if(!Array.isArray(sources)){
+    return [];
+  }
+
+
+  return sources;
+}
+
+
+/* =========================
+   RENDER SOURCES
+   ========================= */
+
+function renderSources(list){
+
+  sourcesBoxInner.innerHTML = "";
+
+  if(
+    !Array.isArray(list) ||
+    list.length === 0
+  ){
+
+    sourcesBox.style.display = "none";
+    return;
+  }
+
+
+  var count = 0;
+
+
+  list.forEach(function(item){
+
+    if(count >= 10){
+      return;
+    }
+
+
+    var title = "";
+    var url = "";
+
+
+    if(typeof item === "string"){
+
+      url = item;
+      title = item;
+
+    }else if(item){
+
+      title =
+        item.title ||
+        item.name ||
+        item.source ||
+        item.url ||
+        "Source";
+
+      url =
+        item.url ||
+        item.link ||
+        item.href ||
+        "";
+    }
+
+
+    if(!url){
+      return;
+    }
+
+
+    var source = document.createElement("a");
+
+    source.className = "source";
+    source.href = url;
+    source.target = "_blank";
+    source.rel = "noopener noreferrer";
+
+    source.textContent =
+      title + " — " + url;
+
+
+    sourcesBoxInner.appendChild(source);
+
+    count++;
+
+  });
+
+
+  if(count > 0){
+
+    sourcesBox.style.display = "block";
+
+  }else{
+
+    sourcesBox.style.display = "none";
+  }
+}
+
+
+/* =========================
    HISTORY
-========================================================= */
+   ========================= */
 
 function loadHistory(){
 
   try{
 
     var saved =
-      localStorage.getItem(
-        "arcx_history"
-      );
-
+      localStorage.getItem("arcx_history");
 
     if(saved){
 
       var parsed =
         JSON.parse(saved);
 
-
       if(Array.isArray(parsed)){
-
         history = parsed;
-
       }
 
     }
 
   }catch(error){
 
-    console.warn(
-      "History error:",
-      error
-    );
-
+    history = [];
   }
-
-
-  renderHistory();
-
 }
 
 
@@ -1378,91 +1619,71 @@ function saveHistory(){
 
     localStorage.setItem(
       "arcx_history",
-      JSON.stringify(
-        history.slice(0,30)
-      )
+      JSON.stringify(history)
     );
 
   }catch(error){
 
-    console.warn(
-      "Could not save history",
-      error
-    );
-
+    /* Ignore storage errors */
   }
-
 }
 
 
-function addHistory(query,mode){
+function addHistory(text){
 
-  history.unshift({
-
-    query:query,
-
-    mode:mode,
-
-    time:Date.now()
-
-  });
+  if(!text){
+    return;
+  }
 
 
-  var unique = [];
+  history = history.filter(function(item){
 
-
-  history.forEach(function(item){
-
-    var exists =
-      unique.some(function(existing){
-
-        return (
-          existing.query === item.query &&
-          existing.mode === item.mode
-        );
-
-      });
-
-
-    if(!exists){
-
-      unique.push(item);
-
-    }
+    return item !== text;
 
   });
 
 
-  history =
-    unique.slice(0,30);
+  history.unshift(text);
+
+
+  if(history.length > 20){
+
+    history =
+      history.slice(0,20);
+
+  }
 
 
   saveHistory();
-
   renderHistory();
-
 }
 
 
 function renderHistory(){
 
-  historyEl.innerHTML = "";
+  var historyBox =
+    document.getElementById("history");
+
+  if(!historyBox){
+    return;
+  }
 
 
-  if(!history.length){
+  historyBox.innerHTML =
+    '<div class="sideTitle">RECENT</div>';
+
+
+  if(history.length === 0){
 
     var empty =
       document.createElement("div");
 
-    empty.className = "empty";
+    empty.className = "historyEmpty";
+    empty.textContent = "No recent chats";
 
-    empty.textContent =
-      "No recent chats";
-
-    historyEl.appendChild(empty);
+    historyBox.appendChild(empty);
 
     return;
-
   }
 
 
@@ -1471,1055 +1692,631 @@ function renderHistory(){
     var button =
       document.createElement("button");
 
+    button.className = "historyItem";
 
-    button.className =
-      "history-item";
+    button.textContent = item;
 
-
-    button.textContent =
-      item.query;
-
-
-    button.title =
-      item.query;
+    button.title = item;
 
 
     button.addEventListener(
       "click",
       function(){
 
-        mainInput.value =
-          item.query;
+        queryBox.value = item;
 
-
-        setSearchMode(
-          item.mode || "web"
+        queryBox.dispatchEvent(
+          new Event("input")
         );
 
+        closeSidebar();
 
-        runSearch();
-
-
-        if(window.innerWidth <= 850){
-
-          sidebar.classList.remove(
-            "open"
-          );
-
-        }
+        queryBox.focus();
 
       }
     );
 
 
-    historyEl.appendChild(button);
+    historyBox.appendChild(button);
 
   });
-
 }
 
 
-/* =========================================================
+/* =========================
    APPEARANCE
-========================================================= */
+   ========================= */
 
 function toggleAppearance(){
-  var current = document.documentElement.getAttribute("data-theme");
 
-  if(current === "light"){
-    document.documentElement.setAttribute("data-theme","dark");
-    localStorage.setItem("arcx-theme","dark");
-    showToast("Dark mode enabled");
-  }else{
-    document.documentElement.setAttribute("data-theme","light");
-    localStorage.setItem("arcx-theme","light");
-    showToast("Light mode enabled");
-  }
+  document.body.classList.toggle("light");
 
+  var mode =
+    document.body.classList.contains("light")
+      ? "light"
+      : "dark";
+
+
+  try{
+
+    localStorage.setItem(
+      "arcx_appearance",
+      mode
+    );
+
+  }catch(error){}
+
+
+  showToast(
+    mode === "light"
+      ? "Light appearance enabled"
+      : "Dark appearance enabled"
+  );
 }
 
-
-/* =========================================================
-   LOAD APPEARANCE
-========================================================= */
 
 function loadAppearance(){
 
-  var savedTheme = localStorage.getItem("arcx-theme");
+  try{
 
-  if(savedTheme === "light"){
-    document.documentElement.setAttribute("data-theme","light");
-  }else{
-    document.documentElement.setAttribute("data-theme","dark");
-  }
+    var mode =
+      localStorage.getItem("arcx_appearance");
 
-}
+    if(mode === "light"){
 
+      document.body.classList.add("light");
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-function toggleSidebar(){
-
-  sidebar.classList.toggle("open");
-
-  var overlay = document.getElementById("sidebarOverlay");
-
-  if(overlay){
-
-    if(sidebar.classList.contains("open")){
-      overlay.classList.add("show");
-    }else{
-      overlay.classList.remove("show");
     }
 
-  }
-
+  }catch(error){}
 }
 
 
-/* =========================================================
-   CLOSE SIDEBAR
-========================================================= */
+/* =========================
+   SIDEBAR
+   ========================= */
+
+function openSidebar(){
+
+  sidebar.classList.add("open");
+}
+
 
 function closeSidebar(){
 
   sidebar.classList.remove("open");
-
-  var overlay = document.getElementById("sidebarOverlay");
-
-  if(overlay){
-    overlay.classList.remove("show");
-  }
-
 }
 
 
-/* =========================================================
+function toggleSidebar(){
+
+  sidebar.classList.toggle("open");
+}
+
+
+/* =========================
    SEARCH MODE
-========================================================= */
+   ========================= */
 
 function setSearchMode(mode){
 
+  if(
+    mode !== "web" &&
+    mode !== "ai" &&
+    mode !== "research"
+  ){
+
+    mode = "web";
+  }
+
+
   searchMode = mode;
 
-  document.querySelectorAll(".mode-chip").forEach(function(chip){
 
-    chip.classList.remove("active");
+  var modeButtons =
+    document.querySelectorAll(".mode");
 
-    if(chip.getAttribute("data-mode") === mode){
-      chip.classList.add("active");
-    }
 
-  });
+  modeButtons.forEach(function(button){
 
-  document.querySelectorAll(".tool-card").forEach(function(card){
-
-    card.classList.remove("selected");
-
-    if(card.getAttribute("data-mode") === mode){
-      card.classList.add("selected");
-    }
-
-  });
-
-  var placeholders = {
-
-    web: "Search the web with ARC X...",
-
-    ai: "Ask ARC X anything...",
-
-    research: "Research a topic deeply...",
-
-    create: "What would you like ARC X to create?",
-
-    code: "Describe the code you want ARC X to build..."
-
-  };
-
-  if(mainInput){
-    mainInput.placeholder = placeholders[mode] || placeholders.web;
-  }
-
-}
-
-
-/* =========================================================
-   SELECT TOOL
-========================================================= */
-
-function selectMode(mode){
-
-  setSearchMode(mode);
-
-  if(mainInput){
-
-    mainInput.focus();
-
-  }
-
-  closeSidebar();
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(value){
-
-  if(value === null || value === undefined){
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   SIMPLE MARKDOWN RENDERER
-========================================================= */
-
-function renderMarkdown(text){
-
-  if(!text){
-    return "";
-  }
-
-  var source = String(text);
-
-  var codeBlocks = [];
-
-  source = source.replace(
-    /```([\w+-]*)\n?([\s\S]*?)```/g,
-    function(match,language,code){
-
-      var index = codeBlocks.length;
-
-      codeBlocks.push({
-        language: language || "",
-        code: code.trim()
-      });
-
-      return "___ARCX_CODE_BLOCK_" + index + "___";
-
-    }
-  );
-
-  source = escapeHTML(source);
-
-  source = source.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
-  );
-
-  source = source.replace(
-    /`([^`]+)`/g,
-    "<code>$1</code>"
-  );
-
-  source = source.replace(
-    /\*\*(.*?)\*\*/g,
-    "<strong>$1</strong>"
-  );
-
-  source = source.replace(
-    /\*(.*?)\*/g,
-    "<em>$1</em>"
-  );
-
-  source = source.replace(
-    /^### (.+)$/gm,
-    "<h4>$1</h4>"
-  );
-
-  source = source.replace(
-    /^## (.+)$/gm,
-    "<h3>$1</h3>"
-  );
-
-  source = source.replace(
-    /^# (.+)$/gm,
-    "<h2>$1</h2>"
-  );
-
-  source = source.replace(
-    /^[-•] (.+)$/gm,
-    "<li>$1</li>"
-  );
-
-  source = source.replace(
-    /(<li>.*<\/li>)/g,
-    "<ul>$1</ul>"
-  );
-
-  source = source.replace(
-    /^\d+\.\s(.+)$/gm,
-    "<li>$1</li>"
-  );
-
-  source = source.replace(
-    /\n{2,}/g,
-    "</p><p>"
-  );
-
-  source = source.replace(
-    /\n/g,
-    "<br>"
-  );
-
-  source = "<p>" + source + "</p>";
-
-  source = source.replace(
-    /<p>\s*(<h[234]>)/g,
-    "$1"
-  );
-
-  source = source.replace(
-    /(<\/h[234]>)\s*<\/p>/g,
-    "$1"
-  );
-
-  source = source.replace(
-    /<p>\s*(<ul>)/g,
-    "$1"
-  );
-
-  source = source.replace(
-    /(<\/ul>)\s*<\/p>/g,
-    "$1"
-  );
-
-  codeBlocks.forEach(function(block,index){
-
-    var placeholder =
-      "___ARCX_CODE_BLOCK_" + index + "___";
-
-    var html =
-      '<div class="code-block">';
-
-    if(block.language){
-
-      html +=
-        '<div class="code-header">' +
-        '<span>' +
-        escapeHTML(block.language) +
-        '</span>' +
-        '<button type="button" class="copy-code" data-code="' +
-        encodeURIComponent(block.code) +
-        '">Copy</button>' +
-        '</div>';
-
-    }
-
-    html +=
-      "<pre><code>" +
-      escapeHTML(block.code) +
-      "</code></pre>" +
-      "</div>";
-
-    source = source.replace(
-      placeholder,
-      html
+    button.classList.toggle(
+      "active",
+      button.dataset.mode === mode
     );
 
   });
 
-  return source;
 
+  if(mode === "web"){
+
+    queryBox.placeholder =
+      "Search the web with ARC X...";
+
+  }else if(mode === "ai"){
+
+    queryBox.placeholder =
+      "Ask ARC X anything...";
+
+  }else{
+
+    queryBox.placeholder =
+      "What should ARC X research deeply?";
+
+  }
 }
 
 
-/* =========================================================
-   EXTRACT ANSWER
-========================================================= */
+/* =========================
+   API CALL
+   ========================= */
 
-function extractAnswer(data){
+async function callAPI(query){
 
-  if(!data){
-    return "";
-  }
+  var endpoint =
+    "/api/search-answer";
 
-  if(typeof data === "string"){
-    return data;
-  }
-
-  var possibleFields = [
-
-    "answer",
-    "response",
-    "content",
-    "text",
-    "message",
-    "result",
-    "output"
-
-  ];
-
-  for(var i = 0; i < possibleFields.length; i++){
-
-    var field = possibleFields[i];
-
-    if(
-      data[field] !== undefined &&
-      data[field] !== null &&
-      String(data[field]).trim()
-    ){
-
-      return String(data[field]);
-
-    }
-
-  }
-
-  if(data.choices && Array.isArray(data.choices)){
-
-    if(data.choices[0]){
-
-      if(data.choices[0].message){
-
-        return data.choices[0].message.content || "";
-
-      }
-
-      if(data.choices[0].text){
-
-        return data.choices[0].text;
-
-      }
-
-    }
-
-  }
-
-  return "";
-
-}
-
-
-/* =========================================================
-   EXTRACT SOURCES
-========================================================= */
-
-function extractSources(data){
-
-  if(!data || typeof data !== "object"){
-    return [];
-  }
-
-  var sources =
-    data.sources ||
-    data.citations ||
-    data.results ||
-    [];
-
-  if(!Array.isArray(sources)){
-    return [];
-  }
-
-  return sources;
-
-}
-
-
-/* =========================================================
-   RENDER SOURCES
-========================================================= */
-
-function renderSources(sources){
-
-  if(!sources || !sources.length){
-    return "";
-  }
-
-  var html =
-    '<div class="sources-section">' +
-    '<div class="sources-title">' +
-    '<span>Sources</span>' +
-    '<span>' + sources.length + "</span>" +
-    "</div>" +
-    '<div class="sources-list">';
-
-  sources.forEach(function(source,index){
-
-    var url =
-      typeof source === "string"
-        ? source
-        : (
-            source.url ||
-            source.link ||
-            source.href ||
-            ""
-          );
-
-    var title =
-      typeof source === "string"
-        ? source
-        : (
-            source.title ||
-            source.name ||
-            "Source " + (index + 1)
-          );
-
-    var snippet =
-      typeof source === "object"
-        ? (
-            source.snippet ||
-            source.description ||
-            ""
-          )
-        : "";
-
-    if(!url){
-      return;
-    }
-
-    html +=
-      '<a class="source-card" href="' +
-      escapeHTML(url) +
-      '" target="_blank" rel="noopener noreferrer">' +
-
-      '<div class="source-number">' +
-      (index + 1) +
-      "</div>" +
-
-      '<div class="source-info">' +
-
-      '<div class="source-name">' +
-      escapeHTML(title) +
-      "</div>" +
-
-      (
-        snippet
-          ? '<div class="source-snippet">' +
-            escapeHTML(snippet) +
-            "</div>"
-          : ""
-      ) +
-
-      '<div class="source-url">' +
-      escapeHTML(url) +
-      "</div>" +
-
-      "</div>" +
-
-      '<div class="source-arrow">↗</div>' +
-
-      "</a>";
-
-  });
-
-  html +=
-    "</div>" +
-    "</div>";
-
-  return html;
-
-}
-
-
-/* =========================================================
-   SHOW RESULT
-========================================================= */
-
-function showResult(query,data,mode){
-
-  var answer = extractAnswer(data);
-
-  var sources = extractSources(data);
-
-  if(!answer){
-
-    answer =
-      "ARC X received a response, but no readable answer was returned by the server.";
-
-  }
-
-  var modeNames = {
-
-    web: "Web Search",
-
-    ai: "AI Chat",
-
-    research: "Deep Research",
-
-    create: "Create",
-
-    code: "Code"
-
+  var body = {
+    query: query
   };
 
-  if(resultTitle){
 
-    resultTitle.textContent =
-      modeNames[mode] || "ARC X Answer";
+  if(searchMode === "ai"){
 
-  }
+    endpoint = "/api/chat";
 
-  if(resultContent){
+    body = {
+      message: query,
+      query: query
+    };
 
-    resultContent.innerHTML =
-      '<div class="answer-query">' +
-      escapeHTML(query) +
-      "</div>" +
+  }else if(searchMode === "research"){
 
-      '<div class="answer-body">' +
-      renderMarkdown(answer) +
-      "</div>" +
+    endpoint = "/api/research";
 
-      renderSources(sources);
+    body = {
+      query: query
+    };
 
   }
 
-  if(results){
 
-    results.classList.add("visible");
+  var response;
 
-    results.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-  }
-
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-function showLoading(query,mode){
-
-  var modeNames = {
-
-    web: "Searching the web",
-
-    ai: "Thinking",
-
-    research: "Researching",
-
-    create: "Creating",
-
-    code: "Writing code"
-
-  };
-
-  if(resultTitle){
-
-    resultTitle.textContent =
-      modeNames[mode] || "ARC X";
-
-  }
-
-  if(resultContent){
-
-    resultContent.innerHTML =
-
-      '<div class="loading-box">' +
-
-      '<div class="loading-spinner"></div>' +
-
-      '<div class="loading-text">' +
-
-      '<strong>' +
-      escapeHTML(
-        modeNames[mode] || "ARC X is working"
-      ) +
-      "...</strong>" +
-
-      "<span>" +
-      escapeHTML(query) +
-      "</span>" +
-
-      "</div>" +
-
-      "</div>";
-
-  }
-
-  if(results){
-
-    results.classList.add("visible");
-
-  }
-
-}
-
-
-/* =========================================================
-   API REQUEST
-========================================================= */
-
-async function apiRequest(url,body){
-
-  var controller =
-    new AbortController();
-
-  var timeout =
-    setTimeout(function(){
-
-      controller.abort();
-
-    },90000);
 
   try{
 
-    var response =
-      await fetch(url,{
-
+    response = await fetch(
+      endpoint,
+      {
         method:"POST",
 
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":
+            "application/json"
         },
 
-        body:JSON.stringify(body),
-
-        signal:controller.signal
-
-      });
-
-    var text =
-      await response.text();
-
-    var data;
-
-    try{
-
-      data =
-        text ? JSON.parse(text) : {};
-
-    }catch(error){
-
-      data = {
-        answer:text
-      };
-
-    }
-
-    if(!response.ok){
-
-      var errorMessage =
-        extractAnswer(data) ||
-        data.error ||
-        data.message ||
-        ("Server error " + response.status);
-
-      throw new Error(errorMessage);
-
-    }
-
-    return data;
+        body:JSON.stringify(body)
+      }
+    );
 
   }catch(error){
 
-    if(error.name === "AbortError"){
+    throw new Error(
+      "Unable to connect to ARC X server."
+    );
+  }
 
-      throw new Error(
-        "The request took too long. Render may be waking up. Please try again."
-      );
 
-    }
+  var rawText = "";
 
-    throw error;
 
-  }finally{
+  try{
 
-    clearTimeout(timeout);
+    rawText =
+      await response.text();
+
+  }catch(error){
+
+    throw new Error(
+      "ARC X server returned no response."
+    );
+  }
+
+
+  var data;
+
+
+  try{
+
+    data =
+      rawText
+        ? JSON.parse(rawText)
+        : {};
+
+  }catch(error){
+
+    throw new Error(
+      "ARC X server returned an invalid response."
+    );
+  }
+
+
+  if(!response.ok){
+
+    throw new Error(
+      data.error ||
+      data.message ||
+      "Request failed: HTTP " +
+      response.status
+    );
 
   }
 
+
+  return data;
 }
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* =========================
+   RUN SEARCH
+   ========================= */
 
-async function performSearch(){
+async function runSearch(){
 
   var query =
-    mainInput
-      ? mainInput.value.trim()
-      : "";
+    queryBox.value.trim();
+
 
   if(!query){
 
-    showToast("Type something first");
+    showToast(
+      "Type a question first."
+    );
 
-    if(mainInput){
-      mainInput.focus();
-    }
+    queryBox.focus();
 
     return;
+  }
+
+
+  addHistory(query);
+
+  closeSidebar();
+
+
+  sendBtn.disabled = true;
+
+  result.classList.remove("show");
+
+  sourcesBox.style.display = "none";
+
+  answerBox.innerHTML = "";
+
+  loading.classList.add("show");
+
+
+  if(searchMode === "web"){
+
+    loading.textContent =
+      "Searching the web...";
+
+    resultMode.textContent =
+      "WEB SEARCH";
+
+  }else if(searchMode === "ai"){
+
+    loading.textContent =
+      "ARC X is thinking...";
+
+    resultMode.textContent =
+      "AI CHAT";
+
+  }else{
+
+    loading.textContent =
+      "Performing deep research...";
+
+    resultMode.textContent =
+      "DEEP RESEARCH";
 
   }
 
-  var mode = searchMode;
 
-  var endpoints = {
-
-    web:{
-      url:"/api/search-answer",
-      body:{query:query}
-    },
-
-    ai:{
-      url:"/api/chat",
-      body:{message:query}
-    },
-
-    research:{
-      url:"/api/research",
-      body:{query:query}
-    },
-
-    create:{
-      url:"/api/create",
-      body:{prompt:query}
-    },
-
-    code:{
-      url:"/api/code",
-      body:{prompt:query}
-    }
-
-  };
-
-  var config =
-    endpoints[mode] || endpoints.web;
-
-  if(searchButton){
-
-    searchButton.disabled = true;
-
-    searchButton.classList.add("loading");
-
-  }
-
-  showLoading(query,mode);
+  /* Part 4 continues here. */
+  /* =========================
+   API RESPONSE
+   ========================= */
 
   try{
 
-    var data =
-      await apiRequest(
-        config.url,
-        config.body
-      );
+    var data = await callAPI(query);
 
-    showResult(
-      query,
-      data,
-      mode
-    );
+    var answer = getAnswer(data);
+    var sources = getSources(data);
 
-    addHistory(
-      query,
-      mode
-    );
+
+    if(!answer){
+
+      answer =
+        "ARC X received a response, but no answer text was returned.";
+
+    }
+
+
+    lastAnswer = answer;
+
+
+    answerBox.innerHTML =
+      renderMarkdown(answer);
+
+
+    renderSources(sources);
+
+
+    result.classList.add("show");
+
+    loading.classList.remove("show");
+
+
+    result.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
 
   }catch(error){
 
-    if(resultContent){
+    resultMode.textContent =
+      "ERROR";
 
-      resultContent.innerHTML =
 
-        '<div class="error-box">' +
+    answerBox.innerHTML =
+      "<p><strong>" +
+      "ARC X could not complete the request." +
+      "</strong></p>" +
 
-        '<div class="error-icon">!</div>' +
+      "<p>" +
 
-        '<div>' +
+      escapeHTML(
+        error.message ||
+        "Unknown server error."
+      ) +
 
-        "<strong>ARC X couldn't complete that request.</strong>" +
+      "</p>";
 
-        "<p>" +
-        escapeHTML(
-          error.message ||
-          "Unknown server error."
-        ) +
-        "</p>" +
 
-        '<button type="button" id="retryButton">Try again</button>' +
+    result.classList.add("show");
 
-        "</div>" +
+    sourcesBox.style.display =
+      "none";
 
-        "</div>";
-
-    }
-
-    if(results){
-      results.classList.add("visible");
-    }
-
-    var retryButton =
-      document.getElementById("retryButton");
-
-    if(retryButton){
-
-      retryButton.addEventListener(
-        "click",
-        performSearch
-      );
-
-    }
 
   }finally{
 
-    if(searchButton){
+    loading.classList.remove("show");
 
-      searchButton.disabled = false;
-
-      searchButton.classList.remove("loading");
-
-    }
+    sendBtn.disabled = false;
 
   }
 
 }
 
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* =========================
+   MODE BUTTONS
+   ========================= */
 
-function showToast(message){
+document
+  .querySelectorAll(".mode")
+  .forEach(function(button){
 
-  var oldToast =
-    document.querySelector(".arcx-toast");
+    button.addEventListener(
+      "click",
+      function(){
 
-  if(oldToast){
-    oldToast.remove();
-  }
+        setSearchMode(
+          button.dataset.mode
+        );
 
-  var toast =
-    document.createElement("div");
+        queryBox.focus();
 
-  toast.className =
-    "arcx-toast";
-
-  toast.textContent =
-    message;
-
-  document.body.appendChild(toast);
-
-  requestAnimationFrame(function(){
-
-    toast.classList.add("show");
+      }
+    );
 
   });
 
-  setTimeout(function(){
 
-    toast.classList.remove("show");
+/* =========================
+   SEND BUTTON
+   ========================= */
 
-    setTimeout(function(){
-
-      toast.remove();
-
-    },250);
-
-  },2200);
-
-}
-
-
-/* =========================================================
-   COPY TEXT
-========================================================= */
-
-async function copyText(text){
-
-  try{
-
-    await navigator.clipboard.writeText(text);
-
-    showToast("Copied to clipboard");
-
-  }catch(error){
-
-    var area =
-      document.createElement("textarea");
-
-    area.value = text;
-
-    document.body.appendChild(area);
-
-    area.select();
-
-    document.execCommand("copy");
-
-    area.remove();
-
-    showToast("Copied to clipboard");
-
-  }
-
-}
-
-
-/* =========================================================
-   COPY BUTTONS
-========================================================= */
-
-document.addEventListener(
+sendBtn.addEventListener(
   "click",
-  function(event){
+  function(){
 
-    var button =
-      event.target.closest(".copy-code");
-
-    if(!button){
-      return;
-    }
-
-    var code =
-      decodeURIComponent(
-        button.getAttribute("data-code") || ""
-      );
-
-    copyText(code);
+    runSearch();
 
   }
 );
 
 
-/* =========================================================
-   EVENT LISTENERS
-========================================================= */
+/* =========================
+   ENTER TO SEARCH
+   ========================= */
 
-if(searchButton){
+queryBox.addEventListener(
+  "keydown",
+  function(event){
 
-  searchButton.addEventListener(
+    if(
+      event.key === "Enter" &&
+      !event.shiftKey
+    ){
+
+      event.preventDefault();
+
+      runSearch();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   AUTO RESIZE TEXTAREA
+   ========================= */
+
+queryBox.addEventListener(
+  "input",
+  function(){
+
+    queryBox.style.height = "auto";
+
+    queryBox.style.height =
+      Math.min(
+        queryBox.scrollHeight,
+        220
+      ) + "px";
+
+  }
+);
+
+
+/* =========================
+   NEW CHAT
+   ========================= */
+
+document
+  .getElementById("newChat")
+  .addEventListener(
     "click",
-    performSearch
+    function(){
+
+      queryBox.value = "";
+
+      queryBox.style.height = "auto";
+
+      result.classList.remove("show");
+
+      loading.classList.remove("show");
+
+      answerBox.innerHTML = "";
+
+      sourcesBox.style.display =
+        "none";
+
+      lastAnswer = "";
+
+      closeSidebar();
+
+      setSearchMode("web");
+
+      queryBox.focus();
+
+      showToast(
+        "New chat started"
+      );
+
+    }
   );
 
-}
+
+/* =========================
+   NEW SEARCH
+   ========================= */
+
+document
+  .getElementById("newSearch")
+  .addEventListener(
+    "click",
+    function(){
+
+      queryBox.value = "";
+
+      queryBox.style.height = "auto";
+
+      result.classList.remove("show");
+
+      answerBox.innerHTML = "";
+
+      sourcesBox.style.display =
+        "none";
+
+      lastAnswer = "";
+
+      queryBox.focus();
+
+    }
+  );
 
 
-if(mainInput){
+/* =========================
+   COPY ANSWER
+   ========================= */
 
-  mainInput.addEventListener(
-    "keydown",
-    function(event){
+document
+  .getElementById("copy")
+  .addEventListener(
+    "click",
+    async function(){
 
-      if(
-        event.key === "Enter" &&
-        !event.shiftKey
-      ){
+      if(!lastAnswer){
 
-        event.preventDefault();
+        showToast(
+          "There is no answer to copy."
+        );
 
-        performSearch();
+        return;
+
+      }
+
+
+      try{
+
+        await navigator.clipboard.writeText(
+          lastAnswer
+        );
+
+        showToast(
+          "Answer copied"
+        );
+
+      }catch(error){
+
+        try{
+
+          var temp =
+            document.createElement("textarea");
+
+          temp.value =
+            lastAnswer;
+
+          temp.style.position =
+            "fixed";
+
+          temp.style.opacity =
+            "0";
+
+          document.body.appendChild(temp);
+
+          temp.select();
+
+          document.execCommand("copy");
+
+          document.body.removeChild(temp);
+
+          showToast(
+            "Answer copied"
+          );
+
+        }catch(copyError){
+
+          showToast(
+            "Copy failed"
+          );
+
+        }
 
       }
 
@@ -2527,130 +2324,203 @@ if(mainInput){
   );
 
 
-  mainInput.addEventListener(
-    "input",
+/* =========================
+   APPEARANCE
+   ========================= */
+
+document
+  .getElementById("appearanceBtn")
+  .addEventListener(
+    "click",
     function(){
 
-      this.style.height = "auto";
-
-      this.style.height =
-        Math.min(
-          this.scrollHeight,
-          180
-        ) + "px";
+      toggleAppearance();
 
     }
   );
 
-}
 
+/* =========================
+   CLEAR HISTORY
+   ========================= */
 
-if(newChatButton){
-
-  newChatButton.addEventListener(
-    "click",
-    newChat
-  );
-
-}
-
-
-if(newSearchButton){
-
-  newSearchButton.addEventListener(
-    "click",
-    newChat
-  );
-
-}
-
-
-if(appearanceButton){
-
-  appearanceButton.addEventListener(
-    "click",
-    toggleAppearance
-  );
-
-}
-
-
-if(clearHistoryButton){
-
-  clearHistoryButton.addEventListener(
-    "click",
-    clearHistory
-  );
-
-}
-
-
-if(menuButton){
-
-  menuButton.addEventListener(
-    "click",
-    toggleSidebar
-  );
-
-}
-
-
-document.querySelectorAll(
-  ".mode-chip"
-).forEach(function(chip){
-
-  chip.addEventListener(
+document
+  .getElementById("clearBtn")
+  .addEventListener(
     "click",
     function(){
 
-      setSearchMode(
-        this.getAttribute("data-mode")
+      history = [];
+
+      saveHistory();
+
+      renderHistory();
+
+      showToast(
+        "Chat history cleared"
       );
 
     }
   );
 
-});
 
+/* =========================
+   RECENT CHATS
+   ========================= */
 
-document.querySelectorAll(
-  ".tool-card"
-).forEach(function(card){
-
-  card.addEventListener(
+document
+  .getElementById("historyBtn")
+  .addEventListener(
     "click",
     function(){
 
-      selectMode(
-        this.getAttribute("data-mode")
+      renderHistory();
+
+      openSidebar();
+
+      showToast(
+        "Recent chats"
       );
 
     }
   );
 
-});
+
+/* =========================
+   MOBILE MENU
+   ========================= */
+
+menuBtn.addEventListener(
+  "click",
+  function(){
+
+    toggleSidebar();
+
+  }
+);
 
 
-/* =========================================================
-   SIDEBAR OVERLAY
-========================================================= */
+/* =========================
+   EXPLORE CARDS
+   ========================= */
 
-var sidebarOverlay =
-  document.getElementById("sidebarOverlay");
+document
+  .querySelectorAll("[data-explore]")
+  .forEach(function(card){
 
-if(sidebarOverlay){
+    card.addEventListener(
+      "click",
+      function(){
 
-  sidebarOverlay.addEventListener(
-    "click",
-    closeSidebar
-  );
-
-}
+        var mode =
+          card.dataset.explore;
 
 
-/* =========================================================
+        if(mode === "web"){
+
+          setSearchMode("web");
+
+          queryBox.placeholder =
+            "Search the web with ARC X...";
+
+        }
+
+
+        else if(mode === "research"){
+
+          setSearchMode("research");
+
+          queryBox.placeholder =
+            "What should ARC X research deeply?";
+
+        }
+
+
+        else if(mode === "create"){
+
+          setSearchMode("ai");
+
+          queryBox.value =
+            "Help me create ";
+
+          queryBox.focus();
+
+          queryBox.dispatchEvent(
+            new Event("input")
+          );
+
+          showToast(
+            "Create mode ready"
+          );
+
+          return;
+
+        }
+
+
+        else if(mode === "code"){
+
+          setSearchMode("ai");
+
+          queryBox.value =
+            "Help me write code for ";
+
+          queryBox.focus();
+
+          queryBox.dispatchEvent(
+            new Event("input")
+          );
+
+          showToast(
+            "Code mode ready"
+          );
+
+          return;
+
+        }
+
+
+        queryBox.focus();
+
+        showToast(
+          mode === "research"
+            ? "Deep Research mode selected"
+            : "Web Search mode selected"
+        );
+
+      }
+
+    );
+
+  });
+
+
+/* =========================
+   CLOSE SIDEBAR
+   ========================= */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    if(
+      window.innerWidth <= 850 &&
+      sidebar.classList.contains("open") &&
+      !sidebar.contains(event.target) &&
+      !menuBtn.contains(event.target)
+    ){
+
+      closeSidebar();
+
+    }
+
+  }
+);
+
+
+/* =========================
    ESCAPE KEY
-========================================================= */
+   ========================= */
 
 document.addEventListener(
   "keydown",
@@ -2666,56 +2536,61 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =========================
    HEALTH CHECK
-========================================================= */
+   ========================= */
 
 async function checkHealth(){
+
+  setStatus(
+    "checking",
+    "Connecting..."
+  );
+
 
   try{
 
     var response =
       await fetch(
-        "/api/health",
+        "/api/health?x=" +
+        Date.now(),
         {
+          method:"GET",
           cache:"no-store"
         }
       );
 
-    if(!response.ok){
-
-      throw new Error(
-        "Server returned " +
-        response.status
-      );
-
-    }
 
     var data =
       await response.json();
 
-    if(data.groqConfigured === false ||
-       data.tavilyConfigured === false){
+
+    if(
+      response.ok &&
+      data &&
+      data.ok === true
+    ){
 
       setStatus(
-        "API keys missing",
-        "warning"
+        "online",
+        "Online"
       );
 
     }else{
 
       setStatus(
-        "Connected",
-        "success"
+        "offline",
+        "Server Error"
       );
 
     }
 
+
   }catch(error){
 
     setStatus(
-      "Disconnected",
-      "error"
+      "offline",
+      "Offline"
     );
 
   }
@@ -2723,66 +2598,54 @@ async function checkHealth(){
 }
 
 
-/* =========================================================
+/* =========================
    INITIALIZE
-========================================================= */
+   ========================= */
 
-function initializeARCX(){
+loadAppearance();
 
-  loadAppearance();
+loadHistory();
 
-  loadHistory();
+renderHistory();
 
-  setSearchMode("web");
+setSearchMode("web");
 
-  setStatus(
-    "Connecting...",
-    "loading"
-  );
-
-  checkHealth();
-
-  setInterval(
-    checkHealth,
-    45000
-  );
-
-  if(mainInput){
-
-    setTimeout(
-      function(){
-
-        mainInput.focus();
-
-      },
-      400
-    );
-
-  }
-
-}
+checkHealth();
 
 
-/* =========================================================
-   START ARC X
-========================================================= */
+/* =========================
+   PERIODIC HEALTH CHECK
+   ========================= */
 
-if(document.readyState === "loading"){
+setInterval(
+  checkHealth,
+  30000
+);
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initializeARCX
-  );
 
-}else{
+/* =========================
+   INITIAL FOCUS
+   ========================= */
 
-  initializeARCX();
+setTimeout(
+  function(){
 
-}
+    try{
+
+      queryBox.focus();
+
+    }catch(error){}
+
+  },
+  300
+);
+
+
+/* =========================
+   FINISH
+   ========================= */
 
 </script>
 
 </body>
 </html>
-
-  
